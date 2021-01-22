@@ -11,8 +11,6 @@ public class Player_Movement_Controller : MonoBehaviour
     [SerializeField] private float movement_speed_during_jump;
     [SerializeField] private float jump_force;
 
-    private float x_axis;
-    private float y_axis;
     private float current_speed;
     private bool is_jumping = false;
     private Rigidbody rb;
@@ -39,7 +37,7 @@ public class Player_Movement_Controller : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             is_jumping = true;
 
-        else if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space))
             is_jumping = false;
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -72,16 +70,15 @@ public class Player_Movement_Controller : MonoBehaviour
 
 
         /* Jumping */
-
-        if (is_jumping && rb.velocity.y == 0)
-        {
-            rb.AddForce(0, jump_force, 0, ForceMode.Impulse);
-        }
-
+        if (is_jumping && rb.velocity.y == 0.0f) rb.AddForce(0.0f, jump_force, 0.0f, ForceMode.Impulse);
+        
 
         /* Crouching */
+        // Add code to reduce collider height
+
 
 
     }
-
+       
+    
 }

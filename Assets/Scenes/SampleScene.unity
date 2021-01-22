@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 245872908}
   - component: {fileID: 245872907}
   m_Layer: 0
-  m_Name: Portal Door
+  m_Name: Portal Door Two
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -589,12 +589,12 @@ GameObject:
   - component: {fileID: 647991918}
   - component: {fileID: 647991917}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Camera Two
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &647991916
 Transform:
   m_ObjectHideFlags: 0
@@ -616,7 +616,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 647991915}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35bddfcd39cea7840b97acafbf6032da, type: 3}
   m_Name: 
@@ -763,7 +763,7 @@ GameObject:
   - component: {fileID: 665825411}
   - component: {fileID: 665825410}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Camera One
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1799,7 +1799,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497808991}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.2, y: 3.46, z: 14.74}
+  m_LocalPosition: {x: 5.2, y: 3, z: 14.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 255739465}
@@ -2052,7 +2052,7 @@ GameObject:
   - component: {fileID: 1869026026}
   - component: {fileID: 1869026025}
   m_Layer: 0
-  m_Name: Portal Door
+  m_Name: Portal Door One
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

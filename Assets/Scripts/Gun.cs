@@ -10,12 +10,13 @@ public class Gun : MonoBehaviour
     [SerializeField] private bool is_bot = false;
     [SerializeField] private bool is_hitscan = true;
     [SerializeField] private Transform bullet_origin;
-    [SerializeField] private Rigidbody bullet;
+    [SerializeField] private GameObject bullet;
 
-    private float timer;
     private Ray gun_shot;
     private RaycastHit hit_info;
+    private GameObject bulletClone;
     private float bullet_speed = 30.0f;
+    private float timer;
 
     void Update()
     {
@@ -48,13 +49,13 @@ public class Gun : MonoBehaviour
     private void ProjectileFire()
     {
 
-        Rigidbody bulletClone = (Rigidbody)Instantiate(bullet, transform.position, transform.rotation);
-
+        bulletClone = Instantiate(bullet);
+        
         bulletClone.transform.position = bullet_origin.position;
         Vector3 rotation = bullet.transform.rotation.eulerAngles;
 
         bulletClone.transform.rotation = Quaternion.Euler(rotation.x, transform.eulerAngles.y, rotation.z);
-        bulletClone.velocity = transform.forward * bullet_speed;
+        bulletClone.GetComponent<Rigidbody>().velocity = transform.forward * bullet_speed;
 
     }
 }

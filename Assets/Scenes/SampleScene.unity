@@ -1774,7 +1774,7 @@ MonoBehaviour:
   is_bot: 0
   is_hitscan: 0
   bullet_origin: {fileID: 1670557549}
-  bullet: {fileID: 2044036365}
+  bullet: {fileID: 2044036360}
 --- !u!1 &1497808991
 GameObject:
   m_ObjectHideFlags: 0
@@ -2316,6 +2316,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8257028211704339739, guid: 213255b207d3961409aee32f93c9e322, type: 3}
   m_PrefabInstance: {fileID: 8125989962178823748}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2044036361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044036360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37b93f1b4a5bdd242be153151cad2106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &2044036365
 Rigidbody:
   m_ObjectHideFlags: 0

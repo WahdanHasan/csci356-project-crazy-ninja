@@ -14,20 +14,20 @@ public class PortalCamera : MonoBehaviour
     private Quaternion portal_rotation_difference;
     private Vector3 camera_direction;
 
-    void Update()
+    void LateUpdate()
     {
         /* Camera movement translation according to player */
         player_offset_from_portal = player_view.position - other_portal.position;
 
-        transform.position = new Vector3(this_portal.position.x - player_offset_from_portal.z, player_offset_from_portal.y + this_portal.position.y, this_portal.position.z - player_offset_from_portal.x);
+        transform.position = new Vector3(this_portal.position.x + player_offset_from_portal.z, player_offset_from_portal.y + this_portal.position.y, this_portal.position.z - player_offset_from_portal.x);
 
         /* Camera rotation translation according to player */
-        angle_difference_between_portals = Quaternion.Angle(this_portal.rotation, other_portal.rotation);
+        angle_difference_between_portals = Quaternion.Angle(other_portal.rotation, this_portal.rotation);
 
         portal_rotation_difference = Quaternion.AngleAxis(angle_difference_between_portals, Vector3.up);
 
         camera_direction = portal_rotation_difference * player_view.forward;
-
+        //Debug.Log(portal_rotation_difference);
         transform.rotation = Quaternion.LookRotation(camera_direction, Vector3.up);
     }
 }

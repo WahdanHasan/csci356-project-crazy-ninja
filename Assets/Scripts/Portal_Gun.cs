@@ -19,6 +19,12 @@ public class Portal_Gun : MonoBehaviour
         primary_portal = Instantiate(portal_prefab);
         secondary_portal = Instantiate(portal_prefab);
 
+        Vector3 duct_tape = new Vector3(0.0f, -100.0f, 0.0f); // To hide the portals when the game starts
+        primary_portal.transform.position = duct_tape;
+        secondary_portal.transform.position = duct_tape;
+        //primary_portal.SetActive(false);
+        //secondary_portal.SetActive(false);
+
         primary_portal_event = primary_portal.GetComponent<Portal_Interaction>();
         secondary_portal_event = secondary_portal.GetComponent<Portal_Interaction>();
 
@@ -49,7 +55,7 @@ public class Portal_Gun : MonoBehaviour
     private void FirePortal(GameObject portal)
     {
         rc = new Ray(ray_origin.position, ray_origin.forward);
-
+        
         if(Physics.Raycast(rc, out rc_hit_info))
         {
             if (rc_hit_info.transform.tag == "Wall")

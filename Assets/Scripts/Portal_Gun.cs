@@ -9,50 +9,39 @@ public class Portal_Gun : MonoBehaviour
 
     private Ray rc;
     private RaycastHit rc_hit_info;
-    private GameObject primary_portal;
-    private GameObject secondary_portal;
-    private Portal_Interaction primary_portal_event;
-    private Portal_Interaction secondary_portal_event;
+    protected GameObject portal_one;
+    protected GameObject portal_two;    
 
     private void OnEnable()
     {
-        primary_portal = Instantiate(portal_prefab);
-        secondary_portal = Instantiate(portal_prefab);
+        portal_one = Instantiate(portal_prefab);
+        portal_two = Instantiate(portal_prefab);
+
+        portal_two.GetComponent<Portal_Interaction>().SetOtherPortal(portal_one);
+        portal_one.GetComponent<Portal_Interaction>().SetOtherPortal(portal_two);
 
         Vector3 duct_tape = new Vector3(0.0f, -100.0f, 0.0f); // To hide the portals when the game starts
-        primary_portal.transform.position = duct_tape;
-        secondary_portal.transform.position = duct_tape;
-        //primary_portal.SetActive(false);
-        //secondary_portal.SetActive(false);
-
-        primary_portal_event = primary_portal.GetComponent<Portal_Interaction>();
-        secondary_portal_event = secondary_portal.GetComponent<Portal_Interaction>();
-
-        primary_portal_event.OnEnter += TeleportEntity;
-        secondary_portal_event.OnEnter += TeleportEntity;
-    }
-
-    private void TeleportEntity(GameObject portal)
-    {
+        portal_one.transform.position = duct_tape;
+        portal_two.transform.position = duct_tape;
 
     }
 
-    private void OnDisable()
+    private void OnDisable() // placeholder
     {
-        Destroy(primary_portal);
-        Destroy(secondary_portal);
+        Destroy(portal_one);
+        Destroy(portal_two);
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
-            FirePortal(primary_portal);
+            FirePortal(portal_one, 0);
         else if (Input.GetMouseButtonDown(1))
-            FirePortal(secondary_portal);
+            FirePortal(portal_two, 1);
 
     }
 
-    private void FirePortal(GameObject portal)
+    private void FirePortal(GameObject portal, int trigger)
     {
         rc = new Ray(ray_origin.position, ray_origin.forward);
         
@@ -62,7 +51,8 @@ public class Portal_Gun : MonoBehaviour
             {
                 portal.transform.position = rc_hit_info.point;
 
-                portal.transform.rotation = Quaternion.LookRotation(rc_hit_info.normal);
+                if (trigger == 0 )portal.transform.rotation = Quaternion.LookRotation(rc_hit_info.normal * -1);
+                else portal.transform.rotation = Quaternion.LookRotation(rc_hit_info.normal);
             }
         }
     }

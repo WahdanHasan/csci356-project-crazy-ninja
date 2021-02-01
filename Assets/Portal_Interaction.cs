@@ -10,9 +10,19 @@ public class Portal_Interaction : MonoBehaviour
     private GameObject other_portal;
     private bool entity_teleportable = true;
 
+    private void Start()
+    {
+        GetComponent<Portal_Camera>().Setup(other_portal);
+    }
+
     public void SetOtherPortal(GameObject other_portal)
     {
         this.other_portal = other_portal;
+    }
+
+    public GameObject GetOtherPortal()
+    {
+        return other_portal;
     }
 
     public void PreventBackTeleport()
@@ -42,7 +52,7 @@ public class Portal_Interaction : MonoBehaviour
         {
             case "Player":
                 TeleportVoyager(voyager.transform, voyager_transform_new.GetColumn(3));
-                UpdateCameraComponent(voyager.transform, voyager_transform_new.rotation.eulerAngles);
+                UpdatePlayerCamera(voyager.transform, voyager_transform_new.rotation.eulerAngles);
                 break;
             case "Untagged":
                 TeleportVoyager(voyager.transform, voyager_transform_new.GetColumn(3));
@@ -58,7 +68,7 @@ public class Portal_Interaction : MonoBehaviour
         voyager.position = new_position;
     }
 
-    private void UpdateCameraComponent(Transform voyager, Vector3 camera_euler)
+    private void UpdatePlayerCamera(Transform voyager, Vector3 camera_euler)
     {
         Vector3 look_delta = other_portal.transform.eulerAngles - transform.eulerAngles;
         voyager.GetComponent<Player_Camera_Controller>().SetMouse(look_delta);

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Wall
   - PortalCamera
+  - Portal
+  - PlayerCam
   layers:
   - Default
   - TransparentFX
@@ -13,7 +15,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - HideFromPortalCamera
   - 
   - 
   - 

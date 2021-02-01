@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3529109938417318630}
   - component: {fileID: 3401451478789553008}
   m_Layer: 0
-  m_Name: Portal_Camera
+  m_Name: Portal_Camera_Prefab
   m_TagString: PortalCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

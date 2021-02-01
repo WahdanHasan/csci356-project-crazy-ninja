@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3749567823943018438}
   - component: {fileID: -8999561026635981526}
   - component: {fileID: -5470093944403475188}
-  m_Layer: 0
+  - component: {fileID: 3892466555640041444}
+  m_Layer: 6
   m_Name: Portal
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,8 +109,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4388651826c4cd048ba583f16dabcd5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ray_origin: {fileID: 0}
-  portal_prefab: {fileID: 0}
-  camera_prefab: {fileID: 0}
-  enter: {fileID: 0}
-  exit: {fileID: 0}
+--- !u!114 &3892466555640041444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8191849815763360957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93c12dd487b4c35478e30e7b5e8e414c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portal_camera_prefab: {fileID: 3401451478789553008, guid: 076deab037d020c4b96c713037ccb6e7, type: 3}

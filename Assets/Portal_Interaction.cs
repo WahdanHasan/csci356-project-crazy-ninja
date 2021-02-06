@@ -5,29 +5,19 @@ using UnityEngine;
 
 public class Portal_Interaction : MonoBehaviour
 {
-
     private GameObject voyager;
     private GameObject other_portal;
     private bool entity_teleportable = true;
 
-    private void Start()
-    {
-        GetComponent<Portal_Camera>().Setup(other_portal);
-    }
-
-    public void SetOtherPortal(GameObject other_portal)
-    {
-        this.other_portal = other_portal;
-    }
-
-    public GameObject GetOtherPortal()
-    {
-        return other_portal;
-    }
 
     public void PreventBackTeleport()
     {
         entity_teleportable = false;
+    }
+
+    public void Setup(GameObject other_portal)
+    {
+        this.other_portal = other_portal;
     }
 
     private void OnTriggerEnter(Collider entity)
@@ -70,7 +60,8 @@ public class Portal_Interaction : MonoBehaviour
 
     private void UpdatePlayerCamera(Transform voyager, Vector3 camera_euler)
     {
-        Vector3 look_delta = other_portal.transform.eulerAngles - transform.eulerAngles;
+        Vector3 look_delta = other_portal.GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles - GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles;
+
         voyager.GetComponent<Player_Camera_Controller>().SetMouse(look_delta);
     }
 

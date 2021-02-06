@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField][Range(0.0f, 1.0f)] private float bullet_lifespan;
+    private float bullet_lifespan;
+    private int bullet_damage;
 
     private Rigidbody rb;
 
-    private void Start()
+    public void Setup(float bullet_lifespan, int bullet_damage)
     {
-        bullet_lifespan = 1.0f;   
+        this.bullet_lifespan = bullet_lifespan;
+        this.bullet_damage = bullet_damage;
     }
 
     private void OnTriggerEnter(Collider entity)
@@ -18,7 +20,13 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.velocity = new Vector3(0.0f, 0.0f, 0.0f);
 
-       // StartCoroutine(DestroyBullet());
+        StartCoroutine(DestroyBullet());
+
+        var entity_health = entity.GetComponent<Health>();
+
+        if (entity_health == null) return;
+
+        entity_health.TakeDamage(bullet_damage);
     }
 
     IEnumerator DestroyBullet()

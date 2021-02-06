@@ -51,6 +51,18 @@ public class Player_Movement_Controller : MonoBehaviour
 
         else if (Input.GetKeyUp(KeyCode.LeftControl))
             current_speed = walking_speed;
+
+        if (Input.GetKeyDown(KeyCode.V))
+            StartCoroutine(Dash());
+    }
+
+    private IEnumerator Dash()
+    {
+
+        current_speed *= 15;
+        yield return new WaitForSeconds(0.1f);
+        current_speed /= 15;
+
     }
 
     void FixedUpdate()
@@ -65,12 +77,13 @@ public class Player_Movement_Controller : MonoBehaviour
         Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         direction.Normalize();
 
-        //rb.velocity = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")) * current_speed;
+        //rb.velocity = new Vector3(Input.GetAxisRaw("Horizontal") * current_speed, rb.velocity.y, Input.GetAxisRaw("Vertical") * current_speed) * Time.deltaTime;
         rb.MovePosition(transform.position + Time.deltaTime * current_speed * transform.TransformDirection(direction.x, 0.0f, direction.y));
 
+        rb.velocity = new Vector3(rb.velocity.x * 0.0f, rb.velocity.y, rb.velocity.z * 0.0f);
 
         /* Jumping */
-        if (is_jumping && rb.velocity.y == 0.0f) rb.AddForce(0.0f, jump_force, 0.0f, ForceMode.Impulse);
+        if (is_jumping && rb.velocity.y == 0.0f)rb.AddForce(0, jump_force, 0, ForceMode.Impulse);
         
 
         /* Crouching */

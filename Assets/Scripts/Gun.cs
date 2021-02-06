@@ -6,7 +6,8 @@ public class Gun : MonoBehaviour
 {
 
     [SerializeField] [Range(0.1f, 1.5f)] private float fire_rate = 1.0f;
-    [SerializeField] [Range(1, 10)] private int damage = 1;
+    [SerializeField] [Range(1, 10)] private int bullet_damage = 1;
+    [SerializeField] [Range(1, 10)] private int bullet_lifespan = 1;
     [SerializeField] private bool is_bot = false;
     [SerializeField] private bool is_hitscan = true;
     [SerializeField] private Transform bullet_origin;
@@ -17,6 +18,11 @@ public class Gun : MonoBehaviour
     private GameObject bulletClone;
     private float bullet_speed = 30.0f;
     private float timer;
+
+    private void Start()
+    {
+        bullet.GetComponent<Bullet>().Setup(bullet_lifespan, bullet_damage);
+    }
 
     void Update()
     {
@@ -41,7 +47,7 @@ public class Gun : MonoBehaviour
         {
             var enemy = hit_info.collider.GetComponent<Health>();
 
-            if (enemy != null) enemy.TakeDamage(damage);
+            if (enemy != null) enemy.TakeDamage(bullet_damage);
         }
 
     }
@@ -50,7 +56,8 @@ public class Gun : MonoBehaviour
     {
 
         bulletClone = Instantiate(bullet);
-        
+
+
         bulletClone.transform.position = bullet_origin.position;
         Vector3 rotation = bullet.transform.rotation.eulerAngles;
 

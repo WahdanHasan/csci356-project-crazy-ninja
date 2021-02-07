@@ -1,21 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Portal_Camera : MonoBehaviour
 {
     [SerializeField] private Camera portal_camera_prefab;
 
-    private GameObject player;
     private GameObject other_portal;
     private Camera player_camera;
     private Camera portal_camera;
-    private RenderTexture camera_rt;
 
     private void Awake()
     {
         portal_camera = Instantiate(portal_camera_prefab);
-        player = GameObject.FindGameObjectWithTag("Player");
         player_camera = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<Camera>();
     }
 
@@ -54,10 +49,9 @@ public class Portal_Camera : MonoBehaviour
         Portal_Manager pm = GetComponent<Portal_Manager>();
         Portal_Manager other_pm = other_portal.GetComponent<Portal_Manager>();
 
-        Matrix4x4 portal_transform = pm.GetCameraHelper().transform.localToWorldMatrix * other_pm.GetCameraHelper().transform.worldToLocalMatrix * player.transform.localToWorldMatrix;
+        Matrix4x4 portal_transform = pm.GetCameraHelper().transform.localToWorldMatrix * other_pm.GetCameraHelper().transform.worldToLocalMatrix * player_camera.transform.localToWorldMatrix;
 
         portal_camera.transform.SetPositionAndRotation(portal_transform.GetColumn(3), portal_transform.rotation);
-        portal_camera.transform.position = new Vector3(portal_camera.transform.position.x, portal_camera.transform.position.y + 1.5f, portal_camera.transform.position.z);
     }
 
 }

@@ -8,6 +8,7 @@ TagManager:
   - PortalCamera
   - Portal
   - PlayerCam
+  - Bullet
   layers:
   - Default
   - TransparentFX

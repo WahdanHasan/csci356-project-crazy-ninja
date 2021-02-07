@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -59,10 +57,10 @@ public class Gun : MonoBehaviour
 
 
         bulletClone.transform.position = bullet_origin.position;
-        Vector3 rotation = bullet.transform.rotation.eulerAngles;
 
-        bulletClone.transform.rotation = Quaternion.Euler(rotation.x, transform.eulerAngles.y, rotation.z);
-        bulletClone.GetComponent<Rigidbody>().velocity = transform.forward * bullet_speed;
+        bulletClone.transform.rotation = bullet_origin.transform.rotation;
+
+        bulletClone.GetComponent<Rigidbody>().velocity = bullet_origin.transform.forward * bullet_speed;
 
     }
 }

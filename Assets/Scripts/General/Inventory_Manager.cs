@@ -8,6 +8,7 @@ public class Inventory_Manager : MonoBehaviour
     {
         Pistol =  KeyCode.Alpha1,
         Portal_gun = KeyCode.Alpha2,
+        Katana = KeyCode.Alpha3,
         None = KeyCode.None,
     }
 
@@ -55,6 +56,8 @@ public class Inventory_Manager : MonoBehaviour
                 break;
             case Item.Portal_gun:
                 portal_gun.enabled = !portal_gun.enabled;
+                break;
+            case Item.Katana:
                 break;
             default:
                 Debug.LogError("Invalid item request.");

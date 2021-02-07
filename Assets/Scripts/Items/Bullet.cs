@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -33,7 +32,7 @@ public class Bullet : MonoBehaviour
     {
         yield return new WaitForSeconds(bullet_lifespan);
 
-        Destroy(gameObject);
+        GetComponent<Health>().TakeDamage(1);
     }
    
     

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player_Camera_Controller : MonoBehaviour
@@ -10,7 +8,6 @@ public class Player_Camera_Controller : MonoBehaviour
     [SerializeField][Range(0.0f, 1.0f)] private float mouse_smoothing_time = 0.03f;
     [SerializeField] private Transform test;
 
-    private float camera_y_lock;
     private Vector2 direction;
     private Vector2 current_mouse_delta;
     private Vector2 smoothed_mouse_delta;
@@ -24,8 +21,6 @@ public class Player_Camera_Controller : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-
-        camera_y_lock = 90.0f;
     }
 
     private void Update()

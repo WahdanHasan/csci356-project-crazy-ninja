@@ -6,7 +6,6 @@ public class Player_Camera_Controller : MonoBehaviour
     [SerializeField] private float sensitivity = 5.0f;
     [SerializeField] private bool lock_cursor = true;
     [SerializeField][Range(0.0f, 1.0f)] private float mouse_smoothing_time = 0.03f;
-    [SerializeField] private Transform test;
 
     private Vector2 direction;
     private Vector2 current_mouse_delta;

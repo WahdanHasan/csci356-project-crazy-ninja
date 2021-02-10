@@ -7,11 +7,12 @@ public class Portal_Camera : MonoBehaviour
     private GameObject other_portal;
     private Camera player_camera;
     private Camera portal_camera;
+    private LayerMask attached_wall_mask;
 
     private void Awake()
     {
         portal_camera = Instantiate(portal_camera_prefab);
-        player_camera = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<Camera>();
+        player_camera = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<Camera>();  
     }
 
     public Camera GetCamera()
@@ -52,6 +53,11 @@ public class Portal_Camera : MonoBehaviour
         Matrix4x4 portal_transform = pm.GetCameraHelper().transform.localToWorldMatrix * other_pm.GetCameraHelper().transform.worldToLocalMatrix * player_camera.transform.localToWorldMatrix;
 
         portal_camera.transform.SetPositionAndRotation(portal_transform.GetColumn(3), portal_transform.rotation);
+    }
+
+    public void UpdateCameraCull(RaycastHit rc_hit)
+    {
+        portal_camera.cullingMask = 1 << 0;
     }
 
 }

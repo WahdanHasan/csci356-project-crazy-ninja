@@ -1,25 +1,26 @@
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class Gun : Item
 {
 
-    [SerializeField] [Range(0.1f, 1.5f)] private float fire_rate = 1.0f;
-    [SerializeField] [Range(1, 10)] private int bullet_damage = 1;
-    [SerializeField] [Range(1, 10)] private int bullet_lifespan = 1;
-    [SerializeField] private bool is_bot = false;
-    [SerializeField] private bool is_hitscan = true;
+    [SerializeField] [Range(0.1f, 1.5f)] private float fire_rate;
+    [SerializeField] [Range(1, 10)] private int bullet_damage;
+    [SerializeField] [Range(1, 10)] private int bullet_lifespan;
+    [SerializeField] private float bullet_speed = 30.0f;
+    [SerializeField] private bool is_hitscan;
     [SerializeField] private Transform bullet_origin;
     [SerializeField] private GameObject bullet;
 
     private Ray gun_shot;
     private RaycastHit hit_info;
     private GameObject bulletClone;
-    private float bullet_speed = 30.0f;
     private float timer;
 
     private void Start()
     {
         bullet.GetComponent<Bullet>().Setup(bullet_lifespan, bullet_damage);
+
+        el = EquipLocation.Right_hand;
     }
 
     void Update()
@@ -54,7 +55,6 @@ public class Gun : MonoBehaviour
     {
 
         bulletClone = Instantiate(bullet);
-
 
         bulletClone.transform.position = bullet_origin.position;
 

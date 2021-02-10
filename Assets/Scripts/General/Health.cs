@@ -26,6 +26,7 @@ public class Health : MonoBehaviour
         {
             case "Player":
                 gameObject.SetActive(false);
+                GetComponent<Inventory_Manager>().OnDeath();
                 break;
             case "Bullet":
                 Destroy(gameObject);

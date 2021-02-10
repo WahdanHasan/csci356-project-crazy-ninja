@@ -11,8 +11,6 @@ public class Portal_Manager : MonoBehaviour
 
     private GameObject other_portal;
     private Portal_Camera portal_camera;
-    private Portal_Interaction portal_interaction;
-    private Transform portal_transform;
     private GameObject camera_helper_gameobject;
     private int camera_helper_translate_by;
 
@@ -68,6 +66,8 @@ public class Portal_Manager : MonoBehaviour
 
         transform.rotation = Quaternion.LookRotation(rc_hit.normal);
         camera_helper_gameobject.transform.rotation = Quaternion.LookRotation(rc_hit.normal * camera_helper_translate_by);
+
+        portal_camera.UpdateCameraCull(rc_hit);
 
     }
 

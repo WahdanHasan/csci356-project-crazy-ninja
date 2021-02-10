@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Portal_Gun : MonoBehaviour
+public class Portal_Gun : Item
 {
     [SerializeField] private Transform ray_origin;
     [SerializeField] private GameObject portal_prefab;
@@ -23,6 +23,8 @@ public class Portal_Gun : MonoBehaviour
         Vector3 duct_tape = new Vector3(0.0f, -100.0f, 0.0f); // To hide the portals when the game starts
         portal_one.transform.position = duct_tape;
         portal_two.transform.position = duct_tape;
+
+        el = EquipLocation.Right_hand;
 
     }
 

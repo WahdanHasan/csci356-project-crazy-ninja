@@ -27,18 +27,13 @@ public class Item : MonoBehaviour
         this.can_pickup = can_pickup;
     }
 
-    public void DropItem()
-    {
-
-    }
-
     public void ChangeEquipStatus()
     {
         gameObject.SetActive(!gameObject.activeSelf);
     }
 
     public void UpdateEquipLocation(Transform t)
-    {
+    { //Set this to the item default equip location once everything is done, atm its a location i set manually
         transform.SetParent(t);
         transform.position = t.position;
     }

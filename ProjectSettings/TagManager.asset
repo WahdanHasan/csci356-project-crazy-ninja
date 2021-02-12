@@ -9,6 +9,9 @@ TagManager:
   - Portal
   - PlayerCam
   - Bullet
+  - GameManager
+  - Pistol
+  - PortalGun
   layers:
   - Default
   - TransparentFX

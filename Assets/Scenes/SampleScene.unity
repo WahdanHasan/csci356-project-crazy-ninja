@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 589924409}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -293,6 +293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9077832e4c37bee47a6442b9c29967a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pistol: {fileID: 394242279696874457, guid: a37843ca4db789f4493e59a0ab177f24, type: 3}
+  portal_gun: {fileID: 4389950594926283369, guid: 22e39d1cd8905a94d90a705bfc465f9c, type: 3}
 --- !u!4 &589924410
 Transform:
   m_ObjectHideFlags: 0
@@ -589,11 +591,11 @@ GameObject:
   m_Component:
   - component: {fileID: 748657185}
   - component: {fileID: 748657188}
-  - component: {fileID: 748657192}
   - component: {fileID: 748657187}
   - component: {fileID: 748657186}
   - component: {fileID: 748657189}
   - component: {fileID: 748657193}
+  - component: {fileID: 748657190}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -651,7 +653,6 @@ MonoBehaviour:
   sensitivity: 15
   lock_cursor: 1
   mouse_smoothing_time: 0.07
-  test: {fileID: 0}
 --- !u!54 &748657188
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -681,20 +682,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   starting_health: 100
---- !u!136 &748657192
-CapsuleCollider:
+--- !u!65 &748657190
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 748657184}
-  m_Material: {fileID: 13400000, guid: ddf706cd5a53f1843ac14c7267302ab0, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.995, z: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.5785563, y: 2, z: 0.5785563}
+  m_Center: {x: 0.0425784, y: 1, z: 0.008907795}
 --- !u!114 &748657193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,6 +711,7 @@ MonoBehaviour:
   has_portal_gun: 1
   has_katana: 1
   has_jetpack: 0
+  equip_location: {fileID: 1596364961}
 --- !u!1 &786345747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1222,7 +1223,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1596364960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.305, y: 0, z: 0.453}
+  m_LocalPosition: {x: 0.305, y: -0.244, z: 0.688}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 650070698}

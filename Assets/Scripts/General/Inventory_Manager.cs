@@ -20,13 +20,23 @@ public class Inventory_Manager : Item
     private void Awake()
     {
         inventory = new ArrayList();
-        equipped_item = ItemCode.None;
     }
 
     private void Start()
     {
         GetItemManager();
         GetSpawnItems();
+        SetDefaultItem(ItemCode.Pistol);
+    }
+
+    private void SetDefaultItem(ItemCode ic)
+    {
+        Item item = FetchItem(ic).GetComponent<Item>();
+
+        item.ChangeEquipStatus();
+        item.UpdateEquipLocation(equip_location);
+
+        equipped_item = ic;
     }
 
     private void GetSpawnItems()
@@ -60,9 +70,11 @@ public class Inventory_Manager : Item
 
         if (Input.GetKeyDown((KeyCode)ItemCode.Pistol) && has_pistol)
             item_choice = ItemCode.Pistol;
-        if (Input.GetKeyDown((KeyCode)ItemCode.Portal_gun) && has_portal_gun)
+
+        else if (Input.GetKeyDown((KeyCode)ItemCode.Portal_gun) && has_portal_gun)
             item_choice = ItemCode.Portal_gun;
-        if (Input.GetKeyDown((KeyCode)ItemCode.Katana) && has_katana)
+
+        else if (Input.GetKeyDown((KeyCode)ItemCode.Katana) && has_katana)
             item_choice = ItemCode.Katana;
 
 
@@ -74,12 +86,9 @@ public class Inventory_Manager : Item
         if (item_choice == ItemCode.None) return;
         if (equipped_item == item_choice) return;
 
-        if (equipped_item != ItemCode.None)
-        {
-            Item current_item = FetchItem(equipped_item).GetComponent<Item>();
+        Item current_item = FetchItem(equipped_item).GetComponent<Item>();
 
-            current_item.ChangeEquipStatus();
-        }
+        current_item.ChangeEquipStatus();
 
         Item new_item = FetchItem(item_choice).GetComponent<Item>();
 

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -9,6 +6,7 @@ public class Portal_Manager : MonoBehaviour
     static bool link_cameras = true;
     static bool setup_portals = true;
 
+    private Collider wall_collider;
     private GameObject other_portal;
     private Portal_Camera portal_camera;
     private GameObject camera_helper_gameobject;
@@ -69,11 +67,19 @@ public class Portal_Manager : MonoBehaviour
 
         portal_camera.UpdateCameraCull(rc_hit);
 
+        wall_collider = rc_hit.collider;
+
+        GetComponent<Portal_Interaction>().SetPortalNormal(rc_hit.normal);
     }
 
     public GameObject GetCameraHelper()
     {
         return camera_helper_gameobject;
+    }
+
+    public Collider GetWallCollider()
+    {
+        return wall_collider;
     }
 
 }

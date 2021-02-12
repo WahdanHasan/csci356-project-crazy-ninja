@@ -65,8 +65,6 @@ public class Portal_Manager : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(rc_hit.normal);
         camera_helper_gameobject.transform.rotation = Quaternion.LookRotation(rc_hit.normal * camera_helper_translate_by);
 
-        portal_camera.UpdateCameraCull(rc_hit);
-
         wall_collider = rc_hit.collider;
 
         GetComponent<Portal_Interaction>().SetPortalNormal(rc_hit.normal);

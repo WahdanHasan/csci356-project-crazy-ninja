@@ -7,6 +7,7 @@ public class Item : MonoBehaviour
         Pistol = KeyCode.Alpha1,
         Portal_gun = KeyCode.Alpha2,
         Katana = KeyCode.Alpha3,
+        Doodad = KeyCode.Alpha4,
         Jetpack = -1,
         None = KeyCode.None,
     }

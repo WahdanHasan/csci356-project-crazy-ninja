@@ -12,6 +12,7 @@ public class Inventory_Manager : Item
     [SerializeField] private bool has_pistol;
     [SerializeField] private bool has_portal_gun;
     [SerializeField] private bool has_katana;
+    [SerializeField] private bool has_doodad;
     [SerializeField] private bool has_jetpack;
 
     [SerializeField] private Transform equip_location;
@@ -47,6 +48,8 @@ public class Inventory_Manager : Item
             inventory.Add(im.RequestNewItem(ItemCode.Portal_gun));
         if (has_katana)
             inventory.Add(im.RequestNewItem(ItemCode.Katana));
+        if (has_doodad)
+            inventory.Add(im.RequestNewItem(ItemCode.Doodad));
         if (has_jetpack)
             inventory.Add(im.RequestNewItem(ItemCode.Jetpack));
 
@@ -76,6 +79,9 @@ public class Inventory_Manager : Item
 
         else if (Input.GetKeyDown((KeyCode)ItemCode.Katana) && has_katana)
             item_choice = ItemCode.Katana;
+
+        else if (Input.GetKeyDown((KeyCode)ItemCode.Doodad) && has_doodad)
+            item_choice = ItemCode.Doodad;
 
 
         UpdateEquippedItem(item_choice);
@@ -114,6 +120,9 @@ public class Inventory_Manager : Item
                 break;
             case ItemCode.Katana:
                 retrieve_tag = "Katana";
+                break;
+            case ItemCode.Doodad:
+                retrieve_tag = "Doodad";
                 break;
         }
 

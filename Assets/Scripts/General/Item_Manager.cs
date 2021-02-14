@@ -7,6 +7,7 @@ public class Item_Manager : Item
     [SerializeField] private GameObject portal_gun;
     //[SerializeField] private GameObject katana;
     //[SerializeField] private GameObject jetpack;
+    //[SerializeField] private GameObject doodad;
 
     void Start()
     {
@@ -21,10 +22,12 @@ public class Item_Manager : Item
                 return Instantiate(pistol);
             case ItemCode.Portal_gun:
                 return Instantiate(portal_gun);
-                //case ItemCode.Katana:
-                //    return Instantiate(katana);
-                //case ItemCode.Jetpack:
-                //    return Instantiate(katana);
+            //case ItemCode.Katana:
+            //    return Instantiate(katana);
+            //case ItemCode.Jetpack:
+            //    return Instantiate(jetpack);
+            //case ItemCode.Doodad:
+            //    return Instantiate(doodad);
         }
 
         return null;

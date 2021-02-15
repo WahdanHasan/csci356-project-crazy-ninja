@@ -6,23 +6,23 @@ using UnityEngine;
 
 public class InverseKinematics : MonoBehaviour {
 
-	public Transform upperArm;
-	public Transform forearm;
-	public Transform hand;
-	public Transform elbow;
-	public Transform target;
+	public Transform thigh;
+	public Transform crus;
+	public Transform foot;
+	public Transform knee;
+	public Transform look;
 	[Space(20)]
 	public Vector3 uppperArm_OffsetRotation;
-	public Vector3 forearm_OffsetRotation;
-	public Vector3 hand_OffsetRotation;
+	public Vector3 crus_OffsetRotation;
+	public Vector3 foot_OffsetRotation;
 	[Space(20)]
-	public bool handMatchesTargetRotation = true;
+	public bool footMatchesTargetRotation = true;
 	[Space(20)]
 	public bool debug;
 
 	float angle;
-	float upperArm_Length;
-	float forearm_Length;
+	float thigh_Length;
+	float crus_Length;
 	float arm_Length;
 	float targetDistance;
 	float adyacent;
@@ -34,41 +34,41 @@ public class InverseKinematics : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-		if(upperArm != null && forearm != null && hand != null && elbow != null && target != null){
-			upperArm.LookAt (target, elbow.position - upperArm.position);
-			upperArm.Rotate (uppperArm_OffsetRotation);
+		if(thigh != null && crus != null && foot != null && knee != null && look != null){
+			thigh.LookAt (look, knee.position - thigh.position);
+			thigh.Rotate (uppperArm_OffsetRotation);
 
-			Vector3 cross = Vector3.Cross (elbow.position - upperArm.position, forearm.position - upperArm.position);
+			Vector3 cross = Vector3.Cross (knee.position - thigh.position, crus.position - thigh.position);
 
 
 
-			upperArm_Length = Vector3.Distance (upperArm.position, forearm.position);
-			forearm_Length =  Vector3.Distance (forearm.position, hand.position);
-			arm_Length = upperArm_Length + forearm_Length;
-			targetDistance = Vector3.Distance (upperArm.position, target.position);
+			thigh_Length = Vector3.Distance (thigh.position, crus.position);
+			crus_Length =  Vector3.Distance (crus.position, foot.position);
+			arm_Length = thigh_Length + crus_Length;
+			targetDistance = Vector3.Distance (thigh.position, look.position);
 			targetDistance = Mathf.Min (targetDistance, arm_Length - arm_Length * 0.001f);
 
-			adyacent = ((upperArm_Length * upperArm_Length) - (forearm_Length * forearm_Length) + (targetDistance * targetDistance)) / (2*targetDistance);
+			adyacent = ((thigh_Length * thigh_Length) - (crus_Length * crus_Length) + (targetDistance * targetDistance)) / (2*targetDistance);
 
-			angle = Mathf.Acos (adyacent / upperArm_Length) * Mathf.Rad2Deg;
+			angle = Mathf.Acos (adyacent / thigh_Length) * Mathf.Rad2Deg;
 
-			upperArm.RotateAround (upperArm.position, cross, -angle);
+			thigh.RotateAround (thigh.position, cross, -angle);
 
-			forearm.LookAt(target, cross);
-			forearm.Rotate (forearm_OffsetRotation);
+			crus.LookAt(look, cross);
+			crus.Rotate (crus_OffsetRotation);
 
-			if(handMatchesTargetRotation){
-				hand.rotation = target.rotation;
-				hand.Rotate (hand_OffsetRotation);
+			if(footMatchesTargetRotation){
+				foot.rotation = look.rotation;
+				foot.Rotate (foot_OffsetRotation);
 			}
 			
 			if(debug){
-				if (forearm != null && elbow != null) {
-					Debug.DrawLine (forearm.position, elbow.position, Color.blue);
+				if (crus != null && knee != null) {
+					Debug.DrawLine (crus.position, knee.position, Color.blue);
 				}
 
-				if (upperArm != null && target != null) {
-					Debug.DrawLine (upperArm.position, target.position, Color.red);
+				if (thigh != null && look != null) {
+					Debug.DrawLine (thigh.position, look.position, Color.red);
 				}
 			}
 					
@@ -78,14 +78,14 @@ public class InverseKinematics : MonoBehaviour {
 
 	void OnDrawGizmos(){
 		if (debug) {
-			if(upperArm != null && elbow != null && hand != null && target != null && elbow != null){
+			if(thigh != null && knee != null && foot != null && look != null && knee != null){
 				Gizmos.color = Color.gray;
-				Gizmos.DrawLine (upperArm.position, forearm.position);
-				Gizmos.DrawLine (forearm.position, hand.position);
+				Gizmos.DrawLine (thigh.position, crus.position);
+				Gizmos.DrawLine (crus.position, foot.position);
 				Gizmos.color = Color.red;
-				Gizmos.DrawLine (upperArm.position, target.position);
+				Gizmos.DrawLine (thigh.position, look.position);
 				Gizmos.color = Color.blue;
-				Gizmos.DrawLine (forearm.position, elbow.position);
+				Gizmos.DrawLine (crus.position, knee.position);
 			}
 		}
 	}

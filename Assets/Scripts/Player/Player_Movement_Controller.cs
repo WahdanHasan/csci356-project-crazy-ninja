@@ -18,11 +18,11 @@ public class Player_Movement_Controller : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        walking_speed = 5.0f;
-        crouching_speed = 2.5f;
-        running_speed = 10.0f;
-        movement_speed_during_jump = 1.0f;
-        jump_force = 5.0f;
+        //walking_speed = 5.0f;
+        //crouching_speed = 2.5f;
+        //running_speed = 10.0f;
+        //movement_speed_during_jump = 1.0f;
+        //jump_force = 5.0f;
         current_speed = walking_speed;
     }
 

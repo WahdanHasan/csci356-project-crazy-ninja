@@ -431,9 +431,10 @@ GameObject:
   - component: {fileID: 48}
   - component: {fileID: 162}
   - component: {fileID: 152}
+  - component: {fileID: 132}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -472,7 +473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &27
 GameObject:
   m_ObjectHideFlags: 0
@@ -2309,6 +2310,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078894b5c32e95a4e88c71a8ab66766a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63898722be9102a4f960a669dfbf06cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pistol: {fileID: 1347048607590356, guid: 7e140394e95da314a9a63645d1c4a08f, type: 3}
+  portal_gun: {fileID: 1700825503440746, guid: 8a5973e326885694c8eb4a575b705591, type: 3}
+  jetpack: {fileID: 5657682994195478708, guid: db59df5f6c115b3448111fd210102c96, type: 3}
 --- !u!114 &133
 MonoBehaviour:
   m_ObjectHideFlags: 0

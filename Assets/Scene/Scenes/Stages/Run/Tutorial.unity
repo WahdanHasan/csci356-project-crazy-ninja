@@ -936,6 +936,7 @@ GameObject:
   - component: {fileID: 1413}
   - component: {fileID: 1856}
   - component: {fileID: 1857}
+  - component: {fileID: 452}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -1008,6 +1009,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 176e40a8e6bf8cb419ff349e310e471a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  el_right_hand: {fileID: 873}
+  el_left_hand: {fileID: 0}
+  el_back: {fileID: 1163218121}
+  has_pistol: 1
+  has_portal_gun: 1
+  has_katana: 0
+  has_doodad: 0
+  has_jetpack: 1
 --- !u!1 &453
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,6 +2615,7 @@ Transform:
   - {fileID: 937}
   - {fileID: 941}
   - {fileID: 867}
+  - {fileID: 1163218121}
   m_Father: {fileID: 868}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13000,6 +13022,36 @@ CapsuleCollider:
   m_Height: 0.27820706
   m_Direction: 1
   m_Center: {x: 0, y: 0.13910353, z: 0}
+--- !u!1 &1163218120
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1163218121}
+  m_Layer: 8
+  m_Name: Jetpack Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1163218121
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163218120}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 938}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1214664110 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100010, guid: a01dbb64c58d9ca4da6feccdf1667f49,

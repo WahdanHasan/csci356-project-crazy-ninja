@@ -6,6 +6,13 @@ TagManager:
   tags:
   - Gun
   - Enemy
+  - Portal
+  - Bullet
+  - PortalGun
+  - Pistol
+  - PortalCamera
+  - Jetpack
+  - GameManager
   layers:
   - Default
   - TransparentFX

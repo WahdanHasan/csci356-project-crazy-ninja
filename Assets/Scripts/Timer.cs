@@ -37,11 +37,8 @@ public class Timer : MonoBehaviour
 		}
 		string arg = Mathf.Floor(f / 60f).ToString("00");
 		string arg2 = Mathf.Floor(f % 60f).ToString("00");
-		if (text.Equals("100"))
-		{
-			text = "99";
-		}
-		return string.Format("{0}:{1}:{2}", arg, arg2, text);
+		
+		return string.Format("{0}:{1}", arg, arg2);
 	}
     
 	public float GetTimer()

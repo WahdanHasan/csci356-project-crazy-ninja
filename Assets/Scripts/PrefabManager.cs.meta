@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 6e3eaf8b0ff243f4f88b74823c27d265
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - blood: {instanceID: 0}
+  - bulletDestroy: {instanceID: 0}
+  - muzzle: {instanceID: 0}
+  - explosion: {instanceID: 0}
+  - bulletHitAudio: {instanceID: 0}
+  - enemyHitAudio: {fileID: 1855325705969988, guid: 44724672aa930a947b44aa0ddfba2000,
+      type: 3}
+  - gunShotAudio: {fileID: 1938169958934119, guid: 662cb108c4cea8d45ba133e0c1682929,
+      type: 3}
+  - objectImpactAudio: {instanceID: 0}
+  - thumpAudio: {instanceID: 0}
+  - destructionAudio: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -8,6 +8,8 @@ public class ProceduralPlacement : MonoBehaviour
     [SerializeField] private Transform look_at;
     [SerializeField] private Transform target;
     [SerializeField] private float leg_distance_before_move = 0.3f;
+    [SerializeField] private float leg_move_speed = 10.0f;
+    [SerializeField] private float leg_zigzag_offset = 0.15f;
     [SerializeField] private bool zigzag;
 
     private Ray ray;
@@ -28,7 +30,7 @@ public class ProceduralPlacement : MonoBehaviour
         else
         {
             look_at.position = rc_hit.point;
-            target.position = look_at.position + (transform.forward * 0.15f);
+            target.position = look_at.position + (transform.forward * leg_zigzag_offset);
         }
 
         move_to = look_at.position;
@@ -39,7 +41,7 @@ public class ProceduralPlacement : MonoBehaviour
     {
         if (look_at.position != move_to)
         {
-            look_at.position = Vector3.Lerp(look_at.position, move_to, Time.deltaTime * 10.0f);
+            look_at.position = Vector3.Lerp(look_at.position, move_to, Time.deltaTime * leg_move_speed);
         }
 
         if (previous_transform_position == ray_origin.transform.position) return; /* Optimization for when there is no movement */
@@ -50,7 +52,7 @@ public class ProceduralPlacement : MonoBehaviour
         if (!Physics.Raycast(ray, out rc_hit, 100)) return; /* Fix the length here to only check the max height of the leg or something */
 
         if (!zigzag) target.position = rc_hit.point;
-        else target.position = rc_hit.point + (transform.forward * 0.15f);
+        else target.position = rc_hit.point + (transform.forward * leg_zigzag_offset);
 
         distance_from_target = Vector3.Distance(target.position, look_at.position);
 

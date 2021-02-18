@@ -12,11 +12,12 @@ TagManager:
   - GameManager
   - Pistol
   - PortalGun
+  - Jetpack
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PlayerCameraIgnore
   - Water
   - UI
   - 

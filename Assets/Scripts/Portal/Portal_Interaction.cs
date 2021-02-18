@@ -4,10 +4,12 @@ public class Portal_Interaction : MonoBehaviour
 {
     private GameObject voyager;
     private GameObject other_portal;
-    private Vector3 portal_normal;
     private bool entity_teleportable = true;
+    /* Experimental code variables, omitted for submission */
+    private Vector3 portal_normal;
     private int portal_forward_sign;
     private int portal_backward_sign;
+    /* */
 
     public void PreventBackTeleport()
     {
@@ -24,8 +26,8 @@ public class Portal_Interaction : MonoBehaviour
         this.other_portal = other_portal;
     }
 
-    private void OnTriggerEnter(Collider entity)
-    {
+    private void OnTriggerEnter(Collider entity) /* On entering, if teleports if the entity is allowed to be teleported, else, sets it to be allowed to be teleported */
+    { 
         voyager = entity.gameObject;
 
         if (entity_teleportable)
@@ -34,7 +36,7 @@ public class Portal_Interaction : MonoBehaviour
             entity_teleportable = true;
     }
 
-/* EXPERIMENTAL TELEPORTATION CODE  */
+    /* -------------------------------------------------EXPERIMENTAL TELEPORTATION CODE KINDLY IGNORE------------------------------------------------------------------*/
     //private void OnTriggerEnter(Collider entity)
     //{
     //    voyager = entity.gameObject;
@@ -69,9 +71,9 @@ public class Portal_Interaction : MonoBehaviour
 
     //    other_portal.GetComponent<Portal_Interaction>().PreventBackTeleport();
     //}
-    /*                  */
+    /* ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  */
 
-    private void Teleport(GameObject voyager)
+    private void Teleport(GameObject voyager) /* Based on defined behavior for the entity being teleported, performs the teleport method that is appropriate for it */
     {
         string voyager_tag = voyager.tag;
         
@@ -81,7 +83,7 @@ public class Portal_Interaction : MonoBehaviour
 
         switch (voyager_tag)
         {
-            case "Player":
+            case "Player": /* In the event of a player, handles the appropriate rotation for the camera object as well */
                 TeleportVoyager(voyager.transform, voyager_transform_new.GetColumn(3));
                 UpdatePlayerCamera(voyager.transform);
                 break;
@@ -89,7 +91,7 @@ public class Portal_Interaction : MonoBehaviour
                 TeleportVoyager(voyager.transform, voyager_transform_new.GetColumn(3));
                 break;
             default:
-                Debug.LogError("Portal: Behavior for the entity has not been defined");
+                Debug.LogError("Portal: Behavior for the entity has not been defined. Tag: " + voyager_tag);
                 break;
         }
     }
@@ -99,9 +101,10 @@ public class Portal_Interaction : MonoBehaviour
         voyager.position = new_position;
     }
 
-    private void UpdatePlayerCamera(Transform voyager)
+    private void UpdatePlayerCamera(Transform voyager) /* Calculates the rotation difference between the two portals and sends it to the camera object to update its rotation */
     {
-        Vector3 look_delta = other_portal.GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles - GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles;
+        Vector3 look_delta = other_portal.GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles - 
+            GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles;
 
         voyager.GetComponent<Player_Camera_Controller>().SetMouse(look_delta);
     }

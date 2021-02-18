@@ -2,18 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Body : MonoBehaviour
+public class move : MonoBehaviour
 {
     private Rigidbody rb;
-
-    private void Start()
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
+    // Update is called once per frame
     void Update()
     {
-        rb.velocity = new Vector3(0, 0, 0);
-        
+        //rb.MovePosition(transform.position + Time.deltaTime * 1.0f * Vector3.forward);
     }
 }

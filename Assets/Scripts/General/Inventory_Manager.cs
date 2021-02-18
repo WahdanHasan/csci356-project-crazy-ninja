@@ -1,21 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory_Manager : Item
+public class Inventory_Manager : ItemHandler
 {
+    [SerializeField] private Transform el_right_hand;
+    [SerializeField] private Transform el_left_hand;
+    [SerializeField] private Transform el_back;
 
     private ArrayList inventory;
     private ItemCode equipped_item;
-    private Item_Manager im;
+    private Item_Database_Manager im;
     [Header("Items available on spawn")]
     [SerializeField] private bool has_pistol;
     [SerializeField] private bool has_portal_gun;
     [SerializeField] private bool has_katana;
     [SerializeField] private bool has_doodad;
     [SerializeField] private bool has_jetpack;
-
-    [SerializeField] private Transform equip_location;
 
 
     private void Awake()
@@ -30,17 +30,17 @@ public class Inventory_Manager : Item
         SetDefaultItem(ItemCode.Pistol);
     }
 
-    private void SetDefaultItem(ItemCode ic)
+    private void SetDefaultItem(ItemCode ic) /* Updates the initial equipped item based on parameter */
     {
-        Item item = FetchItem(ic).GetComponent<Item>();
+        ItemHandler item = FetchItem(ic).GetComponent<ItemHandler>();
 
         item.ChangeEquipStatus();
-        item.UpdateEquipLocation(equip_location);
+        UpdateEquipLocation(FetchItem(ic));
 
         equipped_item = ic;
     }
 
-    private void GetSpawnItems()
+    private void GetSpawnItems() /* Fills up inventory with the items set in the editor */
     {
         if (has_pistol)
             inventory.Add(im.RequestNewItem(ItemCode.Pistol));
@@ -56,18 +56,22 @@ public class Inventory_Manager : Item
         foreach (GameObject item in inventory)
             if (item != null)
             {
-                item.SetActive(false);
-                item.GetComponent<Item>().UpdateEquipLocation(equip_location);
+                if (item.tag != "Jetpack") item.SetActive(false);
+                else
+                {
+                    EquipJetpack(item);
+                }
+                UpdateEquipLocation(item);
             }
 
     }
 
     private void GetItemManager()
     {
-        im = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Item_Manager>();
+        im = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Item_Database_Manager>();
     }
 
-    private void Update()
+    private void Update() /* Calls for an update to the equipped item based on the player's new choice */
     {
         ItemCode item_choice = ItemCode.None;
 
@@ -82,31 +86,56 @@ public class Inventory_Manager : Item
 
         else if (Input.GetKeyDown((KeyCode)ItemCode.Doodad) && has_doodad)
             item_choice = ItemCode.Doodad;
+        else if (Input.GetKeyDown((KeyCode)ItemCode.Drop_Item))
+            DropItem();
 
 
         UpdateEquippedItem(item_choice);
     }
 
-    private void UpdateEquippedItem(ItemCode item_choice)
+    private void UpdateEquippedItem(ItemCode item_choice) /* Unequips the current equipped item and equips the new one */
     {
         if (item_choice == ItemCode.None) return;
         if (equipped_item == item_choice) return;
+        if (FetchItem(equipped_item) == null) return;
+        if (FetchItem(item_choice) == null) return;
 
-        Item current_item = FetchItem(equipped_item).GetComponent<Item>();
+        ItemHandler current_item = FetchItem(equipped_item).GetComponent<ItemHandler>();
 
         current_item.ChangeEquipStatus();
 
-        Item new_item = FetchItem(item_choice).GetComponent<Item>();
+        ItemHandler new_item = FetchItem(item_choice).GetComponent<ItemHandler>();
 
         new_item.ChangeEquipStatus();
 
-        new_item.UpdateEquipLocation(equip_location);
+        UpdateEquipLocation(FetchItem(item_choice));
 
         equipped_item = item_choice;
 
     }
+
+    private void UpdateEquippedItem(GameObject item_choice)
+    {
+        if (FetchItem(equipped_item) == null)
+        {
+            item_choice.SetActive(false);
+            SetDefaultItem(FetchItemCode(item_choice));
+            return;
+        }
+
+
+
+        ItemHandler new_item = item_choice.GetComponent<ItemHandler>();
+
+        new_item.ChangeEquipStatus();
+        UpdateEquipLocation(item_choice);
+
+        equipped_item = FetchItemCode(item_choice);
+        
+        
+    }
     
-    private GameObject FetchItem(ItemCode ic)
+    private GameObject FetchItem(ItemCode ic) /* Fetches the item's reference based on the itemcode specified */
     {
         string retrieve_tag = "";
 
@@ -133,9 +162,93 @@ public class Inventory_Manager : Item
 
     }
 
+    private ItemCode FetchItemCode(GameObject item)
+    {
+        switch(item.tag)
+        {
+            case "Pistol":
+                return ItemCode.Pistol;
+            case "PortalGun":
+                return ItemCode.Portal_gun;
+            case "Katana":
+                return ItemCode.Katana;
+            case "Doodad":
+                return ItemCode.Doodad;
+        }
+
+        return ItemCode.None;
+    }
+
     public void OnDeath()
     {
 
     }
 
+    public void DropItem()
+    {
+        GameObject item = FetchItem(equipped_item);
+
+        inventory.Remove(item);
+
+        item.GetComponent<ItemHandler>().Drop();
+
+        foreach (GameObject it in inventory)
+        {
+            if (it != null) 
+            { 
+                UpdateEquippedItem(it);
+                return;
+            }
+        }
+
+        Debug.LogError("No Items in Inventory");
+    }
+
+    public void AddItem(GameObject item)
+    {
+        Destroy(item.GetComponent<Rigidbody>());
+        Destroy(item.GetComponent<BoxCollider>());
+
+        inventory.Add(item);
+
+        if(item.tag == "Jetpack")
+        {
+            EquipJetpack(item);
+            UpdateEquipLocation(item);
+            item.SetActive(true);
+            return;
+        }
+
+        UpdateEquippedItem(item);
+
+        item.transform.rotation = new Quaternion(0, 0, 0, 0);
+    }
+
+    private void EquipJetpack(GameObject jetpack)
+    {
+        GetComponent<Player_Movement_Controller>().SetCanDash(true);
+    }
+
+    public void UpdateEquipLocation(GameObject item)
+    {
+        Transform pos = null;
+
+        switch (item.GetComponent<ItemHandler>().GetEl())
+        {
+            case EquipLocation.Right_hand:
+                pos = el_right_hand;
+                break;
+            case EquipLocation.Left_Hand:
+                pos = el_left_hand;
+                break;
+            case EquipLocation.Back:
+                pos = el_back;
+                break;
+        }
+        item.transform.SetParent(pos);
+        item.transform.position = pos.position;
+        item.transform.rotation = new Quaternion(0, 0, 0, 0);
+
+
+    }
 }

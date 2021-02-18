@@ -8,22 +8,25 @@ public class Player_Movement_Controller : MonoBehaviour
     [SerializeField] private float walking_speed;
     [SerializeField] private float crouching_speed;
     [SerializeField] private float running_speed;
-    [SerializeField] private float movement_speed_during_jump;
     [SerializeField] private float jump_force;
+    [SerializeField] private float dash_cooldown;
 
+    private float dash_cooldown_timer;
     private float current_speed;
     private bool is_jumping = false;
     private Rigidbody rb;
+    private bool can_dash;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        //walking_speed = 5.0f;
-        //crouching_speed = 2.5f;
-        //running_speed = 10.0f;
-        //movement_speed_during_jump = 1.0f;
-        //jump_force = 5.0f;
+
         current_speed = walking_speed;
+    }
+
+    public void SetCanDash(bool new_value)
+    {
+        can_dash = new_value;
     }
 
     void Update()
@@ -34,6 +37,8 @@ public class Player_Movement_Controller : MonoBehaviour
 
     void GetInput()
     {
+        dash_cooldown_timer += Time.deltaTime;
+
         if (Input.GetKeyDown(KeyCode.Space))
             is_jumping = true;
 
@@ -52,12 +57,13 @@ public class Player_Movement_Controller : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.LeftControl))
             current_speed = walking_speed;
 
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.V) && can_dash && dash_cooldown <=dash_cooldown_timer)
             StartCoroutine(Dash());
     }
 
     private IEnumerator Dash()
     {
+        dash_cooldown_timer = 0;
 
         current_speed *= 15;
         yield return new WaitForSeconds(0.1f);

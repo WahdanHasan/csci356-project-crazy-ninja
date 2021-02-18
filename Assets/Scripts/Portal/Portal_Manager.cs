@@ -12,7 +12,7 @@ public class Portal_Manager : MonoBehaviour
     private GameObject camera_helper_gameobject;
     private int camera_helper_translate_by;
 
-    public void SetUp (GameObject other_portal, int value)
+    public void SetUp (GameObject other_portal, int value) /* Sets up the portals, only one of the class objects manages linking to its partner class */
     {
         this.other_portal = other_portal;
         camera_helper_translate_by = value;
@@ -35,7 +35,7 @@ public class Portal_Manager : MonoBehaviour
 
     }
 
-    private void SetPortalReferencesInScripts()
+    private void SetPortalReferencesInScripts() /* Assigns references for the portals to each other */
     {
         GetComponent<Portal_Camera>().Setup(other_portal);
         GetComponent<Portal_Interaction>().Setup(other_portal);
@@ -44,12 +44,12 @@ public class Portal_Manager : MonoBehaviour
         other_portal.GetComponent<Portal_Interaction>().Setup(this.gameObject);
     }
 
-    private void SetObjForCamera()
+    private void SetObjForCamera() /* Instantiates a helper gameobject for the camera, the camera utilizes the helpers transform to determine its position */
     {
         camera_helper_gameobject = new GameObject();
     }
 
-    private void LinkCameras()
+    private void LinkCameras() /* Links the render textures on the portal screens to their respective cameras */
     {
         Portal_Camera other_portal_camera = other_portal.GetComponent<Portal_Camera>();
 
@@ -57,7 +57,7 @@ public class Portal_Manager : MonoBehaviour
         other_portal_camera.AssignPortalScreenTexture(portal_camera.GetCamera());
     }
 
-    public void UpdatePortal(RaycastHit rc_hit)
+    public void UpdatePortal(RaycastHit rc_hit) /* Updates the portals location, rotation, normal, and the reference to its wall object (the wall its cast on) */
     {
         transform.position = rc_hit.point;
         camera_helper_gameobject.transform.position = rc_hit.point;

@@ -102,6 +102,8 @@ MonoBehaviour:
   is_hitscan: 0
   bullet_origin: {fileID: 700811746763516207}
   bullet: {fileID: 5188607477256313066, guid: 213255b207d3961409aee32f93c9e322, type: 3}
+  magazine_size: 30
+  current_clip_count: 0
 --- !u!1 &700811746763516206
 GameObject:
   m_ObjectHideFlags: 0

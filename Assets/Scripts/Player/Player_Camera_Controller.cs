@@ -11,8 +11,6 @@ public class Player_Camera_Controller : MonoBehaviour
     private Vector2 current_mouse_delta;
     private Vector2 smoothed_mouse_delta;
 
-
-
     private void Start()
     {
         if(lock_cursor)

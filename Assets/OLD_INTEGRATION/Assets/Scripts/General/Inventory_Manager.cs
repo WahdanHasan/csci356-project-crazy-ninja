@@ -1,8 +1,20 @@
 using System.Collections;
 using UnityEngine;
 
-public class Inventory_Manager : ItemHandler
+public class Inventory_Manager : MonoBehaviour
 {
+
+    public enum ItemCode /* Macros used by the script to refer to different item slot items */
+    {
+        Pistol = KeyCode.Alpha1,
+        Portal_gun = KeyCode.Alpha2,
+        Katana = KeyCode.Alpha3,
+        Doodad = KeyCode.Alpha4,
+        Jetpack = -1,
+        Drop_Item = KeyCode.G,
+        None = KeyCode.None,
+    }
+
     [SerializeField] private Transform el_right_hand;
     [SerializeField] private Transform el_left_hand;
     [SerializeField] private Transform el_back;
@@ -16,7 +28,7 @@ public class Inventory_Manager : ItemHandler
     [SerializeField] private bool has_katana;
     [SerializeField] private bool has_doodad;
     [SerializeField] private bool has_jetpack;
-
+    private DetectWeapons detectWeapons;
 
     private void Awake()
     {
@@ -25,42 +37,55 @@ public class Inventory_Manager : ItemHandler
 
     private void Start()
     {
+        detectWeapons = (DetectWeapons)base.GetComponentInChildren(typeof(DetectWeapons));
         GetItemManager();
+        if(im == null)
+        {
+            Debug.LogError("Couldn't find item manager.");
+            gameObject.SetActive(false);
+            return;
+        }
         GetSpawnItems();
-        SetDefaultItem(ItemCode.Pistol);
+        SetDefaultItem(ItemCode.Portal_gun);
     }
 
     private void SetDefaultItem(ItemCode ic) /* Updates the initial equipped item based on parameter */
     {
-        ItemHandler item = FetchItem(ic).GetComponent<ItemHandler>();
+        ItemHandler item = FetchItemGameObject(ic).GetComponent<ItemHandler>();
+        if(item == null)
+        {
+            Debug.LogError("Item does not inherit from handler.");
+            return;
+        }
 
         item.ChangeEquipStatus();
-        UpdateEquipLocation(FetchItem(ic));
+        UpdateEquipLocation(FetchItemGameObject(ic));
+        item.gameObject.SetActive(true);
+
 
         equipped_item = ic;
+
+        detectWeapons.ForcePickup(FetchItemGameObject(ItemCode.Portal_gun));
     }
 
     private void GetSpawnItems() /* Fills up inventory with the items set in the editor */
     {
         if (has_pistol)
-            inventory.Add(im.RequestNewItem(ItemCode.Pistol));
+            inventory.Add(im.RequestNewItem(FetchItemTag(ItemCode.Pistol)));
         if (has_portal_gun)
-            inventory.Add(im.RequestNewItem(ItemCode.Portal_gun));
+            inventory.Add(im.RequestNewItem(FetchItemTag(ItemCode.Portal_gun)));
         if (has_katana)
-            inventory.Add(im.RequestNewItem(ItemCode.Katana));
+            inventory.Add(im.RequestNewItem(FetchItemTag(ItemCode.Katana)));
         if (has_doodad)
-            inventory.Add(im.RequestNewItem(ItemCode.Doodad));
+            inventory.Add(im.RequestNewItem(FetchItemTag(ItemCode.Doodad)));
         if (has_jetpack)
-            inventory.Add(im.RequestNewItem(ItemCode.Jetpack));
+            inventory.Add(im.RequestNewItem(FetchItemTag(ItemCode.Jetpack)));
 
         foreach (GameObject item in inventory)
             if (item != null)
             {
-                if (item.tag != "Jetpack") item.SetActive(false);
-                else
-                {
-                    EquipJetpack(item);
-                }
+                Debug.Log(item.tag);
+                item.SetActive(false);
                 UpdateEquipLocation(item);
             }
 
@@ -73,6 +98,7 @@ public class Inventory_Manager : ItemHandler
 
     private void Update() /* Calls for an update to the equipped item based on the player's new choice */
     {
+
         ItemCode item_choice = ItemCode.None;
 
         if (Input.GetKeyDown((KeyCode)ItemCode.Pistol) && has_pistol)
@@ -86,8 +112,6 @@ public class Inventory_Manager : ItemHandler
 
         else if (Input.GetKeyDown((KeyCode)ItemCode.Doodad) && has_doodad)
             item_choice = ItemCode.Doodad;
-        else if (Input.GetKeyDown((KeyCode)ItemCode.Drop_Item))
-            DropItem();
 
 
         UpdateEquippedItem(item_choice);
@@ -97,52 +121,48 @@ public class Inventory_Manager : ItemHandler
     {
         if (item_choice == ItemCode.None) return;
         if (equipped_item == item_choice) return;
-        if (FetchItem(equipped_item) == null) return;
-        if (FetchItem(item_choice) == null) return;
+        if (FetchItemGameObject(item_choice) == null) return;
 
-        ItemHandler current_item = FetchItem(equipped_item).GetComponent<ItemHandler>();
+        if (FetchItemGameObject(equipped_item) != null)
+            FetchItemGameObject(equipped_item).SetActive(false);
 
-        current_item.ChangeEquipStatus();
+        detectWeapons.ForcePickup(FetchItemGameObject(item_choice));
 
-        ItemHandler new_item = FetchItem(item_choice).GetComponent<ItemHandler>();
-
-        new_item.ChangeEquipStatus();
-
-        UpdateEquipLocation(FetchItem(item_choice));
+        FetchItemGameObject(item_choice).SetActive(true);
 
         equipped_item = item_choice;
 
     }
 
-    private void UpdateEquippedItem(GameObject item_choice)
-    {
-        if (FetchItem(equipped_item) == null)
-        {
-            item_choice.SetActive(false);
-            SetDefaultItem(FetchItemCode(item_choice));
-            return;
-        }
+    //private void UpdateEquippedItem(GameObject item_choice)
+    //{
+    //    if (FetchItemGameObject(equipped_item) == null)
+    //    {
+    //        item_choice.SetActive(false);
+    //        SetDefaultItem(FetchItemGameObjectCode(item_choice));
+    //        return;
+    //    }
 
 
 
-        ItemHandler new_item = item_choice.GetComponent<ItemHandler>();
+    //    ItemHandler new_item = item_choice.GetComponent<ItemHandler>();
 
-        new_item.ChangeEquipStatus();
-        UpdateEquipLocation(item_choice);
+    //    new_item.ChangeEquipStatus();
+    //    UpdateEquipLocation(item_choice);
 
-        equipped_item = FetchItemCode(item_choice);
+    //    equipped_item = FetchItemGameObjectCode(item_choice);
         
         
-    }
+    //}
     
-    private GameObject FetchItem(ItemCode ic) /* Fetches the item's reference based on the itemcode specified */
+    private GameObject FetchItemGameObject(ItemCode ic) /* Fetches the item's reference based on the itemcode specified */
     {
         string retrieve_tag = "";
 
         switch(ic)
         {
             case ItemCode.Pistol:
-                retrieve_tag = "Pistol";
+                retrieve_tag = "Gun";
                 break;
             case ItemCode.Portal_gun:
                 retrieve_tag = "PortalGun";
@@ -159,92 +179,108 @@ public class Inventory_Manager : ItemHandler
             if (item.tag == retrieve_tag) return item;
 
         return null;
-
     }
 
-    private ItemCode FetchItemCode(GameObject item)
+    private string FetchItemTag(ItemCode ic)
     {
-        switch(item.tag)
+        switch (ic)
         {
-            case "Pistol":
-                return ItemCode.Pistol;
-            case "PortalGun":
-                return ItemCode.Portal_gun;
-            case "Katana":
-                return ItemCode.Katana;
-            case "Doodad":
-                return ItemCode.Doodad;
+            case ItemCode.Pistol:
+                return "Gun";
+            case ItemCode.Portal_gun:
+                return "PortalGun";
+            case ItemCode.Katana:
+                return "Katana";
+            case ItemCode.Doodad:
+                return "Doodad";
+            case ItemCode.Jetpack:
+                return "Jetpack";
         }
 
-        return ItemCode.None;
+        return null;
     }
 
-    public void OnDeath()
+        //private ItemCode FetchItemGameObjectCode(GameObject item)
+        //{
+        //    switch(item.tag)
+        //    {
+        //        case "Pistol":
+        //            return ItemCode.Pistol;
+        //        case "PortalGun":
+        //            return ItemCode.Portal_gun;
+        //        case "Katana":
+        //            return ItemCode.Katana;
+        //        case "Doodad":
+        //            return ItemCode.Doodad;
+        //    }
+
+        //    return ItemCode.None;
+        //}
+
+        public void OnDeath()
     {
 
     }
 
-    public void DropItem()
-    {
-        GameObject item = FetchItem(equipped_item);
+    //public void DropItem()
+    //{
+    //    GameObject item = FetchItemGameObject(equipped_item);
 
-        inventory.Remove(item);
+    //    inventory.Remove(item);
 
-        item.GetComponent<ItemHandler>().Drop();
+    //    item.GetComponent<ItemHandler>().Drop();
 
-        foreach (GameObject it in inventory)
-        {
-            if (it != null) 
-            { 
-                UpdateEquippedItem(it);
-                return;
-            }
-        }
+    //    foreach (GameObject it in inventory)
+    //    {
+    //        if (it != null) 
+    //        { 
+    //            UpdateEquippedItem(it);
+    //            return;
+    //        }
+    //    }
 
-        Debug.LogError("No Items in Inventory");
-    }
+    //    Debug.LogError("No Items in Inventory");
+    //}
 
-    public void AddItem(GameObject item)
-    {
-        Destroy(item.GetComponent<Rigidbody>());
-        Destroy(item.GetComponent<BoxCollider>());
+    //public void AddItem(GameObject item)
+    //{
+    //    Destroy(item.GetComponent<Rigidbody>());
+    //    Destroy(item.GetComponent<BoxCollider>());
 
-        inventory.Add(item);
+    //    inventory.Add(item);
 
-        if(item.tag == "Jetpack")
-        {
-            EquipJetpack(item);
-            UpdateEquipLocation(item);
-            item.SetActive(true);
-            return;
-        }
+    //    if(item.tag == "Jetpack")
+    //    {
+    //        EquipJetpack(item);
+    //        UpdateEquipLocation(item);
+    //        item.SetActive(true);
+    //        return;
+    //    }
 
-        UpdateEquippedItem(item);
+    //    UpdateEquippedItem(item);
 
-        item.transform.rotation = new Quaternion(0, 0, 0, 0);
-    }
+    //    item.transform.rotation = new Quaternion(0, 0, 0, 0);
+    //}
 
-    private void EquipJetpack(GameObject jetpack)
-    {
-        //GetComponent<Player_Movement_Controller>().SetCanDash(true);
-    }
+    //private void EquipJetpack(GameObject jetpack)
+    //{
+    //    //GetComponent<Player_Movement_Controller>().SetCanDash(true);
+    //}
 
     public void UpdateEquipLocation(GameObject item)
     {
         Transform pos = null;
 
-        switch (item.GetComponent<ItemHandler>().GetEl())
+        switch (item.tag)
         {
-            case EquipLocation.Right_hand:
+            //case "Gun":
+            //    pos = el_right_hand;
+            //    break;
+            default:
                 pos = el_right_hand;
                 break;
-            case EquipLocation.Left_Hand:
-                pos = el_left_hand;
-                break;
-            case EquipLocation.Back:
-                pos = el_back;
-                break;
         }
+
         item.transform.SetParent(pos);
         item.transform.position = pos.position;
         item.transform.rotation = new Quaternion(0, 0, 0, 0);

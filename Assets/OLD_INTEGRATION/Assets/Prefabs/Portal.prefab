@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 149152195024347684}
   - component: {fileID: 1115377679959661493}
   - component: {fileID: 2195140213836657437}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Portal
   m_TagString: Portal
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8191849815763360957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ab452a16e1b2bd4bb2c857f9c19f24c, type: 3}
+  m_Script: {fileID: 11500000, guid: 344eb03e04283964b88a24bd87433d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &-5470093944403475188
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8191849815763360957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4388651826c4cd048ba583f16dabcd5f, type: 3}
+  m_Script: {fileID: 11500000, guid: cf6226e29299d7d4385f844e02fc87b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3892466555640041444
@@ -122,10 +122,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8191849815763360957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93c12dd487b4c35478e30e7b5e8e414c, type: 3}
+  m_Script: {fileID: 11500000, guid: e7ca5488dbe08d14190a49d1c428d13d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portal_camera_prefab: {fileID: 3401451478789553008, guid: 076deab037d020c4b96c713037ccb6e7, type: 3}
+  portal_camera_prefab: {fileID: 3401451478789553008, guid: 076deab037d020c4b96c713037ccb6e7,
+    type: 3}
 --- !u!65 &3760405286743167538
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -133,12 +134,12 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8191849815763360957}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 70cdc6e48a318a54ba7f9910959c9b26, type: 2}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 81.14463}
-  m_Center: {x: 0, y: 0, z: 1.4021955}
+  m_Size: {x: 1, y: 1, z: 122.98969}
+  m_Center: {x: 0, y: 0, z: 22.324726}
 --- !u!65 &3552093664725264051
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -184,7 +184,7 @@ public class DetectWeapons : MonoBehaviour
     
 	public Transform weaponPos;
     
-	private List<GameObject> weapons;
+	public List<GameObject> weapons;
     
 	private bool hasGun;
     

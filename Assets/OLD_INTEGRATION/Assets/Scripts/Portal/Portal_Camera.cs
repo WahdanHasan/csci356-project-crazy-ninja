@@ -11,7 +11,7 @@ public class Portal_Camera : MonoBehaviour
     private void Awake() /* Instantiates a camera object from a prefab and fetches a reference to the player camera object */
     {
         portal_camera = Instantiate(portal_camera_prefab);
-        player_camera = GameObject.FindGameObjectWithTag("PlayerCam").GetComponent<Camera>();  
+        player_camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();  
     }
 
     public Camera GetCamera()

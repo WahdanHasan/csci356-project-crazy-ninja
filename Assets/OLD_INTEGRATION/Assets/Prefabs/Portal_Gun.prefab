@@ -92,11 +92,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4389950594926283369}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c7d0b106f8ef334c9bc62488d985e77, type: 3}
+  m_Script: {fileID: 11500000, guid: c735ec304c368354fb1e37c5f639162c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ray_origin: {fileID: 8486787250579525372}
-  portal_prefab: {fileID: 8191849815763360957, guid: e090fca4c10816f4da74fb0fe916f7ec, type: 3}
+  ray_origin: {fileID: 0}
+  portal_prefab: {fileID: 0}
 --- !u!1 &6344466587640787635
 GameObject:
   m_ObjectHideFlags: 0

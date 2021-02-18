@@ -11,6 +11,8 @@ public class Bullet : MonoBehaviour
     
 	private void OnCollisionEnter(Collision other)
 	{
+		Debug.Log("TAGGGGGG: " + other.gameObject.tag);
+
 		if (this.done)
 		{
 			return;
@@ -58,6 +60,8 @@ public class Bullet : MonoBehaviour
 			UnityEngine.Object.Destroy(other.gameObject);
 			this.BulletExplosion(other.contacts[0]);
 		}
+
+
 		UnityEngine.Object.Destroy(base.gameObject);
 	}
     

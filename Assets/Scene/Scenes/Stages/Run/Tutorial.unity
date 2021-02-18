@@ -613,7 +613,7 @@ GameObject:
   - component: {fileID: 1212}
   m_Layer: 9
   m_Name: Cube (3)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -902,7 +902,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &446
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,7 +916,7 @@ GameObject:
   - component: {fileID: 1855}
   m_Layer: 1
   m_Name: DetectWeapons
-  m_TagString: Untagged
+  m_TagString: IgnorePortal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -939,7 +939,7 @@ GameObject:
   - component: {fileID: 452}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1021,14 +1021,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 176e40a8e6bf8cb419ff349e310e471a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  el_right_hand: {fileID: 873}
+  el_right_hand: {fileID: 879}
   el_left_hand: {fileID: 0}
   el_back: {fileID: 1163218121}
   has_pistol: 1
   has_portal_gun: 1
   has_katana: 0
   has_doodad: 0
-  has_jetpack: 1
+  has_jetpack: 0
 --- !u!1 &453
 GameObject:
   m_ObjectHideFlags: 0
@@ -1999,8 +1999,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 72}
   m_LocalRotation: {x: -0.4999999, y: -0.5000001, z: -0.5000001, w: 0.4999999}
-  m_LocalPosition: {x: -21, y: -12, z: -76.6523}
-  m_LocalScale: {x: 153.02469, y: 2, z: 56}
+  m_LocalPosition: {x: -21, y: -12, z: -75.7727}
+  m_LocalScale: {x: 151.26491, y: 2, z: 56}
   m_Children: []
   m_Father: {fileID: 605}
   m_RootOrder: 8
@@ -11824,6 +11824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPos: {fileID: 879}
+  weapons: []
 --- !u!114 &1856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11836,8 +11837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da2be5f391620947a0b730b05d6caa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnWeapon: {fileID: 1347048607590356, guid: 7e140394e95da314a9a63645d1c4a08f,
-    type: 3}
+  spawnWeapon: {fileID: 0}
   deadMat: {fileID: 13400000, guid: 709d08a0888c0fc4a8c8b4ab53674a08, type: 2}
   playerCam: {fileID: 876}
   orientation: {fileID: 940}
@@ -12446,7 +12446,7 @@ GameObject:
   - component: {fileID: 255192609}
   m_Layer: 9
   m_Name: Cube (14)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14042,7 +14042,7 @@ GameObject:
   - component: {fileID: 2009328841}
   m_Layer: 9
   m_Name: Cube (18)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

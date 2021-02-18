@@ -27,7 +27,9 @@ public class Portal_Interaction : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider entity) /* On entering, if teleports if the entity is allowed to be teleported, else, sets it to be allowed to be teleported */
-    { 
+    {
+        if (entity.tag == "IgnorePortal") return;
+
         voyager = entity.gameObject;
 
         if (entity_teleportable)
@@ -76,7 +78,9 @@ public class Portal_Interaction : MonoBehaviour
     private void Teleport(GameObject voyager) /* Based on defined behavior for the entity being teleported, performs the teleport method that is appropriate for it */
     {
         string voyager_tag = voyager.tag;
-        
+
+        if (voyager.layer == LayerMask.NameToLayer("Bullet")) voyager_tag = "Bullet";
+
         other_portal.GetComponent<Portal_Interaction>().PreventBackTeleport();
 
         Matrix4x4 voyager_transform_new = other_portal.transform.localToWorldMatrix * transform.worldToLocalMatrix * voyager.transform.localToWorldMatrix;
@@ -87,7 +91,11 @@ public class Portal_Interaction : MonoBehaviour
                 TeleportVoyager(voyager.transform, voyager_transform_new.GetColumn(3));
                 UpdatePlayerCamera(voyager.transform);
                 break;
-            case "Untagged":
+            case "Bullet":
+                ReorientBullet(voyager);
+                TeleportVoyager(voyager.transform, voyager_transform_new.GetColumn(3));
+                break;
+            case null:
                 TeleportVoyager(voyager.transform, voyager_transform_new.GetColumn(3));
                 break;
             default:
@@ -103,10 +111,16 @@ public class Portal_Interaction : MonoBehaviour
 
     private void UpdatePlayerCamera(Transform voyager) /* Calculates the rotation difference between the two portals and sends it to the camera object to update its rotation */
     {
-        Vector3 look_delta = other_portal.GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles - 
+        Vector3 look_delta = other_portal.GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles -
             GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles;
 
-        voyager.GetComponent<Player_Camera_Controller>().SetMouse(look_delta);
+        voyager.GetComponent<PlayerMovement>().SetMouse(look_delta);
     }
 
+    private void ReorientBullet(GameObject bullet)
+    {
+        Rigidbody bullet_rb = bullet.GetComponent<Rigidbody>();
+
+        Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + bullet_rb.velocity);
+    }
 }

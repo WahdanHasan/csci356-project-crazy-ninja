@@ -1,28 +1,28 @@
 using UnityEngine;
 
-public class Item_Database_Manager : ItemHandler
+public class Item_Database_Manager : MonoBehaviour
 {
 
     [SerializeField] private GameObject pistol;
     [SerializeField] private GameObject portal_gun;
     //[SerializeField] private GameObject katana;
     [SerializeField] private GameObject jetpack;
-    //[SerializeField] private GameObject doodad;
+    [SerializeField] private GameObject doodad;
 
-    public GameObject RequestNewItem(ItemCode item) /* Returns a new object of the item queried */
+    public GameObject RequestNewItem(string tag) /* Returns a new object of the item queried */
     {
-        switch(item)
+        switch(tag)
         {
-            case ItemCode.Pistol:
+            case "Gun":
                 return Instantiate(pistol);
-            case ItemCode.Portal_gun:
+            case "PortalGun":
                 return Instantiate(portal_gun);
-            //case ItemCode.Katana:
+            //case "Katana":
             //    return Instantiate(katana);
-            case ItemCode.Jetpack:
+            case "Jetpack":
                 return Instantiate(jetpack);
-                //case ItemCode.Doodad:
-                //    return Instantiate(doodad);
+            case "Doodad":
+                return Instantiate(doodad);
         }
 
         return null;

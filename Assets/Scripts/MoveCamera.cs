@@ -16,12 +16,21 @@ public class MoveCamera : MonoBehaviour
 	private void Update()
 	{
 		base.transform.position = this.player.transform.position;
+		this.offset = base.transform.position;
 	}
     
 	public void UpdateFov()
 	{
 		//this.cam.fieldOfView = GameState.Instance.fov;
 	}
+
+	public void SetOffset(Vector3 delta)
+    {
+		Debug.Log(offset);
+		this.offset = delta.normalized;
+		Debug.Log("HIHIHIHIHHI");
+		Debug.Log(offset);
+    }
     
 	public Transform player;
     

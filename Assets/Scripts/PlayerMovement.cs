@@ -855,6 +855,15 @@ public class PlayerMovement : MonoBehaviour
 		return this.actionMeter * 22000f;
 	}
     
+	public void SetMouse(Vector3 look_delta)
+    {
+		lock (this)
+		{
+			this.playerCam.transform.localRotation = Quaternion.Euler(this.xRotation, this.desiredX + look_delta.y, 1);
+			this.orientation.transform.localRotation = Quaternion.Euler(this.xRotation, this.desiredX + look_delta.y, 1);
+		}
+	}
+
 	public GameObject spawnWeapon;
     
 	private float sensitivity = 50f;

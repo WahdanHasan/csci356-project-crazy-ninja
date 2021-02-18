@@ -990,7 +990,7 @@ AudioSource:
   m_Volume: 0.462
   m_Pitch: 1
   Loop: 1
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -2323,8 +2323,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pistol: {fileID: 1347048607590356, guid: 7e140394e95da314a9a63645d1c4a08f, type: 3}
-  portal_gun: {fileID: 1700825503440746, guid: 8a5973e326885694c8eb4a575b705591, type: 3}
+  portal_gun: {fileID: 1793815161702332, guid: ead9df208ba24eb43a1dba9ed215ae91, type: 3}
   jetpack: {fileID: 5657682994195478708, guid: db59df5f6c115b3448111fd210102c96, type: 3}
+  doodad: {fileID: 1095244423750556, guid: 5b3571fc16df9504d8811c6fbe4f77e5, type: 3}
 --- !u!114 &133
 MonoBehaviour:
   m_ObjectHideFlags: 0

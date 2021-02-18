@@ -13,6 +13,10 @@ TagManager:
   - PortalCamera
   - Jetpack
   - GameManager
+  - PlayerCam
+  - Wall
+  - IgnorePortal
+  - Doodad
   layers:
   - Default
   - TransparentFX

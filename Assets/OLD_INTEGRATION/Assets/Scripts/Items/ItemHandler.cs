@@ -20,19 +20,11 @@ public class ItemHandler : MonoBehaviour
         Back,
     }
 
-    protected bool can_pickup;
-
     protected EquipLocation el;
-    protected bool disabled = false;
 
     public EquipLocation GetEl()
     {
         return el;
-    }
-
-    public void SetCanPickup(bool can_pickup)
-    {
-        this.can_pickup = can_pickup;
     }
 
     public void ChangeEquipStatus() /* Changes an items equip by inversing its current active setting */
@@ -41,24 +33,4 @@ public class ItemHandler : MonoBehaviour
     }
 
 
-    public void Drop()
-    {
-        gameObject.AddComponent<Rigidbody>();
-        transform.SetParent(null);
-
-        disabled = true;
-
-        gameObject.AddComponent<BoxCollider>();
-
-        
-    }
-
-    private void OnCollisionEnter(Collision entity)
-    {
-        if(entity.gameObject.tag == "Player")
-        {
-            entity.gameObject.GetComponent<Inventory_Manager>().AddItem(gameObject);
-            enabled = true;
-        }
-    }
 }

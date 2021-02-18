@@ -37,7 +37,6 @@ public class Timer : MonoBehaviour
 		}
 		string arg = Mathf.Floor(f / 60f).ToString("00");
 		string arg2 = Mathf.Floor(f % 60f).ToString("00");
-		string text = (f * 100f % 100f).ToString("00");
 		if (text.Equals("100"))
 		{
 			text = "99";

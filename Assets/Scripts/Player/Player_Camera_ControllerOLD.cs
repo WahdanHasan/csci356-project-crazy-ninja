@@ -16,7 +16,7 @@ public class Player_Camera_Controller : MonoBehaviour
         if(lock_cursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = true;
+            Cursor.visible = false;
         }
     }
 

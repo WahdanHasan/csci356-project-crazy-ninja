@@ -11,7 +11,6 @@ public class Bullet : MonoBehaviour
     
 	private void OnCollisionEnter(Collision other)
 	{
-		Debug.Log("TAGGGGGG: " + other.gameObject.tag);
 
 		if (this.done)
 		{

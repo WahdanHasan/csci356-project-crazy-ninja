@@ -7,10 +7,12 @@ public class DetectWeapons : MonoBehaviour
 {
 	public void Pickup()
 	{
+		Debug.Log("CALLED PICKUP 1 ");
 		if (this.hasGun || !this.HasWeapons())
 		{
 			return;
 		}
+		Debug.Log("CALLED PICKUP 2 ");
 		this.gun = this.GetWeapon();
 		this.gunScript = (Pickup)this.gun.GetComponent(typeof(Pickup));
 		if (this.gunScript.pickedUp)
@@ -27,8 +29,10 @@ public class DetectWeapons : MonoBehaviour
 		this.gunScript.PickupWeapon(true);
 		//AudioManager.Instance.Play("GunPickup");
 		this.gun.layer = LayerMask.NameToLayer("Equipable");
+
+
 	}
-    
+
 	public void Shoot(Vector3 dir)
 	{
 		if (!this.hasGun)
@@ -79,6 +83,7 @@ public class DetectWeapons : MonoBehaviour
     
 	private void Update()
 	{
+		GetInput();
 		if (!this.hasGun)
 		{
 			return;
@@ -86,6 +91,29 @@ public class DetectWeapons : MonoBehaviour
 		this.gun.transform.localRotation = Quaternion.Slerp(this.gun.transform.localRotation, this.desiredRot, Time.deltaTime * this.speed);
 		this.gun.transform.localPosition = Vector3.SmoothDamp(this.gun.transform.localPosition, this.desiredPos, ref this.posVel, 1f / this.speed);
 		this.gunScript.OnAim();
+
+	}
+
+	int previousIndex = -1;
+
+	private void GetInput()
+    {
+		if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+			indexOfWeapon = 0;
+		}
+		if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+			indexOfWeapon = 1;
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			indexOfWeapon = 2;
+		}
+
+		if (indexOfWeapon != previousIndex)
+			Pickup();
+		previousIndex = indexOfWeapon;
 	}
     
 	private void Start()
@@ -108,12 +136,22 @@ public class DetectWeapons : MonoBehaviour
 			this.weapons.Remove(other.gameObject);
 		}
 	}
-    
+
+	int indexOfWeapon;
+
 	public GameObject GetWeapon()
 	{
-		if (this.weapons.Count == 1)
+		if (this.weapons.Count > 0)
 		{
-			return this.weapons[0];
+			switch (indexOfWeapon)
+			{
+				case 0:
+					return this.weapons[0];
+				case 1:
+					return this.weapons[1];
+				case 2:
+					return this.weapons[2];
+			}
 		}
 		GameObject result = null;
 		float num = float.PositiveInfinity;

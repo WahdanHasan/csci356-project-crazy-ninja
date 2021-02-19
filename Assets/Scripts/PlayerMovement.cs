@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Audio;
 using EZCameraShake;
 using UnityEngine;
@@ -23,12 +24,24 @@ public class PlayerMovement : MonoBehaviour
 		this.readyToJump = true;
 		this.wallNormalVector = Vector3.up;
 		this.CameraShake();
-		if (this.spawnWeapon != null)
-		{
-			GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.spawnWeapon, base.transform.position, Quaternion.identity);
-			this.detectWeapons.ForcePickup(gameObject);
-		}
-		this.UpdateSensitivity();
+        //if (this.spawnWeapon != null)
+        //{
+        //    GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.spawnWeapon[0], base.transform.position, Quaternion.identity);
+        //    this.detectWeapons.ForcePickup(gameObject);
+        //}
+        if (this.spawnWeapon != null)
+        {
+            for(int i = 0; i < spawnWeapon.Count;i++)
+            {
+				Vector3 pos = base.transform.position;
+
+				if(i==0) pos = new Vector3(base.transform.position.x * 100.0f, base.transform.position.y, base.transform.position.z);
+                GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(spawnWeapon[i], pos, Quaternion.identity);
+                this.detectWeapons.ForcePickup(gameObject);
+            }
+
+        }
+        this.UpdateSensitivity();
 	}
     
 	public void UpdateSensitivity()
@@ -864,7 +877,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
-	public GameObject spawnWeapon;
+	//public GameObject spawnWeapon;
     
 	private float sensitivity = 50f;
     
@@ -1011,4 +1024,6 @@ public class PlayerMovement : MonoBehaviour
 	private float actionMeter;
     
 	private float vel;
+
+	public List<GameObject> spawnWeapon;
 }

@@ -15,7 +15,7 @@ public class Inventory_Manager : MonoBehaviour
         None = KeyCode.None,
     }
 
-    public enum ItemSlot
+    public enum ItemSlot /* The item slots for every available equippable item */
     {
         Pistol = 0,
         Portal_gun = 1,
@@ -26,8 +26,6 @@ public class Inventory_Manager : MonoBehaviour
     }
 
     [SerializeField] private Transform el_right_hand;
-    [SerializeField] private GameObject PISTOL;
-    [SerializeField] private GameObject PORTALGUN;
     [SerializeField] private Transform el_left_hand;
     [SerializeField] private Transform el_back;
     [SerializeField] private Transform player_cam;
@@ -36,8 +34,8 @@ public class Inventory_Manager : MonoBehaviour
     private List<GameObject> inventory;
     private ItemSlot equipped_item;
     private Item_Database_Manager im;
-    private Weapon gun_script;
     private DetectWeapons detectWeapons;
+    private bool is_alive = true;
     [Header("Items available on spawn")]
     [SerializeField] private bool has_pistol;
     [SerializeField] private bool has_portal_gun;
@@ -62,53 +60,7 @@ public class Inventory_Manager : MonoBehaviour
         }
         GetSpawnItems();
         SetDefaultItem(ItemSlot.Pistol);
-        //Test();
-        //TestTwo();
-    }
-    GameObject go;
-    private void Test()
-    {
-        Debug.Log("Test");
 
-        //gun_script.PickupWeapon(true);
-        
-        //Debug.Log("Test1");
-        go = Instantiate(PISTOL);
-        Debug.Log("Test2");
-
-        this.gun_script = (Weapon)go.GetComponent(typeof(Weapon));
-        Debug.Log("Test3");
-
-        UpdateEquipLocation(go);
-        Debug.Log("Test4");
-        go.SetActive(true);
-
-        Debug.Log("Spawned and setup");
-    }
-
-    private void TestTwo()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            inventory.Add(null);
-        }
-
-        if (this.PISTOL != null)
-        {
-            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.PISTOL, base.transform.position, Quaternion.identity);
-            //GameObject go = UnityEngine.Object.Instantiate<GameObject>(this.spawnWeapon, base.transform.position, Quaternion.identity);
-            this.detectWeapons.ForcePickup(gameObject);
-            //inventory[0] = UnityEngine.GameObject.Instantiate<GameObject>(this.PORTALGUN, base.transform.position, Quaternion.identity);
-            //this.detectWeapons.ForcePickup(inventory[0]);
-            //this.detectWeapons.Throw(Vector3.forward);
-            //this.detectWeapons.ForceDrop(inventory[1]);
-
-            //inventory[1] = Instantiate(this.PORTALGUN, base.transform.position, Quaternion.identity);
-            //this.detectWeapons.ForcePickup(inventory[1]);
-            //this.detectWeapons.Shoot(Vector3.forward);
-
-
-        }
     }
 
     private void SetDefaultItem(ItemSlot ic) /* Updates the initial equipped item based on parameter */
@@ -159,9 +111,10 @@ public class Inventory_Manager : MonoBehaviour
         im = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Item_Database_Manager>();
     }
 
-    private void Update() /* Calls for an update to the equipped item based on the player's new choice */
+    private void Update() /* Calls for an update to the equipped item based on the player's new choice, also handles equipping and dropping items */
     {
-        //Debug.Log(GetComponent<Rigidbody>().velocity);
+        if (!is_alive) return;
+
         ItemSlot item_choice = ItemSlot.None;
 
         if (Input.GetKeyDown((KeyCode)ItemCode.Pistol) && has_pistol)
@@ -191,11 +144,6 @@ public class Inventory_Manager : MonoBehaviour
         if (equipped_item == item_choice) return;
         if (inventory[(int)item_choice] == null) return;
 
-        //this.detectWeapons.StopUse();
-
-        //if (item_choice == ItemSlot.Portal_gun) this.detectWeapons.ForcePickup(inventory[(int)ItemSlot.Portal_gun]);
-        //if (item_choice == ItemSlot.Pistol) this.detectWeapons.ForcePickup(inventory[(int)ItemSlot.Pistol]);
-
         if(equipped_item == ItemSlot.Pistol) GetComponent<PlayerMovement>().can_fire = false;
     
         if (inventory[(int)equipped_item] != null)
@@ -204,8 +152,6 @@ public class Inventory_Manager : MonoBehaviour
         if (item_choice == ItemSlot.Pistol)
         {
             GetComponent<PlayerMovement>().can_fire = true;
-            //this.detectWeapons.ForcePickup(inventory[(int)ItemSlot.Pistol]);
-            //UpdateEquipLocation(inventory[(int)ItemSlot.Pistol]);
         }
         
         inventory[(int)item_choice].SetActive(true);
@@ -257,9 +203,11 @@ public class Inventory_Manager : MonoBehaviour
         if(equipped_item == ItemSlot.Pistol) GetComponent<PlayerMovement>().can_fire = false;
 
         inventory[(int)equipped_item].SetActive(false);
+
+        is_alive = false;
     }
 
-    public void UpdateEquipLocation(GameObject item)
+    public void UpdateEquipLocation(GameObject item) /* Updates the equip location of an item based on preset values */
     {
         Transform pos = null;
 
@@ -278,7 +226,7 @@ public class Inventory_Manager : MonoBehaviour
         item.transform.rotation = pos.rotation;
     }
 
-    private void ToggleHasItem(ItemSlot item)
+    private void ToggleHasItem(ItemSlot item) /* Toggles if the item is available and accessible in the inventory or not */
     {
         switch(item)
         {
@@ -297,21 +245,21 @@ public class Inventory_Manager : MonoBehaviour
         }
     }
 
-    private void DropItem()
+    private void DropItem() /* Drops the equipped item and removes it from the inventory */
     {
+        if (equipped_item == ItemSlot.None) return;
+
         GameObject item = inventory[(int)equipped_item];
+
+        if (equipped_item == ItemSlot.Pistol) GetComponent<PlayerMovement>().can_fire = false;
+
         inventory[(int)equipped_item] = null;
 
         ToggleHasItem(equipped_item);
         item.AddComponent<Rigidbody>();
         item.AddComponent<BoxCollider>();
 
-        //Rigidbody item_rb = item.GetComponent<Rigidbody>();
-
-
         item.transform.SetParent(null);
-
-        //item_rb.AddForce(transform.forward * 15.0f);
 
         for (int i = 0; i < inventory.Count; i++)
         {
@@ -327,14 +275,13 @@ public class Inventory_Manager : MonoBehaviour
         equipped_item = ItemSlot.None;
     }
 
-    private void PickupItem()
+    private void PickupItem() /* Raycasts from the center of the screen and attempts to pick up the item if it is equippable */
     {
         Ray ray = new Ray(player_cam.position, player_cam.forward);
         RaycastHit rc_hit;
 
         if (!Physics.Raycast(ray, out rc_hit)) return;
 
-        Debug.Log(rc_hit.transform.tag);
         ItemSlot item_slot = FetchItemSlot(rc_hit.transform.tag);
         if (item_slot == ItemSlot.None) return;
 
@@ -357,7 +304,6 @@ public class Inventory_Manager : MonoBehaviour
             equipped_item = item_slot;
         }
 
-        Debug.Log("Picked up");
     }
 
 }

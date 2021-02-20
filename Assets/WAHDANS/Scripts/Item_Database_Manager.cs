@@ -9,8 +9,6 @@ public class Item_Database_Manager : MonoBehaviour
     [SerializeField] private GameObject jetpack;
     [SerializeField] private GameObject doodad;
 
-    private Weapon gun_script;
-
     public GameObject RequestNewItem(string tag) /* Returns a new object of the item queried */
     {
         switch(tag)

@@ -12,7 +12,6 @@ public class Health : MonoBehaviour
 
     void Start()
     {
-        if (gameObject.tag == "Bullet") starting_health = 1;
         current_health = starting_health;
         isActive = true;
     }
@@ -51,10 +50,8 @@ public class Health : MonoBehaviour
         switch (gameObject.tag)
         {
             case "Player":
-                //gameObject.SetActive(false);
                 isDeadOrAlive(true);
                 PlayerMovement.Instance.KillPlayer();
-                //GetComponent<Rigidbody>().isKinematic = true;
                 GetComponent<Inventory_Manager>().OnDeath();
                 break;
             case "Bullet":

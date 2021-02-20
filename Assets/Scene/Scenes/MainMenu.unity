@@ -5610,7 +5610,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 601}
   m_OnClick:
     m_PersistentCalls:
@@ -7360,7 +7360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d660ba385d5bb844ab2d15d65b5e0a51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  replace: {fileID: 1656521025845539, guid: b99156a53fff54746a1120fe719ccf38, type: 3}
 --- !u!1001 &131377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19830,6 +19829,7 @@ Transform:
   - {fileID: 1794369729}
   - {fileID: 1905486287}
   - {fileID: 1957817025}
+  - {fileID: 857082533}
   - {fileID: 483076311}
   - {fileID: 1304913466}
   - {fileID: 921723392}
@@ -19877,7 +19877,6 @@ Transform:
   - {fileID: 655797266}
   - {fileID: 325112455}
   - {fileID: 901801673}
-  - {fileID: 857082533}
   - {fileID: 691950088}
   - {fileID: 1321899688}
   - {fileID: 1944212863}
@@ -19889,6 +19888,7 @@ Transform:
   - {fileID: 1648926524}
   - {fileID: 971079782}
   - {fileID: 1642031237}
+  - {fileID: 877230983}
   - {fileID: 236002189}
   - {fileID: 469403490}
   - {fileID: 960969723}
@@ -19935,7 +19935,6 @@ Transform:
   - {fileID: 658607188}
   - {fileID: 213302144}
   - {fileID: 279236333}
-  - {fileID: 877230983}
   - {fileID: 1425399616}
   - {fileID: 989459180}
   - {fileID: 1999524636}
@@ -20321,7 +20320,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 855424470}
-  m_RootOrder: 55
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 61.758003, y: -127.01101, z: -56.315002}
 --- !u!108 &857082534
 Light:
@@ -20709,7 +20708,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 855424470}
-  m_RootOrder: 113
+  m_RootOrder: 67
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &877230984
 ReflectionProbe:

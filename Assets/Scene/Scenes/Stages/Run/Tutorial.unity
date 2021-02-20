@@ -1024,8 +1024,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   el_right_hand: {fileID: 879}
-  PISTOL: {fileID: 1347048607590356, guid: 7e140394e95da314a9a63645d1c4a08f, type: 3}
-  PORTALGUN: {fileID: 1793815161702332, guid: ead9df208ba24eb43a1dba9ed215ae91, type: 3}
   el_left_hand: {fileID: 0}
   el_back: {fileID: 1163218121}
   player_cam: {fileID: 878}
@@ -9245,7 +9243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d660ba385d5bb844ab2d15d65b5e0a51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  replace: {fileID: 1656521025845539, guid: b99156a53fff54746a1120fe719ccf38, type: 3}
 --- !u!114 &1846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11906,9 +11903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256d4944f764e3344a35898494857c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whatIsSickoMode:
-    serializedVersion: 2
-    m_Bits: 512
 --- !u!114 &1867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16363,7 +16357,7 @@ MonoBehaviour:
   objectsAndPlayer:
     serializedVersion: 2
     m_Bits: 5888
-  startGun: {fileID: 1879491633259724, guid: a754a14e713f8ed419aa9e8b11877208, type: 3}
+  startGun: {fileID: 1700825503440746, guid: 8a5973e326885694c8eb4a575b705591, type: 3}
   gunPosition: {fileID: 1508036038}
   currentGun: {fileID: 0}
   leftArm: {fileID: 6573872}
@@ -18185,7 +18179,7 @@ MonoBehaviour:
   objectsAndPlayer:
     serializedVersion: 2
     m_Bits: 5888
-  startGun: {fileID: 1879491633259724, guid: a754a14e713f8ed419aa9e8b11877208, type: 3}
+  startGun: {fileID: 1700825503440746, guid: 8a5973e326885694c8eb4a575b705591, type: 3}
   gunPosition: {fileID: 891534434}
   currentGun: {fileID: 0}
   leftArm: {fileID: 891534433}

@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recoil: 1
   attackSpeed: 0.4
-  damage: 5
+  damage: 25
   trailRenderer: {fileID: 0}
   projectile: {fileID: 1511376928643868, guid: 2879c9a5db1c8db4188b85bbdb195bd8, type: 3}
   pushBackForce: 50

@@ -11,7 +11,6 @@ public class Bullet : MonoBehaviour
     
 	private void OnCollisionEnter(Collision other)
 	{
-
 		if (this.done)
 		{
 			return;
@@ -26,6 +25,12 @@ public class Bullet : MonoBehaviour
 		this.BulletExplosion(other.contacts[0]);
 		UnityEngine.Object.Instantiate<GameObject>(PrefabManager.Instance.bulletHitAudio, other.contacts[0].point, Quaternion.identity);
 		int layer = other.gameObject.layer;
+
+		if(layer == LayerMask.NameToLayer("PP"))
+        {
+			return;
+        }
+
 		if (layer == LayerMask.NameToLayer("Player"))
 		{
 			this.HitPlayer(other.gameObject);
@@ -64,9 +69,9 @@ public class Bullet : MonoBehaviour
 		UnityEngine.Object.Destroy(base.gameObject);
 	}
     
-	private void HitPlayer(GameObject other)
+	private void HitPlayer(GameObject player)
 	{
-		PlayerMovement.Instance.KillPlayer();
+		player.GetComponent<Health>().TakeDamage((int)damage);
 	}
     
 	private void Update()
@@ -112,6 +117,8 @@ public class Bullet : MonoBehaviour
 	public bool changeCol;
     
 	public bool player;
+
+	public Vector3 rigidbody_velocity;
     
 	private float damage;
     

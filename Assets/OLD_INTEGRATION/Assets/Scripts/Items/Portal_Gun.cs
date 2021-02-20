@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Portal_Gun : ItemHandler
+public class Portal_Gun : MonoBehaviour
 {
     [SerializeField] private Transform ray_origin;
     [SerializeField] private GameObject portal_prefab;

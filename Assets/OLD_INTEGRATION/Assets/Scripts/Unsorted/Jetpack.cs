@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class Jetpack : ItemHandler
+public class Jetpack : MonoBehaviour
 {
-
-    void Awake()
+    private void Update()
     {
-        el = EquipLocation.Back;
+
     }
 }

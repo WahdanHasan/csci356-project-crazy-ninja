@@ -6,14 +6,24 @@ public class CharacterAnim : MonoBehaviour
 {
     [SerializeField] private Animator anim;
 
-    private Vector3 previous_transform_position;
+    private Health player_health ;
+    private bool is_dead;
+
     void Start()
     {
-        
+        player_health = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+
+        if (player_health != null) player_health.isDeadOrAlive += PlayDeathAnimation;
     }
 
     void Update()
     {
+        if(is_dead)
+        {
+            anim.SetBool("isDead", false);
+            return;
+        }
+
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
         {
             anim.SetBool("isRunningForward", true);
@@ -39,6 +49,19 @@ public class CharacterAnim : MonoBehaviour
             
         }
 
-        previous_transform_position = transform.position;
+    }
+
+    private void PlayDeathAnimation(bool status)
+    {
+        is_dead = status;
+        StartCoroutine(Die());
+    }
+
+    private IEnumerator Die()
+    {
+        anim.SetBool("isDead", true);
+
+        yield return new WaitForSeconds(0.1f);
+        //anim.SetBool("isDead", false);
     }
 }

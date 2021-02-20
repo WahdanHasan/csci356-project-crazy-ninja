@@ -5,34 +5,30 @@ using UnityEngine;
 public class Doodad : MonoBehaviour
 {
 
-    [SerializeField] private float desiredTimeScale = 1.0f;
-    [SerializeField] private float desiredDuration = 1.0f;
+    [SerializeField] private float desiredTimeScale = 0.35f;
+    [SerializeField] private float desiredDuration = 0.5f;
+    [SerializeField] private float cooldown = 2.0f;
 
-    private PlayerMovement pm;
+    private float time_elapsed;
+    private bool ready_to_use = false;        
 
     void Start()
     {
-        pm = base.GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
-        if (Input.GetButton("Fire1"))
+
+        if (Input.GetButton("Fire1") && ready_to_use)
         {
+            ready_to_use = false;      
             PlayerMovement.Instance.Slowmo(0.35f, 0.5f);
-            //Slowmo(desiredTimeScale, desiredDuration);
+            base.Invoke("ResetDoodad", this.cooldown);
         }
     }
 
-    private void ResetSlowmo()
+    private void ResetDoodad()
     {
-        this.desiredTimeScale = 1f;
-    }
-
-    public void Slowmo(float timescale, float length)
-    {
-        base.CancelInvoke("Slowmo");
-        this.desiredTimeScale = timescale;
-        base.Invoke("ResetSlowmo", length);
+        this.ready_to_use = true;
     }
 }

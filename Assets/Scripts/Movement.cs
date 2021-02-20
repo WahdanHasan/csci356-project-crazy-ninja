@@ -111,11 +111,11 @@ public class Movement : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.E))
 		{
-			this.detectWeapons.Pickup();
+			//this.detectWeapons.Pickup();
 		}
 		if (Input.GetKeyDown(KeyCode.Q))
 		{
-			this.detectWeapons.Throw((this.HitPoint() - this.detectWeapons.weaponPos.position).normalized);
+			//this.detectWeapons.Throw((this.HitPoint() - this.detectWeapons.weaponPos.position).normalized);
 		}
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
@@ -699,7 +699,7 @@ public class Movement : MonoBehaviour
 		this.dead = true;
 		this.rb.freezeRotation = false;
 		this.playerCollider.material = this.deadMat;
-		this.detectWeapons.Throw(Vector3.zero);
+		//this.detectWeapons.Throw(Vector3.zero);
 		this.paused = false;
 		this.ResetSlowmo();
 	}

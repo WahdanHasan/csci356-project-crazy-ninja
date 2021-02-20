@@ -7,7 +7,9 @@ public class Lava : MonoBehaviour
 	{
 		if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
 		{
-			PlayerMovement.Instance.KillPlayer();
+			Health player_health = other.GetComponent<Health>();
+
+			player_health.TakeDamage(player_health.GetCurrentHealth());
 		}
 	}
 }

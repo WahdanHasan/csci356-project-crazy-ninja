@@ -14,7 +14,8 @@ public class HUD : MonoBehaviour
     void Awake()
     {
         health.gameObject.SetActive(false);
-        ammo.gameObject.SetActive(false);
+        ammo.gameObject.SetActive(true);
+
     }
 
     void Update()
@@ -30,13 +31,16 @@ public class HUD : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         player_health = player.GetComponent<Health>();
         player_health.UpdateHealth += UpdateHealth;
-        if (player_health.GetIsActive()) ;
+        if (player_health.GetIsActive())
+        {
+            health.gameObject.SetActive(true);
+            UpdateHealth(player_health.GetCurrentHealth(), player_health.GetTotalHealth());
+        }
     }
 
     private void UpdateHealth(int current_health, int starting_health)
     {
         if (!player_health.GetIsActive()) return;
-        if (!health.gameObject.activeSelf) health.gameObject.SetActive(true);
         health.text = "" + current_health + "/" + starting_health;
     }
 

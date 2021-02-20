@@ -4,13 +4,13 @@ using UnityEngine;
 public abstract class Weapon : Pickup
 {
 	public float MultiplierDamage { get; set; }
-    
-	public void Start()
-	{
-		this.MultiplierDamage = 1f;
-	}
-    
-	protected void Cooldown()
+
+    public void Start()
+    {
+        this.MultiplierDamage = 1f;
+    }
+
+    protected void Cooldown()
 	{
 		base.readyToUse = true;
 	}

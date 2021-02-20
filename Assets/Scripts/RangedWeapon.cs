@@ -75,6 +75,8 @@ public class RangedWeapon : Weapon
 				{
 					UnityEngine.Object.Instantiate<GameObject>(PrefabManager.Instance.gunShotAudio, base.transform.position, Quaternion.identity);
 				}
+
+				bullet.rigidbody_velocity = componentInChildren.mass * this.force * a;
 				bullet.SetBullet(this.damage, this.pushBackForce, col);
 				bullet.player = this.player;
 			}

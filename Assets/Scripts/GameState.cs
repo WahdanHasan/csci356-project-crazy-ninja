@@ -10,7 +10,7 @@ public class GameState : MonoBehaviour
 	private void Start()
 	{
 		GameState.Instance = this;
-		this.ppBlur = this.pp.GetSetting<MotionBlur>();
+		//this.ppBlur = this.pp.GetSetting<MotionBlur>();
 		this.graphics = SaveManager.Instance.state.graphics;
 		this.shake = SaveManager.Instance.state.cameraShake;
 		this.blur = SaveManager.Instance.state.motionBlur;
@@ -33,16 +33,16 @@ public class GameState : MonoBehaviour
     
 	public void SetBlur(bool b)
 	{
-		this.blur = b;
+		//this.blur = b;
 		if (b)
 		{
-			this.ppBlur.shutterAngle.value = 160f;
+			//this.ppBlur.shutterAngle.value = 160f;
 		}
 		else
 		{
-			this.ppBlur.shutterAngle.value = 0f;
+			//this.ppBlur.shutterAngle.value = 0f;
 		}
-		SaveManager.Instance.state.motionBlur = b;
+		//SaveManager.Instance.state.motionBlur = b;
 		SaveManager.Instance.Save();
 	}
     

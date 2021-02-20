@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Audio;
 using EZCameraShake;
 using UnityEngine;
@@ -7,13 +6,13 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 	public static PlayerMovement Instance { get; private set; }
-    
+
 	private void Awake()
 	{
 		PlayerMovement.Instance = this;
 		this.rb = base.GetComponent<Rigidbody>();
 	}
-    
+
 	private void Start()
 	{
 		this.psEmission = this.ps.emission;
@@ -24,26 +23,14 @@ public class PlayerMovement : MonoBehaviour
 		this.readyToJump = true;
 		this.wallNormalVector = Vector3.up;
 		this.CameraShake();
-        //if (this.spawnWeapon != null)
-        //{
-        //    GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.spawnWeapon[0], base.transform.position, Quaternion.identity);
-        //    this.detectWeapons.ForcePickup(gameObject);
-        //}
-        if (this.spawnWeapon != null)
-        {
-            for(int i = 0; i < spawnWeapon.Count;i++)
-            {
-				Vector3 pos = base.transform.position;
-
-				if(i==0) pos = new Vector3(base.transform.position.x * 100.0f, base.transform.position.y, base.transform.position.z);
-                GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(spawnWeapon[i], pos, Quaternion.identity);
-                this.detectWeapons.ForcePickup(gameObject);
-            }
-
-        }
-        this.UpdateSensitivity();
+		if (this.spawnWeapon != null)
+		{
+			GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.spawnWeapon, base.transform.position, Quaternion.identity);
+			this.detectWeapons.ForcePickup(gameObject);
+		}
+		this.UpdateSensitivity();
 	}
-    
+
 	public void UpdateSensitivity()
 	{
 		if (!GameState.Instance)
@@ -52,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 		this.sensMultiplier = GameState.Instance.GetSensitivity();
 	}
-    
+
 	private void LateUpdate()
 	{
 		if (this.dead || this.paused)
@@ -63,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
 		this.DrawGrabbing();
 		this.WallRunning();
 	}
-    
+
 	private void FixedUpdate()
 	{
 		//if (this.dead || Game.Instance.done || this.paused)
@@ -72,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 		//}
 		this.Movement();
 	}
-    
+
 	private void Update()
 	{
 		this.UpdateActionMeter();
@@ -89,12 +76,12 @@ public class PlayerMovement : MonoBehaviour
 			this.KillPlayer();
 		}
 	}
-    
+
 	private void MyInput()
 	{
 		//if (this.dead || Game.Instance.done)
 		//{
-			//return;
+		//return;
 		//}
 		this.x = Input.GetAxisRaw("Horizontal");
 		this.y = Input.GetAxisRaw("Vertical");
@@ -116,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
 		{
 			this.StopCrouch();
 		}
-		if (Input.GetButton("Fire1"))
+		if (Input.GetButton("Fire1") && can_fire)
 		{
 			if (this.detectWeapons.HasGun())
 			{
@@ -137,14 +124,14 @@ public class PlayerMovement : MonoBehaviour
 		}
 		if (Input.GetButtonDown("Pickup"))
 		{
-			this.detectWeapons.Pickup();
+			//this.detectWeapons.Pickup();
 		}
 		if (Input.GetButtonDown("Drop"))
 		{
-			this.detectWeapons.Throw((this.HitPoint() - this.detectWeapons.weaponPos.position).normalized);
+			//this.detectWeapons.Throw((this.HitPoint() - this.detectWeapons.weaponPos.position).normalized);
 		}
 	}
-    
+
 	private void Pause()
 	{
 		if (this.dead)
@@ -166,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
 		Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
 	}
-    
+
 	private void UpdateTimescale()
 	{
 		//if (Game.Instance.done || this.paused || this.dead)
@@ -175,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
 		//}
 		Time.timeScale = Mathf.SmoothDamp(Time.timeScale, this.desiredTimeScale, ref this.timeScaleVel, 0.15f);
 	}
-    
+
 	private void GrabObject()
 	{
 		if (this.objectGrabbing == null)
@@ -185,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 		this.HoldGrab();
 	}
-    
+
 	private void DrawGrabbing()
 	{
 		if (!this.objectGrabbing)
@@ -197,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
 		this.grabLr.SetPosition(0, this.myGrabPoint);
 		this.grabLr.SetPosition(1, this.myHandPoint);
 	}
-    
+
 	private void StartGrab()
 	{
 		RaycastHit[] array = Physics.RaycastAll(this.playerCam.transform.position, this.playerCam.transform.forward, 8f, this.whatIsGrabbable);
@@ -232,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
-    
+
 	private void HoldGrab()
 	{
 		this.grabJoint.connectedAnchor = this.playerCam.transform.position + this.playerCam.transform.forward * 5.5f;
@@ -240,7 +227,7 @@ public class PlayerMovement : MonoBehaviour
 		this.grabLr.endWidth = 0.0075f * this.objectGrabbing.velocity.magnitude;
 		this.previousLookdir = this.playerCam.transform.forward;
 	}
-    
+
 	private void StopGrab()
 	{
 		UnityEngine.Object.Destroy(this.grabJoint);
@@ -249,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
 		this.objectGrabbing.drag = 0f;
 		this.objectGrabbing = null;
 	}
-    
+
 	private void StartCrouch()
 	{
 		float d = 400f;
@@ -262,13 +249,13 @@ public class PlayerMovement : MonoBehaviour
 			AudioManager.Instance.Play("Slide");
 		}
 	}
-    
+
 	private void StopCrouch()
 	{
 		base.transform.localScale = new Vector3(1f, 1.5f, 1f);
 		base.transform.position = new Vector3(base.transform.position.x, base.transform.position.y + 0.5f, base.transform.position.z);
 	}
-    
+
 	private void DrawGrapple()
 	{
 		if (this.grapplePoint == Vector3.zero || this.joint == null)
@@ -295,10 +282,10 @@ public class PlayerMovement : MonoBehaviour
 			Vector3 normalized = (this.endPoint - position).normalized;
 			float num8 = Mathf.Sin(num5 * 180f * 0.017453292f);
 			float num9 = Mathf.Cos(this.offsetMultiplier * 90f * 0.017453292f);
-			
+
 		}
 	}
-    
+
 	private void FootSteps()
 	{
 		if (this.crouching || this.dead)
@@ -321,7 +308,7 @@ public class PlayerMovement : MonoBehaviour
 			}
 		}
 	}
-    
+
 	private void Movement()
 	{
 		if (this.dead)
@@ -389,7 +376,7 @@ public class PlayerMovement : MonoBehaviour
 		this.rb.AddForce(this.orientation.transform.right * this.x * this.moveSpeed * Time.deltaTime * d);
 		this.SpeedLines();
 	}
-    
+
 	private void SpeedLines()
 	{
 		float num = Vector3.Angle(this.rb.velocity, this.playerCam.transform.forward) * 0.15f;
@@ -404,19 +391,19 @@ public class PlayerMovement : MonoBehaviour
 		}
 		this.psEmission.rateOverTimeMultiplier = rateOverTimeMultiplier;
 	}
-    
+
 	private void CameraShake()
 	{
 		float num = this.rb.velocity.magnitude / 9f;
 		CameraShaker.Instance.ShakeOnce(num, 0.1f * num, 0.25f, 0.2f);
 		base.Invoke("CameraShake", 0.2f);
 	}
-    
+
 	private void ResetJump()
 	{
 		this.readyToJump = true;
 	}
-    
+
 	private void Jump()
 	{
 		if ((this.grounded || this.wallRunning || this.surfing) && this.readyToJump)
@@ -446,7 +433,7 @@ public class PlayerMovement : MonoBehaviour
 			AudioManager.Instance.PlayJump();
 		}
 	}
-    
+
 	private void Look()
 	{
 		float num = Input.GetAxis("Mouse X") * this.sensitivity * Time.fixedDeltaTime * this.sensMultiplier;
@@ -460,7 +447,7 @@ public class PlayerMovement : MonoBehaviour
 		this.playerCam.transform.localRotation = Quaternion.Euler(this.xRotation, this.desiredX, this.actualWallRotation);
 		this.orientation.transform.localRotation = Quaternion.Euler(0f, this.desiredX, 0f);
 	}
-    
+
 	private void CounterMovement(float x, float y, Vector2 mag)
 	{
 		if (!this.grounded || this.jumping || this.exploded)
@@ -489,18 +476,18 @@ public class PlayerMovement : MonoBehaviour
 			this.rb.velocity = new Vector3(vector.x, num2, vector.z);
 		}
 	}
-    
+
 	public void Explode()
 	{
 		this.exploded = true;
 		base.Invoke("StopExplosion", 0.1f);
 	}
-    
+
 	private void StopExplosion()
 	{
 		this.exploded = false;
 	}
-    
+
 	public Vector2 FindVelRelativeToLook()
 	{
 		float current = this.orientation.transform.eulerAngles.y;
@@ -511,7 +498,7 @@ public class PlayerMovement : MonoBehaviour
 		float num3 = magnitude * Mathf.Cos(num * 0.017453292f);
 		return new Vector2(magnitude * Mathf.Cos(num2 * 0.017453292f), num3);
 	}
-    
+
 	private void FindWallRunRotation()
 	{
 		if (!this.wallRunning)
@@ -555,7 +542,7 @@ public class PlayerMovement : MonoBehaviour
 		base.CancelInvoke("CancelWallrun");
 		base.Invoke("CancelWallrun", 0.2f);
 	}
-    
+
 	private void CancelWallrun()
 	{
 		MonoBehaviour.print("cancelled");
@@ -564,12 +551,12 @@ public class PlayerMovement : MonoBehaviour
 		this.readyToWallrun = false;
 		AudioManager.Instance.PlayLanding();
 	}
-    
+
 	private void GetReadyToWallrun()
 	{
 		this.readyToWallrun = true;
 	}
-    
+
 	private void WallRunning()
 	{
 		if (this.wallRunning)
@@ -578,28 +565,28 @@ public class PlayerMovement : MonoBehaviour
 			this.rb.AddForce(Vector3.up * Time.deltaTime * this.rb.mass * 100f * this.wallRunGravity);
 		}
 	}
-    
+
 	private bool IsFloor(Vector3 v)
 	{
 		return Vector3.Angle(Vector3.up, v) < this.maxSlopeAngle;
 	}
-    
+
 	private bool IsSurf(Vector3 v)
 	{
 		float num = Vector3.Angle(Vector3.up, v);
 		return num < 89f && num > this.maxSlopeAngle;
 	}
-    
+
 	private bool IsWall(Vector3 v)
 	{
 		return Math.Abs(90f - Vector3.Angle(Vector3.up, v)) < 0.1f;
 	}
-    
+
 	private bool IsRoof(Vector3 v)
 	{
 		return v.y == -1f;
 	}
-    
+
 	private void StartWallRun(Vector3 normal)
 	{
 		if (this.grounded || !this.readyToWallrun)
@@ -615,7 +602,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 		this.wallRunning = true;
 	}
-    
+
 	private void OnCollisionEnter(Collision other)
 	{
 		if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -623,11 +610,11 @@ public class PlayerMovement : MonoBehaviour
 			this.KillEnemy(other);
 		}
 	}
-    
+
 	private void OnCollisionExit(Collision other)
 	{
 	}
-    
+
 	private void OnCollisionStay(Collision other)
 	{
 		int layer = other.gameObject.layer;
@@ -691,23 +678,23 @@ public class PlayerMovement : MonoBehaviour
 			base.Invoke("StopSurf", Time.deltaTime * num);
 		}
 	}
-    
+
 	private void StopGrounded()
 	{
 		this.grounded = false;
 	}
-    
+
 	private void StopWall()
 	{
 		this.onWall = false;
 		this.wallRunning = false;
 	}
-    
+
 	private void StopSurf()
 	{
 		this.surfing = false;
 	}
-    
+
 	private void KillEnemy(Collision other)
 	{
 		if (this.grounded && !this.crouching)
@@ -740,32 +727,32 @@ public class PlayerMovement : MonoBehaviour
 		this.rb.AddForce(this.rb.velocity.normalized * 2f, ForceMode.Impulse);
 		enemy.DropGun(this.rb.velocity.normalized * 2f);
 	}
-    
+
 	public Vector3 GetVelocity()
 	{
 		return this.rb.velocity;
 	}
-    
+
 	public float GetFallSpeed()
 	{
 		return this.rb.velocity.y;
 	}
 
-    public Vector3 GetGrapplePoint()
-    {
-        return this.detectWeapons.GetGrapplerPoint();
-    }
+	public Vector3 GetGrapplePoint()
+	{
+		return this.detectWeapons.GetGrapplerPoint();
+	}
 
-    public Collider GetPlayerCollider()
+	public Collider GetPlayerCollider()
 	{
 		return this.playerCollider;
 	}
-    
+
 	public Transform GetPlayerCamTransform()
 	{
 		return this.playerCam.transform;
 	}
-    
+
 	public Vector3 HitPoint()
 	{
 		RaycastHit[] array = Physics.RaycastAll(this.playerCam.transform.position, this.playerCam.transform.forward, (float)this.whatIsHittable);
@@ -785,17 +772,17 @@ public class PlayerMovement : MonoBehaviour
 		}
 		return array[0].point;
 	}
-    
+
 	public float GetRecoil()
 	{
 		return this.detectWeapons.GetRecoil();
 	}
-    
+
 	public void KillPlayer()
 	{
 		//if (Game.Instance.done)
 		//{
-			//return;
+		//return;
 		//}
 		//CameraShaker.Instance.ShakeOnce(3f * GameState.Instance.cameraShake, 2f, 0.1f, 0.6f);
 		Cursor.lockState = CursorLockMode.None;
@@ -805,16 +792,16 @@ public class PlayerMovement : MonoBehaviour
 		this.dead = true;
 		this.rb.freezeRotation = false;
 		this.playerCollider.material = this.deadMat;
-		this.detectWeapons.Throw(Vector3.zero);
+		//this.detectWeapons.Throw(Vector3.zero);
 		this.paused = false;
 		this.ResetSlowmo();
 	}
-    
+
 	public void Respawn()
 	{
 		this.detectWeapons.StopUse();
 	}
-    
+
 	public void Slowmo(float timescale, float length)
 	{
 		//if (!GameState.Instance.slowmo)
@@ -826,33 +813,33 @@ public class PlayerMovement : MonoBehaviour
 		base.Invoke("ResetSlowmo", length);
 		AudioManager.Instance.Play("SlowmoStart");
 	}
-    
+
 	private void ResetSlowmo()
 	{
 		this.desiredTimeScale = 1f;
 		AudioManager.Instance.Play("SlowmoEnd");
 	}
-    
+
 	public bool IsCrouching()
 	{
 		return this.crouching;
 	}
-    
+
 	public bool HasGun()
 	{
 		return this.detectWeapons.HasGun();
 	}
-    
+
 	public bool IsDead()
 	{
 		return this.dead;
 	}
-    
+
 	public Rigidbody GetRb()
 	{
 		return this.rb;
 	}
-    
+
 	private void UpdateActionMeter()
 	{
 		float target = 0.09f;
@@ -862,14 +849,14 @@ public class PlayerMovement : MonoBehaviour
 		}
 		this.actionMeter = Mathf.SmoothDamp(this.actionMeter, target, ref this.vel, 0.7f);
 	}
-    
+
 	public float GetActionMeter()
 	{
 		return this.actionMeter * 22000f;
 	}
-    
+
 	public void SetMouse(Vector3 look_delta)
-    {
+	{
 		lock (this)
 		{
 			this.playerCam.transform.localRotation = Quaternion.Euler(this.xRotation, this.desiredX + look_delta.y, 1);
@@ -877,153 +864,153 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
-	//public GameObject spawnWeapon;
-    
+	public GameObject spawnWeapon;
+
 	private float sensitivity = 50f;
-    
+
 	private float sensMultiplier = 1f;
-    
+
 	private bool dead;
-    
+
 	public PhysicMaterial deadMat;
-    
+
 	public Transform playerCam;
-    
+
 	public Transform orientation;
-    
+
 	public Transform gun;
-    
+
 	private float xRotation;
-    
+
 	public Rigidbody rb;
-    
+
 	private float moveSpeed = 4500f;
-    
+
 	private float walkSpeed = 20f;
-    
+
 	private float runSpeed = 10f;
-    
+
 	public bool grounded;
-    
+
 	public Transform groundChecker;
-    
+
 	public LayerMask whatIsGround;
-    
+
 	public LayerMask whatIsWallrunnable;
-    
+
 	private bool readyToJump;
-    
+
 	private float jumpCooldown = 0.25f;
-    
+
 	private float jumpForce = 550f;
-    
+
 	private float x;
-    
+
 	private float y;
-    
+
 	private bool jumping;
-    
+
 	private bool sprinting;
-    
+
 	private bool crouching;
-    
+
 	public LineRenderer lr;
-    
+
 	private Vector3 grapplePoint;
-    
+
 	private SpringJoint joint;
-    
+
 	private Vector3 normalVector;
-    
+
 	private Vector3 wallNormalVector;
-    
+
 	private bool wallRunning;
-    
+
 	private Vector3 wallRunPos;
-    
+
 	private DetectWeapons detectWeapons;
-    
+
 	public ParticleSystem ps;
-    
+
 	private ParticleSystem.EmissionModule psEmission;
-    
+
 	private Collider playerCollider;
-    
+
 	public bool exploded;
-    
+
 	public bool paused;
-    
+
 	public LayerMask whatIsGrabbable;
-    
+
 	private Rigidbody objectGrabbing;
-    
+
 	private Vector3 previousLookdir;
-    
+
 	private Vector3 grabPoint;
-    
+
 	private float dragForce = 700000f;
-    
+
 	private SpringJoint grabJoint;
-    
+
 	private LineRenderer grabLr;
-    
+
 	private Vector3 myGrabPoint;
-    
+
 	private Vector3 myHandPoint;
-    
+
 	private Vector3 endPoint;
-    
+
 	private Vector3 grappleVel;
-    
+
 	private float offsetMultiplier;
-    
+
 	private float offsetVel;
-    
+
 	private float distance;
-    
+
 	private float slideSlowdown = 0.2f;
-    
+
 	private float actualWallRotation;
-    
+
 	private float wallRotationVel;
-    
+
 	private float desiredX;
-    
+
 	private bool cancelling;
-    
+
 	private bool readyToWallrun = true;
-    
+
 	private float wallRunGravity = 1f;
-    
+
 	private float maxSlopeAngle = 35f;
-    
+
 	private float wallRunRotation;
-    
+
 	private bool airborne;
-    
+
 	private int nw;
-    
+
 	private bool onWall;
-    
+
 	private bool onGround;
-    
+
 	private bool surfing;
-    
+
 	private bool cancellingGrounded;
-    
+
 	private bool cancellingWall;
-    
+
 	private bool cancellingSurf;
-    
+
 	public LayerMask whatIsHittable;
-    
+
 	private float desiredTimeScale = 1f;
-    
+
 	private float timeScaleVel;
-    
+
 	private float actionMeter;
-    
+
 	private float vel;
 
-	public List<GameObject> spawnWeapon;
+	public bool can_fire = true;
 }

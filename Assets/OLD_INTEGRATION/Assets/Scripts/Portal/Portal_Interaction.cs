@@ -28,7 +28,7 @@ public class Portal_Interaction : MonoBehaviour
 
     private void OnTriggerEnter(Collider entity) /* On entering, if teleports if the entity is allowed to be teleported, else, sets it to be allowed to be teleported */
     {
-        if (entity.tag == "IgnorePortal") return;
+        if (entity.gameObject.tag == "IgnorePortal") return;
 
         voyager = entity.gameObject;
 
@@ -120,7 +120,16 @@ public class Portal_Interaction : MonoBehaviour
     private void ReorientBullet(GameObject bullet)
     {
         Rigidbody bullet_rb = bullet.GetComponent<Rigidbody>();
+        bullet_rb.velocity = new Vector3(0, 0, 0);
+        //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + bullet_rb.velocity);
 
-        Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + bullet_rb.velocity);
+        Vector3 look_delta = other_portal.GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles -
+    GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles;
+
+        //bullet.transform.localRotation = Quaternion.Euler(bullet.transform.rotation.x + look_delta.x, bullet.transform.rotation.y + look_delta.y, bullet.transform.rotation.z + look_delta.z);
+        bullet.transform.rotation = Quaternion.Euler(0, 180, 0);
+        bullet_rb.AddForce(bullet.GetComponent<Bullet>().rigidbody_velocity);
+
+
     }
 }

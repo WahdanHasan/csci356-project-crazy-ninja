@@ -5,33 +5,35 @@ using UnityEngine;
 
 public class DetectWeapons : MonoBehaviour
 {
-	public void Pickup()
-	{
-		Debug.Log("CALLED PICKUP 1 ");
-		if (this.hasGun || !this.HasWeapons())
-		{
-			return;
-		}
-		Debug.Log("CALLED PICKUP 2 ");
-		this.gun = this.GetWeapon();
-		this.gunScript = (Pickup)this.gun.GetComponent(typeof(Pickup));
-		if (this.gunScript.pickedUp)
-		{
-			this.gun = null;
-			this.gunScript = null;
-			return;
-		}
-		UnityEngine.Object.Destroy(this.gun.GetComponent<Rigidbody>());
-		this.scale = this.gun.transform.localScale;
-		this.gun.transform.parent = this.weaponPos;
-		this.gun.transform.localScale = this.scale;
-		this.hasGun = true;
-		this.gunScript.PickupWeapon(true);
-		//AudioManager.Instance.Play("GunPickup");
-		this.gun.layer = LayerMask.NameToLayer("Equipable");
+	//public void Pickup()
+	//{
+	//	if (this.hasGun || !this.HasWeapons())
+	//	{
+	//		return;
+	//	}
+	//	this.gun = this.GetWeapon();
+	//	this.gunScript = (Pickup)this.gun.GetComponent(typeof(Pickup));
+	//	if (this.gunScript.pickedUp)
+	//	{
+	//		this.gun = null;
+	//		this.gunScript = null;
+	//		return;
+	//	}
+	//	UnityEngine.Object.Destroy(this.gun.GetComponent<Rigidbody>());
+	//	this.scale = this.gun.transform.localScale;
+	//	this.gun.transform.parent = this.weaponPos;
+	//	this.gun.transform.localScale = this.scale;
+	//	this.hasGun = true;
+	//	this.gunScript.PickupWeapon(true);
+	//	//AudioManager.Instance.Play("GunPickup");
+	//	this.gun.layer = LayerMask.NameToLayer("Equipable");
+	//}
 
-
-	}
+	public void ForceDrop(GameObject go)
+    {
+		go.SetActive(false);
+		this.gunScript.Drop();
+    }
 
 	public void Shoot(Vector3 dir)
 	{
@@ -50,8 +52,43 @@ public class DetectWeapons : MonoBehaviour
 		}
 		this.gunScript.StopUse();
 	}
+
+	public void StartUse()
+	{
+		if (!this.hasGun)
+		{
+			return;
+		}
+		this.gunScript.Use(Vector3.zero);
+	}
+
+
     
-	public void Throw(Vector3 throwDir)
+	//public void Throw(Vector3 throwDir)
+	//{
+	//	if (!this.hasGun)
+	//	{
+	//		return;
+	//	}
+	//	if (this.gun.GetComponent<Rigidbody>())
+	//	{
+	//		return;
+	//	}
+	//	this.gunScript.StopUse();
+	//	this.hasGun = false;
+	//	Rigidbody rigidbody = this.gun.AddComponent<Rigidbody>();
+	//	rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+	//	rigidbody.maxAngularVelocity = 20f;
+	//	rigidbody.AddForce(throwDir * this.throwForce);
+	//	rigidbody.AddRelativeTorque(new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f) * 0.4f), ForceMode.Impulse);
+	//	this.gun.layer = LayerMask.NameToLayer("Gun");
+	//	this.gunScript.Drop();
+	//	this.gun.transform.parent = null;
+	//	this.gun.transform.localScale = this.scale;
+	//	this.gun = null;
+	//	this.gunScript = null;
+	//}
+	public void PutAway()
 	{
 		if (!this.hasGun)
 		{
@@ -61,21 +98,15 @@ public class DetectWeapons : MonoBehaviour
 		{
 			return;
 		}
+		this.gun.SetActive(false);
 		this.gunScript.StopUse();
 		this.hasGun = false;
-		Rigidbody rigidbody = this.gun.AddComponent<Rigidbody>();
-		rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-		rigidbody.maxAngularVelocity = 20f;
-		rigidbody.AddForce(throwDir * this.throwForce);
-		rigidbody.AddRelativeTorque(new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f) * 0.4f), ForceMode.Impulse);
-		this.gun.layer = LayerMask.NameToLayer("Gun");
-		this.gunScript.Drop();
 		this.gun.transform.parent = null;
 		this.gun.transform.localScale = this.scale;
 		this.gun = null;
 		this.gunScript = null;
 	}
-    
+
 	public void Fire(Vector3 dir)
 	{
 		this.gunScript.Use(dir);
@@ -83,7 +114,7 @@ public class DetectWeapons : MonoBehaviour
     
 	private void Update()
 	{
-		GetInput();
+		//GetInput();
 		if (!this.hasGun)
 		{
 			return;
@@ -96,25 +127,25 @@ public class DetectWeapons : MonoBehaviour
 
 	int previousIndex = -1;
 
-	private void GetInput()
-    {
-		if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-			indexOfWeapon = 0;
-		}
-		if(Input.GetKeyDown(KeyCode.Alpha2))
-        {
-			indexOfWeapon = 1;
-		}
-		if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			indexOfWeapon = 2;
-		}
+	//private void GetInput()
+ //   {
+	//	if(Input.GetKeyDown(KeyCode.Alpha1))
+ //       {
+	//		indexOfWeapon = 0;
+	//	}
+	//	if(Input.GetKeyDown(KeyCode.Alpha2))
+ //       {
+	//		indexOfWeapon = 1;
+	//	}
+	//	if (Input.GetKeyDown(KeyCode.Alpha3))
+	//	{
+	//		indexOfWeapon = 2;
+	//	}
 
-		if (indexOfWeapon != previousIndex)
-			Pickup();
-		previousIndex = indexOfWeapon;
-	}
+	//	if (indexOfWeapon != previousIndex)
+	//		Pickup();
+	//	previousIndex = indexOfWeapon;
+	//}
     
 	private void Start()
 	{
@@ -141,7 +172,9 @@ public class DetectWeapons : MonoBehaviour
 
 	public GameObject GetWeapon()
 	{
-		if (this.weapons.Count > 0)
+		return null;
+
+		if (this.weapons.Count == 1)
 		{
 			switch (indexOfWeapon)
 			{

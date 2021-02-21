@@ -10,7 +10,7 @@ public class Doodad : MonoBehaviour
     [SerializeField] private float cooldown = 2.0f;
 
     private float time_elapsed;
-    private bool ready_to_use = false;        
+    private bool ready_to_use = true;        
 
     void Start()
     {

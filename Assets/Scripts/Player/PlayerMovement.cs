@@ -768,11 +768,11 @@ public class PlayerMovement : MonoBehaviour
 
 	public void Slowmo(float timescale, float length)
 	{
-		//if (!GameState.Instance.slowmo)
-		//{
-		//	return;
-		//}
-		base.CancelInvoke("Slowmo");
+        //if (!GameState.Instance.slowmo)
+        //{
+        //    return;
+        //}
+        base.CancelInvoke("Slowmo");
 		this.desiredTimeScale = timescale;
 		base.Invoke("ResetSlowmo", length);
 		AudioManager.Instance.Play("SlowmoStart");

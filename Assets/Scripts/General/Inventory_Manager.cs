@@ -183,7 +183,7 @@ public class Inventory_Manager : MonoBehaviour
     {
         switch (tag)
         {
-            case "Pistol":
+            case "Gun":
                 return ItemSlot.Pistol;
             case "PortalGun":
                 return ItemSlot.Portal_gun;

@@ -44,23 +44,23 @@ public class DetectWeapons : MonoBehaviour
 		this.gunScript.Use(dir);
 	}
     
-	public void StopUse()
-	{
-		if (!this.hasGun)
-		{
-			return;
-		}
-		this.gunScript.StopUse();
-	}
+	//public void StopUse()
+	//{
+	//	if (!this.hasGun)
+	//	{
+	//		return;
+	//	}
+	//	this.gunScript.StopUse();
+	//}
 
-	public void StartUse()
-	{
-		if (!this.hasGun)
-		{
-			return;
-		}
-		this.gunScript.Use(Vector3.zero);
-	}
+	//public void StartUse()
+	//{
+	//	if (!this.hasGun)
+	//	{
+	//		return;
+	//	}
+	//	this.gunScript.Use(Vector3.zero);
+	//}
 
 
     
@@ -88,24 +88,24 @@ public class DetectWeapons : MonoBehaviour
 	//	this.gun = null;
 	//	this.gunScript = null;
 	//}
-	public void PutAway()
-	{
-		if (!this.hasGun)
-		{
-			return;
-		}
-		if (this.gun.GetComponent<Rigidbody>())
-		{
-			return;
-		}
-		this.gun.SetActive(false);
-		this.gunScript.StopUse();
-		this.hasGun = false;
-		this.gun.transform.parent = null;
-		this.gun.transform.localScale = this.scale;
-		this.gun = null;
-		this.gunScript = null;
-	}
+	//public void PutAway()
+	//{
+	//	if (!this.hasGun)
+	//	{
+	//		return;
+	//	}
+	//	if (this.gun.GetComponent<Rigidbody>())
+	//	{
+	//		return;
+	//	}
+	//	this.gun.SetActive(false);
+	//	this.gunScript.StopUse();
+	//	this.hasGun = false;
+	//	this.gun.transform.parent = null;
+	//	this.gun.transform.localScale = this.scale;
+	//	this.gun = null;
+	//	this.gunScript = null;
+	//}
 
 	public void Fire(Vector3 dir)
 	{
@@ -119,8 +119,8 @@ public class DetectWeapons : MonoBehaviour
 		{
 			return;
 		}
-		this.gun.transform.localRotation = Quaternion.Slerp(this.gun.transform.localRotation, this.desiredRot, Time.deltaTime * this.speed);
-		this.gun.transform.localPosition = Vector3.SmoothDamp(this.gun.transform.localPosition, this.desiredPos, ref this.posVel, 1f / this.speed);
+		//this.gun.transform.localRotation = Quaternion.Slerp(this.gun.transform.localRotation, this.desiredRot, Time.deltaTime * this.speed);
+		//this.gun.transform.localPosition = Vector3.SmoothDamp(this.gun.transform.localPosition, this.desiredPos, ref this.posVel, 1f / this.speed);
 		this.gunScript.OnAim();
 
 	}

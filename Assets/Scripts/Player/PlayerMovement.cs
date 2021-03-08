@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
 		{
 			return;
 		}
-		this.DrawGrabbing();
+		//this.DrawGrabbing();
 		this.WallRunning();
 	}
 
@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 		//	return;
 		//}
 		this.Look();
-		this.DrawGrabbing();
+		//this.DrawGrabbing();
 		this.UpdateTimescale();
 		if (base.transform.position.y < -200f)
 		{
@@ -110,16 +110,16 @@ public class PlayerMovement : MonoBehaviour
 			}
 			else
 			{
-				this.GrabObject();
+				//this.GrabObject();
 			}
 		}
 		if (Input.GetButtonUp("Fire1"))
 		{
-			this.detectWeapons.StopUse();
-			if (this.objectGrabbing)
-			{
-				this.StopGrab();
-			}
+			//this.detectWeapons.StopUse();
+			//if (this.objectGrabbing)
+			//{
+			//	this.StopGrab();
+			//}
 		}
 		if (Input.GetButtonDown("Pickup"))
 		{
@@ -162,79 +162,79 @@ public class PlayerMovement : MonoBehaviour
 		Time.timeScale = Mathf.SmoothDamp(Time.timeScale, this.desiredTimeScale, ref this.timeScaleVel, 0.15f);
 	}
 
-	private void GrabObject()
-	{
-		if (this.objectGrabbing == null)
-		{
-			this.StartGrab();
-			return;
-		}
-		this.HoldGrab();
-	}
+	//private void GrabObject()
+	//{
+	//	if (this.objectGrabbing == null)
+	//	{
+	//		this.StartGrab();
+	//		return;
+	//	}
+	//	this.HoldGrab();
+	//}
 
-	private void DrawGrabbing()
-	{
-		if (!this.objectGrabbing)
-		{
-			return;
-		}
-		this.myGrabPoint = Vector3.Lerp(this.myGrabPoint, this.objectGrabbing.position, Time.deltaTime * 45f);
-		this.myHandPoint = Vector3.Lerp(this.myHandPoint, this.grabJoint.connectedAnchor, Time.deltaTime * 45f);
-		this.grabLr.SetPosition(0, this.myGrabPoint);
-		this.grabLr.SetPosition(1, this.myHandPoint);
-	}
+	//private void DrawGrabbing()
+	//{
+	//	if (!this.objectGrabbing)
+	//	{
+	//		return;
+	//	}
+	//	this.myGrabPoint = Vector3.Lerp(this.myGrabPoint, this.objectGrabbing.position, Time.deltaTime * 45f);
+	//	this.myHandPoint = Vector3.Lerp(this.myHandPoint, this.grabJoint.connectedAnchor, Time.deltaTime * 45f);
+	//	this.grabLr.SetPosition(0, this.myGrabPoint);
+	//	this.grabLr.SetPosition(1, this.myHandPoint);
+	//}
 
-	private void StartGrab()
-	{
-		RaycastHit[] array = Physics.RaycastAll(this.playerCam.transform.position, this.playerCam.transform.forward, 8f, this.whatIsGrabbable);
-		if (array.Length < 1)
-		{
-			return;
-		}
-		for (int i = 0; i < array.Length; i++)
-		{
-			MonoBehaviour.print("testing on: " + array[i].collider.gameObject.layer);
-			if (array[i].transform.GetComponent<Rigidbody>())
-			{
-				this.objectGrabbing = array[i].transform.GetComponent<Rigidbody>();
-				this.grabPoint = array[i].point;
-				this.grabJoint = this.objectGrabbing.gameObject.AddComponent<SpringJoint>();
-				this.grabJoint.autoConfigureConnectedAnchor = false;
-				this.grabJoint.minDistance = 0f;
-				this.grabJoint.maxDistance = 0f;
-				this.grabJoint.damper = 4f;
-				this.grabJoint.spring = 40f;
-				this.grabJoint.massScale = 5f;
-				this.objectGrabbing.angularDrag = 5f;
-				this.objectGrabbing.drag = 1f;
-				this.previousLookdir = this.playerCam.transform.forward;
-				this.grabLr = this.objectGrabbing.gameObject.AddComponent<LineRenderer>();
-				this.grabLr.positionCount = 2;
-				this.grabLr.startWidth = 0.05f;
-				this.grabLr.material = new Material(Shader.Find("Sprites/Default"));
-				this.grabLr.numCapVertices = 10;
-				this.grabLr.numCornerVertices = 10;
-				return;
-			}
-		}
-	}
+	//private void StartGrab()
+	//{
+	//	RaycastHit[] array = Physics.RaycastAll(this.playerCam.transform.position, this.playerCam.transform.forward, 8f, this.whatIsGrabbable);
+	//	if (array.Length < 1)
+	//	{
+	//		return;
+	//	}
+	//	for (int i = 0; i < array.Length; i++)
+	//	{
+	//		MonoBehaviour.print("testing on: " + array[i].collider.gameObject.layer);
+	//		if (array[i].transform.GetComponent<Rigidbody>())
+	//		{
+	//			this.objectGrabbing = array[i].transform.GetComponent<Rigidbody>();
+	//			this.grabPoint = array[i].point;
+	//			this.grabJoint = this.objectGrabbing.gameObject.AddComponent<SpringJoint>();
+	//			this.grabJoint.autoConfigureConnectedAnchor = false;
+	//			this.grabJoint.minDistance = 0f;
+	//			this.grabJoint.maxDistance = 0f;
+	//			this.grabJoint.damper = 4f;
+	//			this.grabJoint.spring = 40f;
+	//			this.grabJoint.massScale = 5f;
+	//			this.objectGrabbing.angularDrag = 5f;
+	//			this.objectGrabbing.drag = 1f;
+	//			this.previousLookdir = this.playerCam.transform.forward;
+	//			this.grabLr = this.objectGrabbing.gameObject.AddComponent<LineRenderer>();
+	//			this.grabLr.positionCount = 2;
+	//			this.grabLr.startWidth = 0.05f;
+	//			this.grabLr.material = new Material(Shader.Find("Sprites/Default"));
+	//			this.grabLr.numCapVertices = 10;
+	//			this.grabLr.numCornerVertices = 10;
+	//			return;
+	//		}
+	//	}
+	//}
 
-	private void HoldGrab()
-	{
-		this.grabJoint.connectedAnchor = this.playerCam.transform.position + this.playerCam.transform.forward * 5.5f;
-		this.grabLr.startWidth = 0f;
-		this.grabLr.endWidth = 0.0075f * this.objectGrabbing.velocity.magnitude;
-		this.previousLookdir = this.playerCam.transform.forward;
-	}
+	//private void HoldGrab()
+	//{
+	//	this.grabJoint.connectedAnchor = this.playerCam.transform.position + this.playerCam.transform.forward * 5.5f;
+	//	this.grabLr.startWidth = 0f;
+	//	this.grabLr.endWidth = 0.0075f * this.objectGrabbing.velocity.magnitude;
+	//	this.previousLookdir = this.playerCam.transform.forward;
+	//}
 
-	private void StopGrab()
-	{
-		UnityEngine.Object.Destroy(this.grabJoint);
-		UnityEngine.Object.Destroy(this.grabLr);
-		this.objectGrabbing.angularDrag = 0.05f;
-		this.objectGrabbing.drag = 0f;
-		this.objectGrabbing = null;
-	}
+	//private void StopGrab()
+	//{
+	//	UnityEngine.Object.Destroy(this.grabJoint);
+	//	UnityEngine.Object.Destroy(this.grabLr);
+	//	this.objectGrabbing.angularDrag = 0.05f;
+	//	this.objectGrabbing.drag = 0f;
+	//	this.objectGrabbing = null;
+	//}
 
 	private void StartCrouch()
 	{
@@ -763,7 +763,7 @@ public class PlayerMovement : MonoBehaviour
 
 	public void Respawn()
 	{
-		this.detectWeapons.StopUse();
+		//this.detectWeapons.StopUse();
 	}
 
 	public void Slowmo(float timescale, float length)
@@ -842,7 +842,7 @@ public class PlayerMovement : MonoBehaviour
 
 	public Transform orientation;
 
-	public Transform gun;
+	///public Transform gun;
 
 	private float xRotation;
 

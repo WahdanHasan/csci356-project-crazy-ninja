@@ -17,18 +17,20 @@ public class Portal_Gun : MonoBehaviour
 
         portal_one.GetComponent<Portal_Manager>().SetUp(portal_two, 1);
         portal_two.GetComponent<Portal_Manager>().SetUp(portal_one, -1);
-
-        Vector3 duct_tape = new Vector3(0.0f, -1000.0f, 0.0f); // To hide the portals when the game starts
-        portal_one.transform.position = duct_tape;
-        portal_two.transform.position = duct_tape;
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
+        {
+            portal_one.GetComponent<Portal_Manager>().SetPortalEnableStatus(true);
             FirePortal(portal_one);
+        }
         else if (Input.GetMouseButtonDown(1))
+        {
+            portal_two.GetComponent<Portal_Manager>().SetPortalEnableStatus(true);
             FirePortal(portal_two);
+        }
 
     }
 

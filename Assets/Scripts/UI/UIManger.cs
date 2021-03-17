@@ -35,7 +35,6 @@ public class UIManger : MonoBehaviour
 	public void WinUI(bool b)
 	{
 		this.winUI.SetActive(b);
-		MonoBehaviour.print("setting win UI");
 	}
     
 	public GameObject gameUI;

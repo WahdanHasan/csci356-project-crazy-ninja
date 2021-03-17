@@ -90,7 +90,6 @@ public class GameState : MonoBehaviour
 		}
 		SaveManager.Instance.state.music = musicVolume;
 		SaveManager.Instance.Save();
-		MonoBehaviour.print("music saved as: " + this.music);
 	}
     
 	public void SetVolume(float s)

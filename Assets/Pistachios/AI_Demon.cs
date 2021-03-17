@@ -68,10 +68,7 @@ public class AI_Demon : MonoBehaviour
 
         if (current_state != State.Aggro) return;
 
-        nma.SetDestination(current_target.transform.position);
-
-        Debug.Log("AGGROOOOOOOO");
-        
+        nma.SetDestination(current_target.transform.position);        
     }
 
     private void OnTriggerEnter(Collider entity) /* Raycasts to the new entity that enters the collider range, makes sure its a player before raycasting, makes sure the player isnt obstructed before aggroing */

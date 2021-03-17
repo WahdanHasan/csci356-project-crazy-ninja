@@ -57,8 +57,16 @@ public class Portal_Manager : MonoBehaviour
         other_portal_camera.AssignPortalScreenTexture(portal_camera.GetCamera());
     }
 
+    public void SetPortalEnableStatus(bool status)
+    {
+        GetComponent<Portal_Camera>().portal_camera.enabled = true;
+        GetComponent<Portal_Interaction>().portal_enabled = status;
+    }
+
     public void UpdatePortal(RaycastHit rc_hit) /* Updates the portals location, rotation, normal, and the reference to its wall object (the wall its cast on) */
     {
+        if (PortalClipping(rc_hit)) return;
+
         transform.position = rc_hit.point;
         camera_helper_gameobject.transform.position = rc_hit.point;
 
@@ -68,6 +76,33 @@ public class Portal_Manager : MonoBehaviour
         wall_collider = rc_hit.collider;
 
         GetComponent<Portal_Interaction>().SetPortalNormal(rc_hit.normal);
+    }
+
+    private bool PortalClipping(RaycastHit rc_hit)
+    {
+        Ray ray_1 = new Ray(rc_hit.point + rc_hit.normal, Vector3.up);
+        Ray ray_2 = new Ray(rc_hit.point + rc_hit.normal, Vector3.down);
+        Ray ray_3 = new Ray(rc_hit.point + rc_hit.normal, Vector3.left);
+        Ray ray_4 = new Ray(rc_hit.point + rc_hit.normal, Vector3.right);
+
+        RaycastHit rc_hit_one;
+        RaycastHit rc_hit_two;
+        RaycastHit rc_hit_three;
+        RaycastHit rc_hit_four;
+
+        if (Physics.Raycast(ray_1, out rc_hit_one) && Physics.Raycast(ray_2, out rc_hit_two) && Physics.Raycast(ray_3, out rc_hit_three) && Physics.Raycast(ray_4, out rc_hit_four))
+        {
+            if(rc_hit_one.distance >= (transform.localScale.y/2) && rc_hit_two.distance >= (transform.localScale.y / 2))
+            {
+                if (rc_hit_three.distance >= (transform.localScale.x/2) && rc_hit_four.distance >= (transform.localScale.x / 2))
+                {
+                    return false;
+                }
+            }
+        }
+
+
+        return true;
     }
 
     public GameObject GetCameraHelper()

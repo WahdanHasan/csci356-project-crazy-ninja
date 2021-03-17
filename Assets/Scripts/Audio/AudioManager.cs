@@ -156,7 +156,6 @@ namespace Audio
 			}
 			int num = UnityEngine.Random.Range(0, this.footsteps.Length - 1);
 			this.footsteps[num].source.Play();
-            MonoBehaviour.print("walking");
         }
         
 		public void PlayLanding()
@@ -180,7 +179,6 @@ namespace Audio
 			if (sound.source)
 			{
 				sound.source.Play();
-                MonoBehaviour.print("jumping is played");
             }
 		}
         

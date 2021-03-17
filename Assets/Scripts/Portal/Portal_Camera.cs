@@ -6,7 +6,7 @@ public class Portal_Camera : MonoBehaviour
 
     private GameObject other_portal;
     private Camera player_camera;
-    private Camera portal_camera;
+    public Camera portal_camera;
 
     private void Awake() /* Instantiates a camera object from a prefab and fetches a reference to the player camera object */
     {
@@ -21,7 +21,7 @@ public class Portal_Camera : MonoBehaviour
 
     public void AssignPortalScreenTexture(Camera other_portal_camera) /* Assigns the camera to the portal texture, so that it is drawn on the texture */
     {
-        portal_camera.enabled = true;
+        //portal_camera.enabled = true;
 
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", other_portal_camera.targetTexture);
     }

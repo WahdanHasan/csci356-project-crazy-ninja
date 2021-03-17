@@ -100,7 +100,6 @@ public class Inventory_Manager : MonoBehaviour
         foreach (GameObject item in inventory)
             if (item != null)
             {
-                Debug.Log(item.tag);
                 item.SetActive(false);
                 UpdateEquipLocation(item);
             }

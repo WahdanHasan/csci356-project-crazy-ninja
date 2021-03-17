@@ -28,13 +28,13 @@ public class TextureScaling : MonoBehaviour
 		Mesh mesh = this.GetMesh();
 		try
 		{
-			mesh.uv = this.SetupUvMap(mesh.uv);
-			mesh.name = "Cube Instance";
-			if (base.GetComponent<Renderer>().sharedMaterial.mainTexture.wrapMode != TextureWrapMode.Repeat)
-			{
-				base.GetComponent<Renderer>().sharedMaterial.mainTexture.wrapMode = TextureWrapMode.Repeat;
-			}
-		}
+            mesh.uv = this.SetupUvMap(mesh.uv);
+            mesh.name = "Cube Instance";
+            if (base.GetComponent<Renderer>().sharedMaterial.mainTexture.wrapMode != TextureWrapMode.Repeat)
+            {
+                base.GetComponent<Renderer>().sharedMaterial.mainTexture.wrapMode = TextureWrapMode.Repeat;
+            }
+        }
 		catch(Exception)
         {
 

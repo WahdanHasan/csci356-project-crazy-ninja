@@ -25,8 +25,8 @@ public class AI_Demon_Forms : MonoBehaviour
 
     public void SwapFormToDemon()
     {
-        anim.SetBool("isIdle", false);
-        return;
+        //anim.SetBool("isIdle", false);
+        //return;
         StartCoroutine(ChangeToDemon());
     }
 
@@ -41,8 +41,5 @@ public class AI_Demon_Forms : MonoBehaviour
 
        // procedural_demon_body.GetComponent<SkinnedMeshRenderer>().enabled = true;
         //animated_demon_body.GetComponent<SkinnedMeshRenderer>().enabled = false;
-
-
-        Debug.Log("Transformed");
     }
 }

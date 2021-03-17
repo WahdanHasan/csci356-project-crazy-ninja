@@ -4,12 +4,10 @@ public class Portal_Interaction : MonoBehaviour
 {
     private GameObject voyager;
     private GameObject other_portal;
-    private bool entity_teleportable = true;
-    /* Experimental code variables, omitted for submission */
+    public bool portal_enabled = false;
+    bool entity_teleportable;
     private Vector3 portal_normal;
     private int portal_forward_sign;
-    private int portal_backward_sign;
-    /* */
 
     public void PreventBackTeleport()
     {
@@ -26,53 +24,64 @@ public class Portal_Interaction : MonoBehaviour
         this.other_portal = other_portal;
     }
 
-    private void OnTriggerEnter(Collider entity) /* On entering, if teleports if the entity is allowed to be teleported, else, sets it to be allowed to be teleported */
+    //private void OnTriggerEnter(Collider entity) /* On entering, if teleports if the entity is allowed to be teleported, else, sets it to be allowed to be teleported */
+    //{
+    //    if (entity.gameObject.tag == "IgnorePortal") return;
+
+    //    voyager = entity.gameObject;
+
+    //    if (entity_teleportable)
+    //        Teleport(voyager);
+    //    else
+    //        entity_teleportable = true;
+    //}
+
+
+    //private void OnTriggerEnter(Collider entity)
+    //{
+
+    //}
+
+    /* -------------------------------------------------EXPERIMENTAL TELEPORTATION CODE KINDLY IGNORE------------------------------------------------------------------*/
+    private void OnTriggerEnter(Collider entity)
     {
-        if (entity.gameObject.tag == "IgnorePortal") return;
+        if (!portal_enabled) return;
 
         voyager = entity.gameObject;
 
-        if (entity_teleportable)
-            Teleport(voyager);
-        else
-            entity_teleportable = true;
+        Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), true);
+
+        portal_forward_sign = System.Math.Sign(CalculateLinearDistance(transform.position, voyager.transform.position));
     }
 
-    /* -------------------------------------------------EXPERIMENTAL TELEPORTATION CODE KINDLY IGNORE------------------------------------------------------------------*/
-    //private void OnTriggerEnter(Collider entity)
-    //{
-    //    voyager = entity.gameObject;
+    private void OnTriggerStay(Collider entity)
+    {
+        if (!portal_enabled) return;
 
-    //    Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), true);
+        voyager = entity.gameObject;
+        float voyager_portal_side_sign = System.Math.Sign(CalculateLinearDistance(transform.position, entity.transform.position));
 
-    //    portal_forward_sign = System.Math.Sign(CalculateLinearDistance(transform.position, voyager.transform.position));
+        if (voyager_portal_side_sign != portal_forward_sign && entity_teleportable) Teleport(voyager);
+    }
 
-    //}
+    private float CalculateLinearDistance(Vector3 portal_position, Vector3 voyager_position)
+    {
+        float x = (portal_position.x - voyager_position.x) * portal_normal.x;
+        float z = (portal_position.z - voyager_position.z) * portal_normal.z;
 
-    //private void OnTriggerStay(Collider entity)
-    //{
-    //    voyager = entity.gameObject;
-    //    float voyager_portal_side_sign = System.Math.Sign(CalculateLinearDistance(transform.position, entity.transform.position));
+        return x - z;
+    }
 
-    //    if (voyager_portal_side_sign != portal_forward_sign) Teleport(voyager);
-    //}
+    private void OnTriggerExit(Collider entity)
+    {
+        if (!portal_enabled) return;
 
-    //private float CalculateLinearDistance(Vector3 portal_position, Vector3 voyager_position)
-    //{   
-    //    float x = (portal_position.x - voyager_position.x) * portal_normal.x;
-    //    float z = (portal_position.z - voyager_position.z) * portal_normal.z;
+        voyager = entity.gameObject;
 
-    //    return x - z;
-    //}
-
-    //private void OnTriggerExit(Collider entity)
-    //{
-    //    voyager = entity.gameObject;
-
-    //    Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), false);
-
-    //    other_portal.GetComponent<Portal_Interaction>().PreventBackTeleport();
-    //}
+        Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), false);
+        entity_teleportable = true;
+        //other_portal.GetComponent<Portal_Interaction>().PreventBackTeleport();
+    }
     /* ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  */
 
     private void Teleport(GameObject voyager) /* Based on defined behavior for the entity being teleported, performs the teleport method that is appropriate for it */
@@ -99,7 +108,7 @@ public class Portal_Interaction : MonoBehaviour
                 TeleportVoyager(voyager.transform, voyager_transform_new.GetColumn(3));
                 break;
             default:
-                Debug.LogError("Portal: Behavior for the entity has not been defined. Tag: " + voyager_tag);
+                //Debug.LogError("Portal: Behavior for the entity has not been defined. Tag: " + voyager_tag);
                 break;
         }
     }
@@ -121,13 +130,13 @@ public class Portal_Interaction : MonoBehaviour
     {
         Rigidbody bullet_rb = bullet.GetComponent<Rigidbody>();
         bullet_rb.velocity = new Vector3(0, 0, 0);
-        //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + bullet_rb.velocity);
 
         Vector3 look_delta = other_portal.GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles -
-    GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles;
+        GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles;
 
-        //bullet.transform.localRotation = Quaternion.Euler(bullet.transform.rotation.x + look_delta.x, bullet.transform.rotation.y + look_delta.y, bullet.transform.rotation.z + look_delta.z);
-        bullet.transform.rotation = Quaternion.Euler(0, 180, 0);
+        bullet.transform.localRotation = Quaternion.Euler(bullet.transform.rotation.x + look_delta.x, bullet.transform.rotation.y + look_delta.y, bullet.transform.rotation.z + look_delta.z);
+        //bullet.transform.rotation = Quaternion.Euler(0, 180, 0);
+
         bullet_rb.AddForce(bullet.GetComponent<Bullet>().rigidbody_velocity);
 
 

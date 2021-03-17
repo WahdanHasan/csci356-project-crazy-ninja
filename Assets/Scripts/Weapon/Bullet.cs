@@ -39,20 +39,19 @@ public class Bullet : MonoBehaviour
 		}
 		if (layer == LayerMask.NameToLayer("Enemy"))
 		{
+
 			if (this.col == Color.blue)
 			{
 				AudioManager.Instance.Play("Hitmarker");
-				MonoBehaviour.print("HITMARKER");
 			}
 			UnityEngine.Object.Instantiate<GameObject>(PrefabManager.Instance.enemyHitAudio, other.contacts[0].point, Quaternion.identity);
-			((RagdollController)other.transform.root.GetComponent(typeof(RagdollController))).MakeRagdoll(-base.transform.right * 350f);
+			HitEnemy(other.gameObject);
 			if (other.gameObject.GetComponent<Rigidbody>())
 			{
 				other.gameObject.GetComponent<Rigidbody>().AddForce(-base.transform.right * 1500f);
 			}
-			((Enemy)other.transform.root.GetComponent(typeof(Enemy))).DropGun(Vector3.up);
 			UnityEngine.Object.Destroy(base.gameObject);
-			return;
+			return; 
 		}
 		if (layer == LayerMask.NameToLayer("Bullet"))
 		{
@@ -69,11 +68,16 @@ public class Bullet : MonoBehaviour
 		UnityEngine.Object.Destroy(base.gameObject);
 	}
     
-	private void HitPlayer(GameObject player)
+	private void HitEnemy(GameObject enemy)
 	{
+		((Health)enemy.transform.root.GetComponent(typeof(Health))).TakeDamage((int)damage);
+	}
+
+	private void HitPlayer(GameObject player)
+    {
 		player.GetComponent<Health>().TakeDamage((int)damage);
 	}
-    
+
 	private void Update()
 	{
 		if (!this.explosive)

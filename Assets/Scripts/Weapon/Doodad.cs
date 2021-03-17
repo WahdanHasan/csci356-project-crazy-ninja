@@ -22,7 +22,7 @@ public class Doodad : MonoBehaviour
         if (Input.GetButton("Fire1") && ready_to_use)
         {
             ready_to_use = false;      
-            PlayerMovement.Instance.Slowmo(0.35f, 0.5f);
+            PlayerMovement.Instance.Slowmo(desiredTimeScale, desiredDuration);
             base.Invoke("ResetDoodad", this.cooldown);
         }
     }

@@ -244,4 +244,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   changeCol: 0
   player: 0
+  rigidbody_velocity: {x: 0, y: 0, z: 0}
   explosive: 0

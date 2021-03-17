@@ -108,27 +108,8 @@ public class PlayerMovement : MonoBehaviour
 			{
 				this.detectWeapons.Shoot(this.HitPoint());
 			}
-			else
-			{
-				//this.GrabObject();
-			}
 		}
-		if (Input.GetButtonUp("Fire1"))
-		{
-			//this.detectWeapons.StopUse();
-			//if (this.objectGrabbing)
-			//{
-			//	this.StopGrab();
-			//}
-		}
-		if (Input.GetButtonDown("Pickup"))
-		{
-			//this.detectWeapons.Pickup();
-		}
-		if (Input.GetButtonDown("Drop"))
-		{
-			//this.detectWeapons.Throw((this.HitPoint() - this.detectWeapons.weaponPos.position).normalized);
-		}
+
 	}
 
 	private void Pause()
@@ -161,80 +142,6 @@ public class PlayerMovement : MonoBehaviour
 		//}
 		Time.timeScale = Mathf.SmoothDamp(Time.timeScale, this.desiredTimeScale, ref this.timeScaleVel, 0.15f);
 	}
-
-	//private void GrabObject()
-	//{
-	//	if (this.objectGrabbing == null)
-	//	{
-	//		this.StartGrab();
-	//		return;
-	//	}
-	//	this.HoldGrab();
-	//}
-
-	//private void DrawGrabbing()
-	//{
-	//	if (!this.objectGrabbing)
-	//	{
-	//		return;
-	//	}
-	//	this.myGrabPoint = Vector3.Lerp(this.myGrabPoint, this.objectGrabbing.position, Time.deltaTime * 45f);
-	//	this.myHandPoint = Vector3.Lerp(this.myHandPoint, this.grabJoint.connectedAnchor, Time.deltaTime * 45f);
-	//	this.grabLr.SetPosition(0, this.myGrabPoint);
-	//	this.grabLr.SetPosition(1, this.myHandPoint);
-	//}
-
-	//private void StartGrab()
-	//{
-	//	RaycastHit[] array = Physics.RaycastAll(this.playerCam.transform.position, this.playerCam.transform.forward, 8f, this.whatIsGrabbable);
-	//	if (array.Length < 1)
-	//	{
-	//		return;
-	//	}
-	//	for (int i = 0; i < array.Length; i++)
-	//	{
-	//		MonoBehaviour.print("testing on: " + array[i].collider.gameObject.layer);
-	//		if (array[i].transform.GetComponent<Rigidbody>())
-	//		{
-	//			this.objectGrabbing = array[i].transform.GetComponent<Rigidbody>();
-	//			this.grabPoint = array[i].point;
-	//			this.grabJoint = this.objectGrabbing.gameObject.AddComponent<SpringJoint>();
-	//			this.grabJoint.autoConfigureConnectedAnchor = false;
-	//			this.grabJoint.minDistance = 0f;
-	//			this.grabJoint.maxDistance = 0f;
-	//			this.grabJoint.damper = 4f;
-	//			this.grabJoint.spring = 40f;
-	//			this.grabJoint.massScale = 5f;
-	//			this.objectGrabbing.angularDrag = 5f;
-	//			this.objectGrabbing.drag = 1f;
-	//			this.previousLookdir = this.playerCam.transform.forward;
-	//			this.grabLr = this.objectGrabbing.gameObject.AddComponent<LineRenderer>();
-	//			this.grabLr.positionCount = 2;
-	//			this.grabLr.startWidth = 0.05f;
-	//			this.grabLr.material = new Material(Shader.Find("Sprites/Default"));
-	//			this.grabLr.numCapVertices = 10;
-	//			this.grabLr.numCornerVertices = 10;
-	//			return;
-	//		}
-	//	}
-	//}
-
-	//private void HoldGrab()
-	//{
-	//	this.grabJoint.connectedAnchor = this.playerCam.transform.position + this.playerCam.transform.forward * 5.5f;
-	//	this.grabLr.startWidth = 0f;
-	//	this.grabLr.endWidth = 0.0075f * this.objectGrabbing.velocity.magnitude;
-	//	this.previousLookdir = this.playerCam.transform.forward;
-	//}
-
-	//private void StopGrab()
-	//{
-	//	UnityEngine.Object.Destroy(this.grabJoint);
-	//	UnityEngine.Object.Destroy(this.grabLr);
-	//	this.objectGrabbing.angularDrag = 0.05f;
-	//	this.objectGrabbing.drag = 0f;
-	//	this.objectGrabbing = null;
-	//}
 
 	private void StartCrouch()
 	{
@@ -368,16 +275,10 @@ public class PlayerMovement : MonoBehaviour
 		base.Invoke("CameraShake", 0.2f);
 	}
 
-	private void ResetJump()
-	{
-		this.readyToJump = true;
-	}
-
 	private void Jump()
 	{
 		if ((this.grounded || this.wallRunning || this.surfing) && this.readyToJump)
 		{
-			MonoBehaviour.print("jumping");
 			Vector3 velocity = this.rb.velocity;
 			this.readyToJump = false;
 			this.rb.AddForce(Vector2.up * this.jumpForce * 1.5f);
@@ -446,17 +347,6 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
-	public void Explode()
-	{
-		this.exploded = true;
-		base.Invoke("StopExplosion", 0.1f);
-	}
-
-	private void StopExplosion()
-	{
-		this.exploded = false;
-	}
-
 	public Vector2 FindVelRelativeToLook()
 	{
 		float current = this.orientation.transform.eulerAngles.y;
@@ -510,20 +400,6 @@ public class PlayerMovement : MonoBehaviour
 		this.cancelling = true;
 		base.CancelInvoke("CancelWallrun");
 		base.Invoke("CancelWallrun", 0.2f);
-	}
-
-	private void CancelWallrun()
-	{
-		MonoBehaviour.print("cancelled");
-		base.Invoke("GetReadyToWallrun", 0.1f);
-		this.rb.AddForce(this.wallNormalVector * 600f);
-		this.readyToWallrun = false;
-		AudioManager.Instance.PlayLanding();
-	}
-
-	private void GetReadyToWallrun()
-	{
-		this.readyToWallrun = true;
 	}
 
 	private void WallRunning()
@@ -648,22 +524,6 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
-	private void StopGrounded()
-	{
-		this.grounded = false;
-	}
-
-	private void StopWall()
-	{
-		this.onWall = false;
-		this.wallRunning = false;
-	}
-
-	private void StopSurf()
-	{
-		this.surfing = false;
-	}
-
 	private void KillEnemy(Collision other)
 	{
 		if (this.grounded && !this.crouching)
@@ -697,11 +557,6 @@ public class PlayerMovement : MonoBehaviour
 		enemy.DropGun(this.rb.velocity.normalized * 2f);
 	}
 
-	public Vector3 GetVelocity()
-	{
-		return this.rb.velocity;
-	}
-
 	public float GetFallSpeed()
 	{
 		return this.rb.velocity.y;
@@ -710,11 +565,6 @@ public class PlayerMovement : MonoBehaviour
 	public Collider GetPlayerCollider()
 	{
 		return this.playerCollider;
-	}
-
-	public Transform GetPlayerCamTransform()
-	{
-		return this.playerCam.transform;
 	}
 
 	public Vector3 HitPoint()
@@ -761,11 +611,6 @@ public class PlayerMovement : MonoBehaviour
 		this.ResetSlowmo();
 	}
 
-	public void Respawn()
-	{
-		//this.detectWeapons.StopUse();
-	}
-
 	public void Slowmo(float timescale, float length)
 	{
         //if (!GameState.Instance.slowmo)
@@ -782,11 +627,6 @@ public class PlayerMovement : MonoBehaviour
 	{
 		this.desiredTimeScale = 1f;
 		AudioManager.Instance.Play("SlowmoEnd");
-	}
-
-	public bool IsCrouching()
-	{
-		return this.crouching;
 	}
 
 	public bool HasGun()
@@ -819,6 +659,36 @@ public class PlayerMovement : MonoBehaviour
 		return this.actionMeter * 22000f;
 	}
 
+	private void StopWall()
+	{
+		this.onWall = false;
+		this.wallRunning = false;
+	}
+
+	private void StopSurf()
+	{
+		this.surfing = false;
+	}
+
+	private void StopGrounded()
+	{
+		this.grounded = false;
+	}
+
+	private void ResetJump()
+	{
+		this.readyToJump = true;
+	}
+
+	private void CancelWallrun()
+	{
+		MonoBehaviour.print("cancelled");
+		base.Invoke("GetReadyToWallrun", 0.1f);
+		this.rb.AddForce(this.wallNormalVector * 600f);
+		this.readyToWallrun = false;
+		AudioManager.Instance.PlayLanding();
+	}
+
 	public void SetMouse(Vector3 look_delta)
 	{
 		lock (this)
@@ -841,8 +711,6 @@ public class PlayerMovement : MonoBehaviour
 	public Transform playerCam;
 
 	public Transform orientation;
-
-	///public Transform gun;
 
 	private float xRotation;
 
@@ -880,15 +748,11 @@ public class PlayerMovement : MonoBehaviour
 
 	public LineRenderer lr;
 
-	private SpringJoint joint;
-
 	private Vector3 normalVector;
 
 	private Vector3 wallNormalVector;
 
 	private bool wallRunning;
-
-	private Vector3 wallRunPos;
 
 	private DetectWeapons detectWeapons;
 
@@ -903,28 +767,6 @@ public class PlayerMovement : MonoBehaviour
 	public bool paused;
 
 	public LayerMask whatIsGrabbable;
-
-	private Rigidbody objectGrabbing;
-
-	private Vector3 previousLookdir;
-
-	private Vector3 grabPoint;
-
-	private float dragForce = 700000f;
-
-	private SpringJoint grabJoint;
-
-	private LineRenderer grabLr;
-
-	private Vector3 myGrabPoint;
-
-	private Vector3 myHandPoint;
-
-	private Vector3 endPoint;
-
-	private float offsetMultiplier;
-
-	private float offsetVel;
 
 	private float distance;
 
@@ -946,13 +788,7 @@ public class PlayerMovement : MonoBehaviour
 
 	private float wallRunRotation;
 
-	private bool airborne;
-
-	private int nw;
-
 	private bool onWall;
-
-	private bool onGround;
 
 	private bool surfing;
 

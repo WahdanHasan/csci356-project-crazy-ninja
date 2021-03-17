@@ -54,6 +54,10 @@ public class Health : MonoBehaviour
                 PlayerMovement.Instance.KillPlayer();
                 GetComponent<Inventory_Manager>().OnDeath();
                 break;
+            case "Enemy":
+                ((RagdollController)transform.root.GetComponent(typeof(RagdollController))).MakeRagdoll(-base.transform.right * 350f);
+                ((Enemy)transform.root.GetComponent(typeof(Enemy))).DropGun(Vector3.up);
+                break;
         }
 
     }

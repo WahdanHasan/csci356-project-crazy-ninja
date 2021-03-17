@@ -96,7 +96,6 @@ public class Enemy : MonoBehaviour
 			{
 				return;
 			}
-			MonoBehaviour.print("oof");
 			this.takingAim = false;
 			this.agent.destination = this.target.transform.position;
 			this.animator.SetBool("Running", true);

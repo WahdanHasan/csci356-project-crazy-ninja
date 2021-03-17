@@ -5,6 +5,7 @@ namespace Audio
 {
 	public class AudioManager : MonoBehaviour
 	{
+#pragma warning disable 0414
 		public static AudioManager Instance { get; set; }
         
 		private void Awake()
@@ -217,4 +218,5 @@ namespace Audio
         
 		public bool muted;
 	}
+#pragma warning restore 0649
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+#pragma warning disable 0618
 	private void Start()
 	{
 		this.rb = base.GetComponent<Rigidbody>();
@@ -137,4 +138,5 @@ public class Bullet : MonoBehaviour
 	private GameObject limbHit;
     
 	private Rigidbody rb;
+#pragma warning restore 0618
 }

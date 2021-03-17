@@ -10,7 +10,7 @@ public class Portal_Manager : MonoBehaviour
     private GameObject other_portal;
     private Portal_Camera portal_camera;
     private GameObject camera_helper_gameobject;
-    private int camera_helper_translate_by;
+    public int camera_helper_translate_by;
 
     public void SetUp (GameObject other_portal, int value) /* Sets up the portals, only one of the class objects manages linking to its partner class */
     {
@@ -80,6 +80,7 @@ public class Portal_Manager : MonoBehaviour
 
     private bool PortalClipping(RaycastHit rc_hit)
     {
+        return false;
         Ray ray_1 = new Ray(rc_hit.point + rc_hit.normal, Vector3.up);
         Ray ray_2 = new Ray(rc_hit.point + rc_hit.normal, Vector3.down);
         Ray ray_3 = new Ray(rc_hit.point + rc_hit.normal, Vector3.left);

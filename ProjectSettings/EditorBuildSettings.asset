@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/Scenes/MainMenu.unity
     guid: d1ecd343f3c482f43a8228593322adde
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scene/Scenes/Stages/Run/Fight_01.unity
     guid: ee4cca32ccb17bb4094aa45fc73e1989
   - enabled: 0
     path: Assets/Scene/Scenes/Stages/Run/Tutorialold.unity
     guid: ba460d651947d2847ac83d80651c3240
   - enabled: 1
-    path: Assets/Scene/Scenes/Stages/Run/Tutorial.unity
+    path: Assets/Scene/Scenes/Tutorial.unity
     guid: b37a9c04a9eeb534bba8f69656a095cc
   m_configObjects: {}

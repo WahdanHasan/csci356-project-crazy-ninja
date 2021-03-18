@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Portal_Interaction : MonoBehaviour
 {
+    public MeshRenderer screen;
     Portal_Manager pm;
     Portal_Manager other_pm;
     private GameObject other_portal;
@@ -9,6 +10,14 @@ public class Portal_Interaction : MonoBehaviour
     private Vector3 portal_normal;
     Matrix4x4 voyager_transform_new;
     bool teleportable = true;
+    Camera player_cam;
+    Vector3 player_cam_position;
+    float half_height;
+    float half_width;
+    float distance_to_clip_plane_corner;
+    float screen_width;
+    public bool same_wall = false;
+    private bool teleported = false;
 
     public void SetPortalNormal(Vector3 new_normal)
     {
@@ -26,29 +35,56 @@ public class Portal_Interaction : MonoBehaviour
     {
         if (!portal_enabled || entity.tag == "IgnorePortal") return;
 
-        if (ShouldTeleportEntity(entity)) teleportable = false;
+        if (IsBehindPortal(entity)) teleportable = false;
 
         Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), true);
+
+        if (pm.GetWallCollider() == other_pm.GetWallCollider())
+        {
+            same_wall = true;
+        }
+        else
+        {
+            same_wall = false;
+        }
     }
 
     private void OnTriggerStay(Collider entity)
     {
         if (!portal_enabled || entity.tag == "IgnorePortal") return;
 
-        if (!ShouldTeleportEntity(entity)) teleportable = true;
+        if (!IsBehindPortal(entity)) teleportable = true;
 
-        if (ShouldTeleportEntity(entity) && teleportable) Teleport(entity.gameObject);
+        if (IsBehindPortal(entity) && teleportable)
+        {
+            teleported = true;
+            Teleport(entity.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider entity)
     {
         if (!portal_enabled || entity.tag == "IgnorePortal") return;
 
-        if (pm.GetWallCollider() != other_pm.GetWallCollider())
+        if (!same_wall)
+        {
             Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), false);
-    }
+            return;
+        }
 
-    private bool ShouldTeleportEntity(Collider entity)
+
+        if (same_wall && teleported)
+        {
+            teleported = false;
+            return;
+        }
+        else
+        {
+            Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), false);
+        }
+
+    }
+    private bool IsBehindPortal(Collider entity)
     {
         double x_coordinate = (transform.position.x * -1) + entity.transform.position.x;
         double z_coordinate = (transform.position.z * -1) + entity.transform.position.z;
@@ -58,12 +94,8 @@ public class Portal_Interaction : MonoBehaviour
         double degrees = RadianTo360Degree(radian);
 
         if (degrees > 90 && degrees < 270) return true;
-        else 
-        {
-            voyager_transform_new = other_portal.transform.localToWorldMatrix * transform.worldToLocalMatrix * entity.transform.localToWorldMatrix;
-            return false;
-        }
-
+        else                               return false;
+        
     }
 
     private double RadianTo360Degree(double radian)
@@ -81,6 +113,8 @@ public class Portal_Interaction : MonoBehaviour
         string voyager_tag = voyager.tag;
 
         if (voyager.layer == LayerMask.NameToLayer("Bullet")) voyager_tag = "Bullet";
+       
+        voyager_transform_new = other_pm.GetCameraHelper().transform.localToWorldMatrix * pm.GetCameraHelper().transform.worldToLocalMatrix * voyager.transform.localToWorldMatrix;
 
 
         switch (voyager_tag)
@@ -101,12 +135,24 @@ public class Portal_Interaction : MonoBehaviour
 
     private void TeleportVoyager(Transform voyager, Vector3 new_position)
     {
-
-        Matrix4x4 portal_transform = other_pm.GetCameraHelper().transform.localToWorldMatrix * pm.GetCameraHelper().transform.worldToLocalMatrix * GetComponent<Portal_Camera>().player_camera.transform.localToWorldMatrix;
-        //voyager.position = new_position;
-        //Vector3 pos = portal_transform.GetColumn(3);
-        //pos += (portal_normal*2);
         voyager.position = new_position;
+    }
+
+    public void PreventTeleportViewClipping()
+    {
+         player_cam = GetComponent<Portal_Camera>().player_camera;
+
+        player_cam_position = player_cam.transform.position;
+
+        half_height = player_cam.nearClipPlane * Mathf.Tan(player_cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+
+        half_width = half_height * player_cam.aspect;
+
+        distance_to_clip_plane_corner = new Vector3(half_width, half_height, player_cam.nearClipPlane).magnitude;
+
+        screen_width = distance_to_clip_plane_corner;
+
+        screen.transform.localScale = new Vector3(screen.transform.localScale.x, screen.transform.localScale.y, screen_width);
     }
 
     private void UpdatePlayerCamera(Transform voyager) /* Calculates the rotation difference between the two portals and sends it to the camera object to update its rotation */
@@ -120,15 +166,18 @@ public class Portal_Interaction : MonoBehaviour
     private void ReorientBullet(GameObject bullet)
     {
         Rigidbody bullet_rb = bullet.GetComponent<Rigidbody>();
-        bullet_rb.velocity = new Vector3(0, 0, 0);
+        //bullet_rb.velocity = new Vector3(0, 0, 0);
 
         Vector3 look_delta = other_portal.GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles -
         GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles;
 
-        bullet.transform.localRotation = Quaternion.Euler(bullet.transform.rotation.x + look_delta.x, bullet.transform.rotation.y + look_delta.y, bullet.transform.rotation.z + look_delta.z);
+        //bullet.transform.rotation = Quaternion.Euler( 90, 90, 90);
         //bullet.transform.rotation = Quaternion.Euler(0, 180, 0);
 
-        bullet_rb.AddForce(bullet.GetComponent<Bullet>().rigidbody_velocity);
+        //bullet_rb.rotation = Quaternion.Euler(90, 90, 90);
+
+        //bullet_rb.AddRelativeForce(Vector3.up * 50.0f, ForceMode.Impulse);
+        //bullet_rb.AddForce(bullet.GetComponent<Bullet>().rigidbody_velocity);
 
 
     }

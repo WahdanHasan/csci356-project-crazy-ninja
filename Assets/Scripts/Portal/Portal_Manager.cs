@@ -17,8 +17,6 @@ public class Portal_Manager : MonoBehaviour
         this.other_portal = other_portal;
         camera_helper_translate_by = value;
 
-        if (other_portal == null) Debug.LogError("AAAAA");
-
         portal_camera = GetComponent<Portal_Camera>();
 
         if (setup_portals)
@@ -35,8 +33,6 @@ public class Portal_Manager : MonoBehaviour
             LinkCameras();
         }
 
-
-        Debug.LogWarning("EEEEEEEEEEEE");
     }
 
     private void SetPortalReferencesInScripts() /* Assigns references for the portals to each other */

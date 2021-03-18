@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -64,7 +65,8 @@ public class Game : MonoBehaviour
 		Cursor.visible = true;
 		UIManger.Instance.WinUI(true);
 		float timer = Timer.Instance.GetTimer();
-		int num = int.Parse(SceneManager.GetActiveScene().name[0].ToString() ?? "");
+        int num;
+        int.TryParse(SceneManager.GetActiveScene().name[0].ToString(), out num);
 		int num2;
 		if (int.TryParse(SceneManager.GetActiveScene().name.Substring(0, 2) ?? "", out num2))
 		{

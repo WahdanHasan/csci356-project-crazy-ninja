@@ -7,7 +7,8 @@ public class Lobby : MonoBehaviour
 {
 	private void Start()
 	{
-	}
+        this.EventSys.SetActive(true);
+    }
     
 	public void LoadMap(int s)
 	{
@@ -15,7 +16,8 @@ public class Lobby : MonoBehaviour
 		{
 			return;
 		}
-		SceneManager.LoadScene(s);
+        this.EventSys.SetActive(false);
+        SceneManager.LoadScene(s);
 		Game.Instance.StartGame();
 		//this.playing = true;
 		//this.done = false;
@@ -34,5 +36,7 @@ public class Lobby : MonoBehaviour
 	{
 		AudioManager.Instance.Play("Button");
 	}
-    
+
+
+    public GameObject EventSys;
 }

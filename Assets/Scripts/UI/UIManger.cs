@@ -13,6 +13,7 @@ public class UIManger : MonoBehaviour
 	private void Start()
 	{
 		this.gameUI.SetActive(false);
+        this.EventSys.SetActive(false);
 	}
     
 	public void StartGame()
@@ -20,7 +21,8 @@ public class UIManger : MonoBehaviour
 		this.gameUI.SetActive(true);
 		this.DeadUI(false);
 		this.WinUI(false);
-	}
+        this.EventSys.SetActive(true);
+    }
     
 	public void GameUI(bool b)
 	{
@@ -42,4 +44,6 @@ public class UIManger : MonoBehaviour
 	public GameObject deadUI;
     
 	public GameObject winUI;
+
+    public GameObject EventSys;
 }

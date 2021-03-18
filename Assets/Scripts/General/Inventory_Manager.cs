@@ -297,13 +297,15 @@ public class Inventory_Manager : MonoBehaviour
 
         UpdateEquipLocation(item);
 
-        item.SetActive(false);
 
         if (equipped_item == ItemSlot.None)
         {
             item.SetActive(true);
             equipped_item = item_slot;
         }
+        else
+            item.SetActive(false);
+
 
     }
 

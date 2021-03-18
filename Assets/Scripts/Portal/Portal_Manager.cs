@@ -67,6 +67,8 @@ public class Portal_Manager : MonoBehaviour
     {
         if (PortalClipping(rc_hit)) return;
 
+        GetComponent<Portal_Manager>().SetPortalEnableStatus(true);
+
         transform.position = rc_hit.point;
         camera_helper_gameobject.transform.position = rc_hit.point;
 
@@ -74,32 +76,19 @@ public class Portal_Manager : MonoBehaviour
         camera_helper_gameobject.transform.rotation = Quaternion.LookRotation(rc_hit.normal * camera_helper_translate_by);
 
         wall_collider = rc_hit.collider;
-
-        GetComponent<Portal_Interaction>().SetPortalNormal(rc_hit.normal);
     }
 
     private bool PortalClipping(RaycastHit rc_hit)
     {
         Ray ray_1 = new Ray(rc_hit.point + rc_hit.normal, Vector3.up);
         Ray ray_2 = new Ray(rc_hit.point + rc_hit.normal, Vector3.down);
-        Ray ray_3 = new Ray(rc_hit.point + rc_hit.normal, Vector3.left);
-        Ray ray_4 = new Ray(rc_hit.point + rc_hit.normal, Vector3.right);
 
         RaycastHit rc_hit_one;
         RaycastHit rc_hit_two;
-        RaycastHit rc_hit_three;
-        RaycastHit rc_hit_four;
 
         if (Physics.Raycast(ray_1, out rc_hit_one) && Physics.Raycast(ray_2, out rc_hit_two))
-        {
             if(rc_hit_one.distance >= (transform.localScale.y/2) && rc_hit_two.distance >= (transform.localScale.y / 2))
-            {
-                //if (rc_hit_three.distance >= (transform.localScale.x/2) && rc_hit_four.distance >= (transform.localScale.x / 2))
-                {
-                    return false;
-                }
-            }
-        }
+                    return false;   
 
 
         return true;

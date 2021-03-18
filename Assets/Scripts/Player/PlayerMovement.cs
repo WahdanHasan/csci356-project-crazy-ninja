@@ -694,6 +694,11 @@ public class PlayerMovement : MonoBehaviour
 		AudioManager.Instance.PlayLanding();
 	}
 
+	private void GetReadyToWallrun()
+	{
+		this.readyToWallrun = true;
+	}
+
 	public void SetMouse(Vector3 look_delta)
 	{
 		lock (this)

@@ -7,22 +7,15 @@ public class Portal_Interaction : MonoBehaviour
     Portal_Manager other_pm;
     private GameObject other_portal;
     public bool portal_enabled = false;
-    private Vector3 portal_normal;
     Matrix4x4 voyager_transform_new;
     bool teleportable = true;
     Camera player_cam;
-    Vector3 player_cam_position;
     float half_height;
     float half_width;
     float distance_to_clip_plane_corner;
     float screen_width;
     public bool same_wall = false;
     private bool teleported = false;
-
-    public void SetPortalNormal(Vector3 new_normal)
-    {
-        portal_normal = new_normal;
-    }
 
     public void Setup(GameObject other_portal)
     {
@@ -94,8 +87,7 @@ public class Portal_Interaction : MonoBehaviour
         double degrees = RadianTo360Degree(radian);
 
         if (degrees > 90 && degrees < 270) return true;
-        else                               return false;
-        
+        else                               return false;    
     }
 
     private double RadianTo360Degree(double radian)
@@ -138,22 +130,20 @@ public class Portal_Interaction : MonoBehaviour
         voyager.position = new_position;
     }
 
-    public void PreventTeleportViewClipping()
-    {
-         player_cam = GetComponent<Portal_Camera>().player_camera;
+    //public void PreventTeleportViewClipping()
+    //{
+    //    player_cam = GetComponent<Portal_Camera>().player_camera;
 
-        player_cam_position = player_cam.transform.position;
+    //    half_height = player_cam.nearClipPlane * Mathf.Tan(player_cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
 
-        half_height = player_cam.nearClipPlane * Mathf.Tan(player_cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+    //    half_width = half_height * player_cam.aspect;
 
-        half_width = half_height * player_cam.aspect;
+    //    distance_to_clip_plane_corner = new Vector3(half_width, half_height, player_cam.nearClipPlane).magnitude;
 
-        distance_to_clip_plane_corner = new Vector3(half_width, half_height, player_cam.nearClipPlane).magnitude;
+    //    screen_width = distance_to_clip_plane_corner;
 
-        screen_width = distance_to_clip_plane_corner;
-
-        screen.transform.localScale = new Vector3(screen.transform.localScale.x, screen.transform.localScale.y, screen_width);
-    }
+    //    screen.transform.localScale = new Vector3(screen.transform.localScale.x, screen.transform.localScale.y, screen_width);
+    //}
 
     private void UpdatePlayerCamera(Transform voyager) /* Calculates the rotation difference between the two portals and sends it to the camera object to update its rotation */
     {

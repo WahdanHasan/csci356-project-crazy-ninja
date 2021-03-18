@@ -17,18 +17,21 @@ public class Portal_Gun : MonoBehaviour
 
         portal_one.GetComponent<Portal_Manager>().SetUp(portal_two, 1);
         portal_two.GetComponent<Portal_Manager>().SetUp(portal_one, -1);
+
+
+        Vector3 portal_spawn_pos = new Vector3(0.0f, -100.0f, 0.0f); // To hide the portals when the game starts
+        portal_one.transform.position = portal_spawn_pos;
+        portal_two.transform.position = portal_spawn_pos;
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            portal_one.GetComponent<Portal_Manager>().SetPortalEnableStatus(true);
             FirePortal(portal_one);
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            portal_two.GetComponent<Portal_Manager>().SetPortalEnableStatus(true);
             FirePortal(portal_two);
         }
 

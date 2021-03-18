@@ -9,7 +9,6 @@ public class Health : MonoBehaviour
     private bool isActive = true;
     public event Action<int, int> UpdateHealth = delegate {};
     public event Action<bool> isDeadOrAlive = delegate {};
-    public bool is_teleportable = true;
     void Start()
     {
         current_health = starting_health;

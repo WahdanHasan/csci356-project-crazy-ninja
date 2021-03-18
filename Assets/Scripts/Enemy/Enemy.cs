@@ -1,6 +1,7 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -10,9 +11,37 @@ public class Enemy : MonoBehaviour
 		this.animator = base.GetComponentInChildren<Animator>();
 		this.agent = base.GetComponent<NavMeshAgent>();
 		this.GiveGun();
+		GetComponent<Health>().UpdateHealth += UpdateHealthBar;
+		player_cam = Camera.main;
 	}
     
-	private void LateUpdate()
+	private void UpdateHealthBar(int current_health, int max_health)
+    {
+		StartCoroutine(ChangePercent(current_health, max_health));
+    }
+
+	private IEnumerator ChangePercent(int current_health, int max_health)
+    {
+		float health_before_modification = health_bar.fillAmount;
+		float time_elapsed = 0.0f;
+
+		while(time_elapsed < health_update_speed)
+        {
+			time_elapsed += Time.deltaTime;
+
+			health_bar.fillAmount = Mathf.Lerp(health_before_modification, (float)current_health/(float)max_health, time_elapsed / health_update_speed);
+			yield return null;
+        }
+
+		health_bar.fillAmount = (float)current_health / (float)max_health;
+	}
+
+    private void Update()
+    {
+		health_canvas.transform.LookAt(player_cam.transform);
+    }
+
+    private void LateUpdate()
 	{
 		this.FindPlayer();
 		this.Aim();
@@ -226,4 +255,12 @@ public class Enemy : MonoBehaviour
 	public Transform player;
     
 	private bool takingAim;
+
+	public float health_update_speed;
+
+	public Image health_bar;
+
+	private Camera player_cam;
+
+	public GameObject health_canvas;
 }

@@ -21,7 +21,6 @@ public class Portal_Camera : MonoBehaviour
 
     public void AssignPortalScreenTexture(Camera other_portal_camera) /* Assigns the camera to the portal texture, so that it is drawn on the texture */
     {
-        //portal_camera.enabled = true;
 
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", other_portal_camera.targetTexture);
     }
@@ -63,8 +62,14 @@ public class Portal_Camera : MonoBehaviour
         Vector3 camera_position = portal_camera.worldToCameraMatrix.MultiplyPoint(transform.position);
 
         Vector3 camera_position_normal = portal_camera.worldToCameraMatrix.MultiplyVector(transform.forward) * dot;
+        try
+        {
+            portal_camera.projectionMatrix = player_camera.CalculateObliqueMatrix(new Vector4(camera_position_normal.x, camera_position_normal.y, camera_position_normal.z, -Vector3.Dot(camera_position, camera_position_normal)));
+        }
+        catch(UnityException)
+        {
 
-        portal_camera.projectionMatrix = player_camera.CalculateObliqueMatrix(new Vector4(camera_position_normal.x, camera_position_normal.y, camera_position_normal.z, -Vector3.Dot(camera_position, camera_position_normal)));
+        }
     }
 
 

@@ -5,7 +5,7 @@ public class Portal_Camera : MonoBehaviour
     [SerializeField] private Camera portal_camera_prefab;
 
     private GameObject other_portal;
-    private Camera player_camera;
+    public Camera player_camera;
     public Camera portal_camera;
 
     private void Awake() /* Instantiates a camera object from a prefab and fetches a reference to the player camera object */

@@ -19,15 +19,12 @@ public class Katana : MonoBehaviour
     private BoxCollider boxCollider;
     private bool canSlice=true;
     //[SerializeField] private Camera cam;
-    private Rigidbody rb;
 
     void Start()
     {
         animatorController = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider>();
         //Physics.IgnoreCollision(player, boxCollider, true);
-
-        this.rb = base.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame

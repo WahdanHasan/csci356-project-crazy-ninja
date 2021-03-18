@@ -325,11 +325,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if (state == true)
             {
-                this.rb.AddForce(this.orientation.transform.forward * this.y * this.moveSpeed * Time.deltaTime * 50 * 50);
+                this.rb.AddForce(this.orientation.transform.forward * this.y * this.moveSpeed * Time.deltaTime * 10 * 10);
             }
             else if (state == false)
             {
-                this.rb.AddForce(this.orientation.transform.right * this.x * this.moveSpeed * Time.deltaTime * 50 * 50);
+                this.rb.AddForce(this.orientation.transform.right * this.x * this.moveSpeed * Time.deltaTime * 10 * 10);
             }
 
         }

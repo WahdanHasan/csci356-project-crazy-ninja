@@ -259,7 +259,13 @@ public class Inventory_Manager : MonoBehaviour
 
         ToggleHasItem(equipped_item);
         item.AddComponent<Rigidbody>();
-        item.AddComponent<BoxCollider>();
+        if (item.tag != "Katana")
+            item.AddComponent<BoxCollider>();
+        else
+        {
+            item.GetComponent<Animator>().enabled = false;
+            item.GetComponent<BoxCollider>().isTrigger = false;
+        }
 
         item.transform.SetParent(null);
 
@@ -294,7 +300,13 @@ public class Inventory_Manager : MonoBehaviour
         GameObject item = inventory[(int)item_slot] = rc_hit.transform.gameObject;
 
         Destroy(item.GetComponent<Rigidbody>());
-        Destroy(item.GetComponent<BoxCollider>());
+        if (item.tag != "Katana")
+            Destroy(item.GetComponent<BoxCollider>());
+        else
+        {
+            item.GetComponent<BoxCollider>().isTrigger = true;
+            item.GetComponent<Animator>().enabled = true;
+        }
 
         UpdateEquipLocation(item);
 

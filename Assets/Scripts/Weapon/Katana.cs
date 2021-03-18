@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Katana : MonoBehaviour
 {
-    //TO-DO: ENEMY TAKE DAMAGE
     // Katana is used when number key 3 is clicked
     //when the player uses the katana, it gotta slice (slice == true)
     //enable the particle system of the sword
@@ -17,16 +16,14 @@ public class Katana : MonoBehaviour
     private Animator animatorController;
     private BoxCollider boxCollider;
     private bool canSlice=true;
-    //[SerializeField] private Camera cam;
     private Rigidbody rb;
 
     void Start()
     {
         animatorController = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider>();
-        //Physics.IgnoreCollision(player, boxCollider, true);
 
-        this.rb = base.GetComponent<Rigidbody>();
+        rb = base.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -59,11 +56,12 @@ public class Katana : MonoBehaviour
         {
             return;
         }
-        if (this.canSlice == false)
+        //when the katana is slicing
+        if (canSlice == false)
         {
             RagdollController ragdollController = (RagdollController)other.transform.root.GetComponent(typeof(RagdollController));
-            this.rb.AddForce(this.rb.velocity.normalized * 2f, ForceMode.Impulse);
-            enemy.DropGun(this.rb.velocity.normalized * 2f);
+            rb.AddForce(rb.velocity.normalized * 2f, ForceMode.Impulse);
+            enemy.DropGun(rb.velocity.normalized * 2f);
         }
 
     }

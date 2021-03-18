@@ -16,7 +16,7 @@ public class Portal_Interaction : MonoBehaviour
     float screen_width;
     public bool same_wall = false;
     private bool teleported = false;
-
+    public Vector3 ppp;
     public void Setup(GameObject other_portal)
     {
         this.other_portal = other_portal;
@@ -127,7 +127,15 @@ public class Portal_Interaction : MonoBehaviour
 
     private void TeleportVoyager(Transform voyager, Vector3 new_position)
     {
-        voyager.position = new_position;
+        if (other_portal.transform.rotation.eulerAngles.y >= 179 && transform.rotation.eulerAngles.y >= 179)
+        {
+            voyager.GetComponent<Rigidbody>().velocity = voyager.GetComponent<Rigidbody>().velocity * -1;
+            voyager.position = new_position;
+        }
+        else 
+        {
+            voyager.position = new_position;
+        }
     }
 
     //public void PreventTeleportViewClipping()

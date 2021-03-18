@@ -59,7 +59,7 @@ public class Portal_Manager : MonoBehaviour
 
     public void SetPortalEnableStatus(bool status)
     {
-        GetComponent<Portal_Camera>().portal_camera.enabled = true;
+        other_portal.GetComponent<Portal_Camera>().portal_camera.enabled = true;
         GetComponent<Portal_Interaction>().portal_enabled = status;
     }
 
@@ -67,7 +67,7 @@ public class Portal_Manager : MonoBehaviour
     {
         if (PortalClipping(rc_hit)) return;
 
-        GetComponent<Portal_Manager>().SetPortalEnableStatus(true);
+        other_portal.GetComponent<Portal_Manager>().SetPortalEnableStatus(true);
 
         transform.position = rc_hit.point;
         camera_helper_gameobject.transform.position = rc_hit.point;
@@ -76,6 +76,8 @@ public class Portal_Manager : MonoBehaviour
         camera_helper_gameobject.transform.rotation = Quaternion.LookRotation(rc_hit.normal * camera_helper_translate_by);
 
         wall_collider = rc_hit.collider;
+
+        GetComponent<Portal_Interaction>().ppp = rc_hit.normal;
     }
 
     private bool PortalClipping(RaycastHit rc_hit)

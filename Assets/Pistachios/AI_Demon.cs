@@ -124,7 +124,6 @@ public class AI_Demon : MonoBehaviour
 
     private void ChooseTarget(GameObject new_challenger)
     {
-        /* Make the enemy choose the closest target in the future instead of updating current one */
         current_target = new_challenger;
         GetComponent<ProceduralMovement>().SetTarget(current_target);
     }

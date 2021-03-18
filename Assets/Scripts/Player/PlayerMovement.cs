@@ -52,22 +52,22 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		//if (this.dead || Game.Instance.done || this.paused)
-		//{
-		//	return;
-		//}
-		this.Movement();
+        if (this.dead || Game.Instance.done || this.paused)
+        {
+            return;
+        }
+        this.Movement();
 	}
 
 	private void Update()
 	{
 		this.UpdateActionMeter();
 		this.MyInput();
-		//if (this.dead || Game.Instance.done || this.paused)
-		//{
-		//	return;
-		//}
-		this.Look();
+        if (this.dead || Game.Instance.done || this.paused)
+        {
+            return;
+        }
+        this.Look();
 		//this.DrawGrabbing();
 		this.UpdateTimescale();
 		if (base.transform.position.y < -200f)
@@ -78,11 +78,11 @@ public class PlayerMovement : MonoBehaviour
 
 	private void MyInput()
 	{
-		//if (this.dead || Game.Instance.done)
-		//{
-		//return;
-		//}
-		this.x = Input.GetAxisRaw("Horizontal");
+        if (this.dead || Game.Instance.done)
+        {
+            return;
+        }
+        this.x = Input.GetAxisRaw("Horizontal");
 		this.y = Input.GetAxisRaw("Vertical");
 		this.jumping = Input.GetButton("Jump");
 		this.crouching = Input.GetButton("Crouch");
@@ -129,22 +129,26 @@ public class PlayerMovement : MonoBehaviour
 		}
 		this.paused = true;
 		Time.timeScale = 0f;
-		//UIManger.Instance.DeadUI(true);
-		Cursor.lockState = CursorLockMode.None;
+        UIManger.Instance.DeadUI(true);
+        Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
 	}
 
 	private void UpdateTimescale()
 	{
-		//if (Game.Instance.done || this.paused || this.dead)
-		//{
-		//	return;
-		//}
-		Time.timeScale = Mathf.SmoothDamp(Time.timeScale, this.desiredTimeScale, ref this.timeScaleVel, 0.15f);
+        if (Game.Instance.done || this.paused || this.dead)
+        {
+            return;
+        }
+        Time.timeScale = Mathf.SmoothDamp(Time.timeScale, this.desiredTimeScale, ref this.timeScaleVel, 0.15f);
 	}
 
 	private void StartCrouch()
 	{
+        if (!this.grounded)
+        {
+            return;
+        }
 		float d = 400f;
 		base.transform.localScale = new Vector3(1f, 0.5f, 1f);
 		base.transform.position = new Vector3(base.transform.position.x, base.transform.position.y - 0.5f, base.transform.position.z);
@@ -154,12 +158,18 @@ public class PlayerMovement : MonoBehaviour
 			AudioManager.Instance.Play("StartSlide");
 			AudioManager.Instance.Play("Slide");
 		}
+        this.readyToJump = false;
 	}
 
 	private void StopCrouch()
 	{
-		base.transform.localScale = new Vector3(1f, 1.5f, 1f);
+        if (!this.grounded)
+        {
+            return;
+        }
+        base.transform.localScale = new Vector3(1f, 1.5f, 1f);
 		base.transform.position = new Vector3(base.transform.position.x, base.transform.position.y + 0.5f, base.transform.position.z);
+        this.ResetJump();
 	}
 
 	private void FootSteps()
@@ -206,11 +216,6 @@ public class PlayerMovement : MonoBehaviour
 		{
 			num3 = this.runSpeed;
 		}
-		if (this.crouching && this.grounded && this.readyToJump)
-		{
-			this.rb.AddForce(Vector3.down * Time.deltaTime * 3000f);
-			return;
-		}
 		if (this.x > 0f && num > num3)
 		{
 			this.x = 0f;
@@ -234,9 +239,9 @@ public class PlayerMovement : MonoBehaviour
 			d = 0.5f;
 			d2 = 0.5f;
 		}
-		if (this.grounded && this.crouching)
+        if (this.grounded && this.crouching)
 		{
-			d2 = 0f;
+			d2 = 0.5f;
 		}
 		if (this.wallRunning)
 		{
@@ -594,15 +599,15 @@ public class PlayerMovement : MonoBehaviour
 
 	public void KillPlayer()
 	{
-		//if (Game.Instance.done)
-		//{
-		//return;
-		//}
-		//CameraShaker.Instance.ShakeOnce(3f * GameState.Instance.cameraShake, 2f, 0.1f, 0.6f);
-		Cursor.lockState = CursorLockMode.None;
+        if (Game.Instance.done)
+        {
+            return;
+        }
+        //CameraShaker.Instance.ShakeOnce(3f * GameState.Instance.cameraShake, 2f, 0.1f, 0.6f);
+        Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
-		//UIManger.Instance.DeadUI(true);
-		Timer.Instance.Stop();
+        UIManger.Instance.DeadUI(true);
+        Timer.Instance.Stop();
 		this.dead = true;
 		this.rb.freezeRotation = false;
 		this.playerCollider.material = this.deadMat;
@@ -613,10 +618,10 @@ public class PlayerMovement : MonoBehaviour
 
 	public void Slowmo(float timescale, float length)
 	{
-        //if (!GameState.Instance.slowmo)
-        //{
-        //    return;
-        //}
+        if (!GameState.Instance.slowmo)
+        {
+            return;
+        }
         base.CancelInvoke("Slowmo");
 		this.desiredTimeScale = timescale;
 		base.Invoke("ResetSlowmo", length);

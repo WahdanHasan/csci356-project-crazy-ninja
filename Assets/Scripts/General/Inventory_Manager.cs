@@ -265,6 +265,8 @@ public class Inventory_Manager : MonoBehaviour
         {
             item.GetComponent<Animator>().enabled = false;
             item.GetComponent<BoxCollider>().isTrigger = false;
+            item.GetComponent<BoxCollider>().enabled = true;
+            item.GetComponent<Katana>().enabled = false;
         }
 
         item.transform.SetParent(null);
@@ -304,8 +306,10 @@ public class Inventory_Manager : MonoBehaviour
             Destroy(item.GetComponent<BoxCollider>());
         else
         {
+            item.GetComponent<BoxCollider>().enabled = false;
             item.GetComponent<BoxCollider>().isTrigger = true;
             item.GetComponent<Animator>().enabled = true;
+            item.GetComponent<Katana>().enabled = true;
         }
 
         UpdateEquipLocation(item);

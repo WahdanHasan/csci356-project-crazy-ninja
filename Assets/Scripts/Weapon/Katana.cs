@@ -23,7 +23,7 @@ public class Katana : MonoBehaviour
     void Start()
     {
         animatorController = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider>();
+        /boxCollider = GetComponent<BoxCollider>();
         //Physics.IgnoreCollision(player, boxCollider, true);
     }
 

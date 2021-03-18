@@ -164,6 +164,7 @@ public class Portal_Interaction : MonoBehaviour
     private void ReorientBullet(GameObject bullet)
     {
         Rigidbody bullet_rb = bullet.GetComponent<Rigidbody>();
+        bullet_rb.velocity = bullet_rb.velocity * -1;
         //bullet_rb.velocity = new Vector3(0, 0, 0);
 
         Vector3 look_delta = other_portal.GetComponent<Portal_Manager>().GetCameraHelper().transform.eulerAngles -

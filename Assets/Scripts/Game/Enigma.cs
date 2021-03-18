@@ -12,14 +12,14 @@ public class Enigma : MonoBehaviour
     
 	private void OnTriggerEnter(Collider collide)
 	{
-		if (collide.gameObject.layer == LayerMask.NameToLayer("Player"))
-		{
-			if (PlayerMovement.Instance.IsDead())
-			{
-				return;
-			}
-			Game.Instance.Win();
-			MonoBehaviour.print("Player won");
-		}
+		//if (collide.gameObject.layer == LayerMask.NameToLayer("Player"))
+		//{
+		//	if (PlayerMovement.Instance.IsDead())
+		//	{
+		//		return;
+		//	}
+		//	Game.Instance.Win();
+		//	MonoBehaviour.print("Player won");
+		//}
 	}
 }

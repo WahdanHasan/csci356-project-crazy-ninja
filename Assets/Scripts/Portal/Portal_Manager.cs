@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Portal_Manager : MonoBehaviour
 {
-    static bool link_cameras = true;
-    static bool setup_portals = true;
+    bool link_cameras = true;
+    bool setup_portals = true;
 
     private Collider wall_collider;
     private GameObject other_portal;
@@ -16,6 +16,8 @@ public class Portal_Manager : MonoBehaviour
     {
         this.other_portal = other_portal;
         camera_helper_translate_by = value;
+
+        if (other_portal == null) Debug.LogError("AAAAA");
 
         portal_camera = GetComponent<Portal_Camera>();
 
@@ -33,6 +35,8 @@ public class Portal_Manager : MonoBehaviour
             LinkCameras();
         }
 
+
+        Debug.LogWarning("EEEEEEEEEEEE");
     }
 
     private void SetPortalReferencesInScripts() /* Assigns references for the portals to each other */

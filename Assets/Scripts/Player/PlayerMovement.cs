@@ -28,7 +28,8 @@ public class PlayerMovement : MonoBehaviour
 			GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(this.spawnWeapon, base.transform.position, Quaternion.identity);
 			this.detectWeapons.ForcePickup(gameObject);
 		}
-		this.UpdateSensitivity();
+        this.jet = GameObject.FindGameObjectWithTag("Jetpack").GetComponent<Jetpack>();
+        this.UpdateSensitivity();
 	}
 
 	public void UpdateSensitivity()
@@ -90,7 +91,17 @@ public class PlayerMovement : MonoBehaviour
 		{
 			this.Pause();
 		}
-		if (this.paused)
+        if (Input.GetButtonDown("LShift") && (Input.GetKey("w") || Input.GetKey("s")))
+        {
+
+            this.Dash(true);
+        }
+        else if (Input.GetButtonDown("LShift") && (Input.GetKey("a") || Input.GetKey("d")))
+        {
+            this.Dash(false);
+        }
+        
+        if (this.paused)
 		{
 			return;
 		}
@@ -241,7 +252,7 @@ public class PlayerMovement : MonoBehaviour
 		}
         if (this.grounded && this.crouching)
 		{
-			d2 = 0.5f;
+			d2 = 0.25f;
 		}
 		if (this.wallRunning)
 		{
@@ -308,8 +319,24 @@ public class PlayerMovement : MonoBehaviour
 			AudioManager.Instance.PlayJump();
 		}
 	}
+    public void Dash(bool state)
+    {
+        if (this.grounded && jet.canDash == true)
+        {
+            if (state == true)
+            {
+                this.rb.AddForce(this.orientation.transform.forward * this.y * this.moveSpeed * Time.deltaTime * 50 * 50);
+            }
+            else if (state == false)
+            {
+                this.rb.AddForce(this.orientation.transform.right * this.x * this.moveSpeed * Time.deltaTime * 50 * 50);
+            }
 
-	private void Look()
+        }
+    }
+
+
+    private void Look()
 	{
 		float num = Input.GetAxis("Mouse X") * this.sensitivity * Time.fixedDeltaTime * this.sensMultiplier;
 		float num2 = Input.GetAxis("Mouse Y") * this.sensitivity * Time.fixedDeltaTime * this.sensMultiplier;
@@ -707,6 +734,8 @@ public class PlayerMovement : MonoBehaviour
 			this.orientation.transform.localRotation = Quaternion.Euler(this.xRotation, this.desiredX + look_delta.y, 1);
 		}
 	}
+
+    private Jetpack jet;
 
 	public GameObject spawnWeapon;
 

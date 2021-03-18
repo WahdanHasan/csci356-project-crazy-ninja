@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Portal_Manager : MonoBehaviour
 {
-    static bool link_cameras = true;
-    static bool setup_portals = true;
+    bool link_cameras = true;
+    bool setup_portals = true;
 
     private Collider wall_collider;
     private GameObject other_portal;

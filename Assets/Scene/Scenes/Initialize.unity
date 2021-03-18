@@ -2384,7 +2384,7 @@ MonoBehaviour:
   pistol: {fileID: 1347048607590356, guid: 29716bf22da541f4ea2bfe74c7e46d61, type: 3}
   portal_gun: {fileID: 1793815161702332, guid: ead9df208ba24eb43a1dba9ed215ae91, type: 3}
   katana: {fileID: 1565935239740110, guid: 886c2aa749ccdd743b0e68c987589095, type: 3}
-  jetpack: {fileID: 3274231945106223406, guid: e40c99b3dc85be94aba77e9766932fa1, type: 3}
+  jetpack: {fileID: 4746364985063900211, guid: e40c99b3dc85be94aba77e9766932fa1, type: 3}
   doodad: {fileID: 1095244423750556, guid: 5b3571fc16df9504d8811c6fbe4f77e5, type: 3}
 --- !u!114 &135
 MonoBehaviour:

@@ -45,10 +45,10 @@ public class Portal_Interaction : MonoBehaviour
     private void OnTriggerEnter(Collider entity)
     {
         if (!portal_enabled) return;
-        if(entity.GetComponent<Health>().is_teleportable)
-        {
+        //if(entity.GetComponent<Health>().is_teleportable)
+        //{
 
-        }
+        //}
 
         voyager = entity.gameObject;
 

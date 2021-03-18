@@ -14,6 +14,7 @@ public class Katana : MonoBehaviour
 
     [SerializeField] private ParticleSystem trailParticleSystem;
     [SerializeField] private ParticleSystem glowParticleSystem;
+    [SerializeField] private int damage;
     private Animator animatorController;
     private BoxCollider boxCollider;
     private bool canSlice=true;
@@ -61,9 +62,7 @@ public class Katana : MonoBehaviour
         }
         if (this.canSlice == false)
         {
-            RagdollController ragdollController = (RagdollController)other.transform.root.GetComponent(typeof(RagdollController));
-            this.rb.AddForce(this.rb.velocity.normalized * 2f, ForceMode.Impulse);
-            enemy.DropGun(this.rb.velocity.normalized * 2f);
+            ((Health)enemy.transform.root.GetComponent(typeof(Health))).TakeDamage((int)damage);
         }
 
     }

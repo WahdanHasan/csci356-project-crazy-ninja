@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Portal_Interaction : MonoBehaviour
 {
+    Portal_Manager pm;
+    Portal_Manager other_pm;
     private GameObject other_portal;
     public bool portal_enabled = false;
     private Vector3 portal_normal;
@@ -16,6 +18,8 @@ public class Portal_Interaction : MonoBehaviour
     public void Setup(GameObject other_portal)
     {
         this.other_portal = other_portal;
+        pm = GetComponent<Portal_Manager>();
+        other_pm = other_portal.GetComponent<Portal_Manager>();
     }
 
     private void OnTriggerEnter(Collider entity)
@@ -40,8 +44,8 @@ public class Portal_Interaction : MonoBehaviour
     {
         if (!portal_enabled || entity.tag == "IgnorePortal") return;
 
-
-        Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), false);
+        if (pm.GetWallCollider() != other_pm.GetWallCollider())
+            Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), false);
     }
 
     private bool ShouldTeleportEntity(Collider entity)
@@ -97,8 +101,7 @@ public class Portal_Interaction : MonoBehaviour
 
     private void TeleportVoyager(Transform voyager, Vector3 new_position)
     {
-        Portal_Manager pm = GetComponent<Portal_Manager>();
-        Portal_Manager other_pm = other_portal.GetComponent<Portal_Manager>();
+
         Matrix4x4 portal_transform = other_pm.GetCameraHelper().transform.localToWorldMatrix * pm.GetCameraHelper().transform.worldToLocalMatrix * GetComponent<Portal_Camera>().player_camera.transform.localToWorldMatrix;
         //voyager.position = new_position;
         //Vector3 pos = portal_transform.GetColumn(3);

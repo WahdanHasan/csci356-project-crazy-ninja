@@ -148,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trailParticleSystem: {fileID: 3942721206970494147}
   glowParticleSystem: {fileID: 3336897926890297381}
+  damage: 5
 --- !u!1 &1386208138460320339
 GameObject:
   m_ObjectHideFlags: 0

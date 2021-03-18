@@ -66,7 +66,7 @@ public class Bullet : MonoBehaviour
 		}
 
 
-		UnityEngine.Object.Destroy(base.gameObject);
+		//UnityEngine.Object.Destroy(base.gameObject);
 	}
     
 	private void HitEnemy(GameObject enemy)

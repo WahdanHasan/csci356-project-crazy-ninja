@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 844125695579905161}
   - component: {fileID: 1066845824834102685}
   - component: {fileID: 4268090028631157605}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: Portal
   m_TagString: Portal
   m_Icon: {fileID: 0}
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344eb03e04283964b88a24bd87433d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera_helper_translate_by: 0
 --- !u!114 &-5470093944403475188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portal_camera_prefab: {fileID: 3401451478789553008, guid: 076deab037d020c4b96c713037ccb6e7,
     type: 3}
+  player_camera: {fileID: 0}
   portal_camera: {fileID: 0}
 --- !u!65 &3760405286743167538
 BoxCollider:
@@ -136,7 +138,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8191849815763360957}
-  m_Material: {fileID: 13400000, guid: 70cdc6e48a318a54ba7f9910959c9b26, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
@@ -149,12 +151,12 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8191849815763360957}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 3be6bf3ce7df3d549a13c5b22c802795, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000001, y: 0, z: 932.92993}
-  m_Center: {x: 0, y: -0.5000001, z: -348.4486}
+  m_Size: {x: 1.0000001, y: 0, z: 929.30536}
+  m_Center: {x: 0, y: -0.5000001, z: -350.26038}
 --- !u!65 &844125695579905161
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -2,16 +2,11 @@ using UnityEngine;
 
 public class Portal_Interaction : MonoBehaviour
 {
-    private GameObject voyager;
     private GameObject other_portal;
     public bool portal_enabled = false;
     private Vector3 portal_normal;
-    private int portal_forward_sign;
-
-    public void PreventBackTeleport()
-    {
-        //entity_teleportable = false;
-    }
+    Matrix4x4 voyager_transform_new;
+    bool teleportable = true;
 
     public void SetPortalNormal(Vector3 new_normal)
     {
@@ -23,103 +18,66 @@ public class Portal_Interaction : MonoBehaviour
         this.other_portal = other_portal;
     }
 
-    //private void OnTriggerEnter(Collider entity) /* On entering, if teleports if the entity is allowed to be teleported, else, sets it to be allowed to be teleported */
-    //{
-    //    if (entity.gameObject.tag == "IgnorePortal") return;
-
-    //    voyager = entity.gameObject;
-
-    //    if (entity_teleportable)
-    //        Teleport(voyager);
-    //    else
-    //        entity_teleportable = true;
-    //}
-
-
-    //private void OnTriggerEnter(Collider entity)
-    //{
-
-    //}
-
-    /* -------------------------------------------------EXPERIMENTAL TELEPORTATION CODE KINDLY IGNORE------------------------------------------------------------------*/
     private void OnTriggerEnter(Collider entity)
     {
-        if (!portal_enabled) return;
-        if(entity.GetComponent<Health>().is_teleportable)
-        {
+        if (!portal_enabled || entity.tag == "IgnorePortal") return;
 
-        }
-
-        voyager = entity.gameObject;
+        if (ShouldTeleportEntity(entity)) teleportable = false;
 
         Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), true);
-
-        portal_forward_sign = System.Math.Sign(CalculateLinearDistance(transform.position, voyager.transform.position));
     }
 
     private void OnTriggerStay(Collider entity)
     {
-        if (!portal_enabled) return;
+        if (!portal_enabled || entity.tag == "IgnorePortal") return;
 
-        if (ShouldTeleportEntity(entity)) Teleport(entity.gameObject);
-        voyager = entity.gameObject;
-        float voyager_portal_side_sign = System.Math.Sign(CalculateLinearDistance(transform.position, entity.transform.position));
+        if (!ShouldTeleportEntity(entity)) teleportable = true;
 
-        if (voyager_portal_side_sign != portal_forward_sign) Teleport(voyager);
+        if (ShouldTeleportEntity(entity) && teleportable) Teleport(entity.gameObject);
     }
-    
+
+    private void OnTriggerExit(Collider entity)
+    {
+        if (!portal_enabled || entity.tag == "IgnorePortal") return;
+
+
+        Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), false);
+    }
+
     private bool ShouldTeleportEntity(Collider entity)
     {
-        double x_coordinate = (entity.transform.position.x * -1) + transform.position.x;
-        double z_coordinate = (entity.transform.position.z * -1) + transform.position.z;
+        double x_coordinate = (transform.position.x * -1) + entity.transform.position.x;
+        double z_coordinate = (transform.position.z * -1) + entity.transform.position.z;
 
-        double radian = (System.Math.Atan2(z_coordinate, x_coordinate) - (1.5708 * GetComponent<Portal_Manager>().camera_helper_translate_by)) * GetComponent<Portal_Manager>().camera_helper_translate_by ;
+        double radian = (System.Math.Atan2(z_coordinate, x_coordinate) - (1.5708)) ;
 
         double degrees = RadianTo360Degree(radian);
 
-        Debug.Log(degrees);
+        if (degrees > 90 && degrees < 270) return true;
+        else 
+        {
+            voyager_transform_new = other_portal.transform.localToWorldMatrix * transform.worldToLocalMatrix * entity.transform.localToWorldMatrix;
+            return false;
+        }
 
-        if (degrees > 90 || degrees < -90) return true;
-        else return false;
-        return true;
     }
 
     private double RadianTo360Degree(double radian)
     {
         double angle = (radian * 180) / Mathf.PI;
 
-        ///if (angle < 0.0f) angle = 360 - (angle * -1);
+        if (angle < 0.0f) angle = 360 - (angle * -1);
 
-        return angle;
+        return (angle + transform.rotation.eulerAngles.y) % 360;
     }
-    private float CalculateLinearDistance(Vector3 portal_position, Vector3 voyager_position)
-    {
-        float x = (portal_position.x - voyager_position.x) * portal_normal.x;
-        float z = (portal_position.z - voyager_position.z) * portal_normal.z;
-
-        return x - z;
-    }
-
-    private void OnTriggerExit(Collider entity)
-    {
-        if (!portal_enabled) return;
-
-        voyager = entity.gameObject;
-
-        //Physics.IgnoreCollision(entity, GetComponent<Portal_Manager>().GetWallCollider(), false);
-        //other_portal.GetComponent<Portal_Interaction>().PreventBackTeleport();
-    }
-    /* ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  */
 
     private void Teleport(GameObject voyager) /* Based on defined behavior for the entity being teleported, performs the teleport method that is appropriate for it */
     {
+        Debug.Log("Teleported.");
         string voyager_tag = voyager.tag;
 
         if (voyager.layer == LayerMask.NameToLayer("Bullet")) voyager_tag = "Bullet";
 
-        other_portal.GetComponent<Portal_Interaction>().PreventBackTeleport();
-
-        Matrix4x4 voyager_transform_new = other_portal.transform.localToWorldMatrix * transform.worldToLocalMatrix * voyager.transform.localToWorldMatrix;
 
         switch (voyager_tag)
         {
@@ -134,14 +92,17 @@ public class Portal_Interaction : MonoBehaviour
             case null:
                 TeleportVoyager(voyager.transform, voyager_transform_new.GetColumn(3));
                 break;
-            default:
-                //Debug.LogError("Portal: Behavior for the entity has not been defined. Tag: " + voyager_tag);
-                break;
         }
     }
 
     private void TeleportVoyager(Transform voyager, Vector3 new_position)
-    {        
+    {
+        Portal_Manager pm = GetComponent<Portal_Manager>();
+        Portal_Manager other_pm = other_portal.GetComponent<Portal_Manager>();
+        Matrix4x4 portal_transform = other_pm.GetCameraHelper().transform.localToWorldMatrix * pm.GetCameraHelper().transform.worldToLocalMatrix * GetComponent<Portal_Camera>().player_camera.transform.localToWorldMatrix;
+        //voyager.position = new_position;
+        //Vector3 pos = portal_transform.GetColumn(3);
+        //pos += (portal_normal*2);
         voyager.position = new_position;
     }
 
